@@ -1,0 +1,5 @@
+include ':login'
+include ':joint'
+include ':zyframe'
+include ':app'
+rootProject.name = "Housekeeping"

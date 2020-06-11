@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/workbench_dest"
+        android:icon="@drawable/svg_workbench"
+        android:title="@string/workbench" />
+    <item
+        android:id="@+id/message_dest"
+        android:icon="@drawable/svg_message"
+        android:title="@string/message" />
+
+    <item
+        android:id="@+id/mine_dest"
+        android:icon="@drawable/svg_mine"
+        android:title="@string/mine" />
+</menu>
