@@ -6,7 +6,6 @@ import android.view.KeyEvent
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.utils.LogUtil
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.login.bean.UserInfoBean
 import com.zhkj.housekeeping.login.presenter.LoginPresenter
@@ -68,6 +67,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
 
     override fun loginResult(user: UserInfoBean) {
         ARouter.getInstance().build("/app/MainActivity").navigation()
+        finish()
     }
 
 }
