@@ -43,8 +43,6 @@ class LoginModel {
                 //登录成功
                 if (it.isSuccess()) {
                     return it.data
-                } else {
-                    ToastUtil.show(it.msg)
                 }
             }
         }

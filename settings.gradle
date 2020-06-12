@@ -1,3 +1,5 @@
+include ':work'
+include ':mine'
 include ':login'
 include ':joint'
 include ':zyframe'

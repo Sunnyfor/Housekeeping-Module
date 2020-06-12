@@ -19,6 +19,9 @@ object UrlConstant {
 
     const val SYS_LOGIN = "sys/login" //登录接口
 
+
+    const val DEPARTMENT_OF_TREE = "sys/dept/listFilter" //加载部门(包括公司)
+
     /**
      * 字典接口
      */

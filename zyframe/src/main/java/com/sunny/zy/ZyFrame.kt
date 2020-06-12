@@ -1,7 +1,9 @@
 package com.sunny.zy
 
 import android.content.Context
+import com.sunny.zy.base.BaseActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * 应用类
@@ -10,6 +12,9 @@ import java.util.*
 object ZyFrame {
 
     private lateinit var instance: Context
+
+    private val activityStack = Stack<BaseActivity>()
+
 
     fun init(context: Context) {
         instance = context.applicationContext
@@ -49,5 +54,29 @@ object ZyFrame {
      */
     fun removeData(key: String) {
         storeMap.remove(key)
+    }
+
+    /**
+     * 存储管理Activity
+     */
+    fun addActivity(baseActivity: BaseActivity) {
+        activityStack.add(baseActivity)
+    }
+
+    /**
+     * 移除Activity
+     */
+    fun removeActivity(baseActivity: BaseActivity) {
+        activityStack.remove(baseActivity)
+    }
+
+    /**
+     * 关闭所有的Activity
+     */
+    fun finishAllActivity() {
+        activityStack.forEach {
+            it.finish()
+        }
+        activityStack.clear()
     }
 }

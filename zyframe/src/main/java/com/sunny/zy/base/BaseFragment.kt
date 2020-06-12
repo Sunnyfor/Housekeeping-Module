@@ -34,9 +34,13 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         val mView = inflater.inflate(R.layout.zy_fragment_base, container, false)
         bodyView = inflater.inflate(setLayout(), container, false)
         mView?.iframeBody?.addView(bodyView)
+        return mView
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         initView()
         loadData()
-        return mView
     }
 
 

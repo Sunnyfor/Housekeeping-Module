@@ -10,8 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import com.sunny.zy.R
+import com.sunny.zy.ZyFrame
 import com.sunny.zy.title.TitleManager
-import com.sunny.zy.utils.LogUtil
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.utils.OverlayViewUtils
 import kotlinx.android.synthetic.main.zy_activity_base.*
@@ -40,6 +40,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
         setContentView(R.layout.zy_activity_base)
         val bodyView = LayoutInflater.from(this).inflate(setLayout(), null, false)
         frameBody.addView(bodyView)
+
+        ZyFrame.addActivity(this)
+
         initView()
         loadData()
     }
@@ -134,6 +137,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
 
     override fun onDestroy() {
         super.onDestroy()
-        LogUtil.i("页面销毁")
+        ZyFrame.removeActivity(this)
     }
 }

@@ -46,8 +46,15 @@ dependencies {
     implementation project(path: ':joint')
     implementation project(path: ':login')
     implementation project(path: ':zyframe')
-    testImplementation 'junit:junit:4.13'
+    implementation project(path: ':mine')
+    implementation project(path: ':work')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'
+    def nav_version = "2.3.0-alpha05"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // Dynamic Feature Module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
 }

@@ -8,6 +8,7 @@ package com.sunny.zy.utils
  */
 object RouterPath {
 
-    const val APP_MAIN_ACTIVITY = "/app/MainActivity"
+    const val APP_MAIN_ACTIVITY = "/app/MainActivity" //首页
 
+    const val LOGIN_LOGIN_ACTIVITY = "/login/LoginActivity" //登录页
 }

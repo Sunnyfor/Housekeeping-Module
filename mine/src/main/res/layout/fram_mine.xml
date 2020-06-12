@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_head"
+                android:layout_width="@dimen/dp_50"
+                android:layout_height="@dimen/dp_50"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginEnd="@dimen/dp_20"
+                android:src="@drawable/icon_default_head" />
+
+            <TextView
+                android:id="@+id/tv_username"
+                style="@style/style_font_black"
+                android:layout_margin="@dimen/dp_20"
+                android:text="@string/app_name"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:id="@+id/tv_department"
+                style="@style/style_font_gray"
+                android:layout_below="@+id/tv_username"
+                android:layout_alignStart="@id/tv_username"
+                android:layout_toEndOf="@+id/iv_head"
+                android:text="@string/placeholder"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/tv_company"
+                style="@style/style_font_gray"
+                android:layout_below="@+id/tv_department"
+                android:layout_alignStart="@id/tv_username"
+                android:layout_marginTop="@dimen/dp_5"
+                android:layout_toEndOf="@+id/iv_head"
+                android:text="@string/placeholder"
+                android:textSize="@dimen/sp_16" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView style="@style/style_item_card_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:src="@drawable/svg_person_info" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/personInfo" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView style="@style/style_item_card_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:src="@drawable/svg_approval_of_reimbursement" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/approval_of_reimbursement" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.cardview.widget.CardView style="@style/style_item_card_view">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:src="@drawable/svg_version" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/version" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView style="@style/style_item_card_view">
+
+        <RelativeLayout
+            android:id="@+id/rl_logout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:src="@drawable/svg_logout" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/logout" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

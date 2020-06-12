@@ -6,6 +6,7 @@ import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.utils.RouterPath
@@ -20,6 +21,7 @@ import kotlinx.android.synthetic.main.act_login.*
  * Mail zhangye98@foxmail.com
  * Date 2020/6/4 18:27
  */
+@Route(path = RouterPath.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : BaseActivity(), LoginContract.IView {
 
     private val loginPresenter: LoginPresenter by lazy {
