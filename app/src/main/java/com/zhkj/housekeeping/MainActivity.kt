@@ -1,37 +1,38 @@
 package com.zhkj.housekeeping
 
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.facade.annotation.Route
-import kotlinx.android.synthetic.main.activity_main.*
+import com.sunny.zy.http.OnResult
+import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.utils.RouterPath
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
-@Route(path = "/app/MainActivity")
+@Route(path = RouterPath.APP_MAIN_ACTIVITY)
 class MainActivity : AppCompatActivity() {
-
-    private val myDialogFragment = MyDialogFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        MainScope().launch(Main) {
 
+            val packInfo = packageManager.getPackageInfo(packageName, 0)
+            val version = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packInfo.longVersionCode
+            } else {
+                packInfo.versionCode
+            }
 
-        button.setOnClickListener {
-
-            myDialogFragment.show(fragmentManager, "我是A的dialog")
+            val params = hashMapOf<String, String>()
+            params["versionCode"] = version.toString()
+            ZyHttp.post("app/appandroidversion/findNewOne",params,object :OnResult<String>(){})
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        button.postDelayed({
-            Toast.makeText(this, "是否显示：${myDialogFragment.dialog.isShowing}", Toast.LENGTH_SHORT)
-                .show()
-        }, 3000)
-    }
 
 //
 //    override fun initView() {

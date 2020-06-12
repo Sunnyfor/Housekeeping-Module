@@ -1,11 +1,14 @@
 package com.zhkj.housekeeping.login
 
+import android.content.Context
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseActivity
+import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.login.bean.UserInfoBean
 import com.zhkj.housekeeping.login.presenter.LoginPresenter
@@ -23,9 +26,6 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
         LoginPresenter(this)
     }
 
-    private var username = SpUtil.getString(SpUtil.username)
-    private var password = SpUtil.getString(SpUtil.password)
-
     override fun setLayout(): Int = R.layout.act_login
 
     override fun initView() {
@@ -41,10 +41,14 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
         }
 
         //拦截键盘的ENTER进行快捷登录
-        et_password.setOnEditorActionListener { _, _, event ->
+        et_password.setOnEditorActionListener { v, _, event ->
 
             if (event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 btn_login.performClick()
+                //获取输入服务
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                if (imm.isActive)
+                    imm.hideSoftInputFromWindow(v.applicationWindowToken, 0)
             }
             return@setOnEditorActionListener false
         }
@@ -54,7 +58,10 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     }
 
     override fun loadData() {
-
+        val userInfoBean = SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)
+        if (userInfoBean != null) {
+            loginResult(userInfoBean)
+        }
     }
 
     override fun onClickEvent(view: View) {
@@ -66,7 +73,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     }
 
     override fun loginResult(user: UserInfoBean) {
-        ARouter.getInstance().build("/app/MainActivity").navigation()
+        ARouter.getInstance().build(RouterPath.APP_MAIN_ACTIVITY).navigation()
         finish()
     }
 
