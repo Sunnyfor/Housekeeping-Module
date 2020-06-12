@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.text.TextUtils
 import com.google.gson.Gson
 import com.sunny.zy.ZyFrame
+import java.lang.reflect.Type
 
 /**
  * Desc
@@ -13,8 +14,10 @@ import com.sunny.zy.ZyFrame
  * Date 2020/6/8 17:17
  */
 object SpUtil {
+
     const val username = "mUsername"
     const val password = "mPassword"
+    const val userInfoBean = "mUserInfoBean"
 
     /**
      * 文件名
@@ -63,8 +66,8 @@ object SpUtil {
      * 保存Object信息
      */
     fun setObject(key: String, obj: Any) {
-        val gson = Gson()
-        val json = gson.toJson(obj)
+        val gSon = Gson()
+        val json = gSon.toJson(obj)
         setString(key, json)
     }
 
@@ -74,8 +77,23 @@ object SpUtil {
             return null
         }
         return try {
-            val gson = Gson()
-            gson.fromJson<T>(json, clazz)
+            val gSon = Gson()
+            gSon.fromJson(json, clazz)
+        } catch (e: Exception) {
+            null
+        }
+
+    }
+
+
+    fun <T> getObject(key: String, type: Type): T? {
+        val json = getString(key)
+        if (TextUtils.isEmpty(json)) {
+            return null
+        }
+        return try {
+            val gSon = Gson()
+            gSon.fromJson(json, type)
         } catch (e: Exception) {
             null
         }

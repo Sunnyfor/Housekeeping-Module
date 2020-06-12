@@ -3,6 +3,7 @@ package com.sunny.zy.http
 import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.http.parser.GSonResponseParser
 import com.sunny.zy.http.parser.IResponseParser
+import com.sunny.zy.utils.ZyCookieJar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -41,6 +42,7 @@ object ZyHttp {
             }
         connectTimeout(10000L, TimeUnit.MILLISECONDS) //连接超时时间
         readTimeout(10000L, TimeUnit.MILLISECONDS) //读取超时时间
+            .cookieJar(ZyCookieJar())
     }.build()
 
 
