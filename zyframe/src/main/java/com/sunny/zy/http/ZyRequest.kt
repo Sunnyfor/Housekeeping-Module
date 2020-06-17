@@ -1,9 +1,9 @@
 package com.sunny.zy.http
 
 import okhttp3.FormBody
-import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 /**
  * Desc
@@ -49,7 +49,7 @@ class ZyRequest {
      */
     fun postJsonRequest(url: String, json: String): Request {
         val urlSb = getUrlSb(url)
-        val body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), json)
+        val body = json.toRequestBody("application/json; charset=utf-8".toMediaType())
         return Request.Builder().url(urlSb.toString()).post(body).build()
     }
 

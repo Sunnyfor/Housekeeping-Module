@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.text.TextUtils
 import com.google.gson.Gson
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 import java.lang.reflect.Type
 
 /**
@@ -28,7 +28,7 @@ object SpUtil {
      * 获取SharedPreferences对象
      */
     private val sharedPreferences: SharedPreferences
-        get() = ZyFrame.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
+        get() = ZyFrameStore.getContext().getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE)
 
 
     /**

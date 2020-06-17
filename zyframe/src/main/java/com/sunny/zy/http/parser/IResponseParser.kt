@@ -1,6 +1,7 @@
 package com.sunny.zy.http.parser
 
 import okhttp3.ResponseBody
+import java.io.File
 import java.lang.reflect.Type
 
 /**
@@ -11,4 +12,5 @@ import java.lang.reflect.Type
  */
 interface IResponseParser {
     fun <T> parserResponse(data: ResponseBody, type: Type, serializedName: String? = null): T
+    fun writeResponseBodyToDisk(data: ResponseBody, serializedName: String?): File
 }

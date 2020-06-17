@@ -15,22 +15,22 @@ class ZyCookieJar : CookieJar {
 
     private val cookieStore = HashMap<String, List<Cookie>>()
 
-    override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
-        cookieStore[url.host()] = cookies
-        SpUtil.setObject(url.host(), cookies)
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
+        cookieStore[url.host] = cookies
+        SpUtil.setObject(url.host, cookies)
     }
 
     override fun loadForRequest(url: HttpUrl): List<Cookie> {
 
-        var list = cookieStore[url.host()]
+        var list = cookieStore[url.host]
 
         if (list == null) {
             list = SpUtil.getObject(
-                url.host(),
+                url.host,
                 object : TypeToken<List<Cookie>>() {}.type
             ) ?: arrayListOf()
         }
-        cookieStore[url.host()] = list
+        cookieStore[url.host] = list
         return list
     }
 }

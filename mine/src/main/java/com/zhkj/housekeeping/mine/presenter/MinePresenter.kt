@@ -1,5 +1,6 @@
 package com.zhkj.housekeeping.mine.presenter
 
+import com.sunny.zy.ZyFrameStore
 import com.zhkj.housekeeping.mine.MineContract
 import com.zhkj.housekeeping.mine.model.MineModel
 import kotlinx.coroutines.Dispatchers.Main
@@ -22,6 +23,12 @@ class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
             view?.showCompanyInfo(mineModel.getMyCompanyInfo())
         }
 
+    }
+
+    override fun checkUpdateMark() {
+        if (ZyFrameStore.isNewVersionDetected) {
+            view?.showUpdateMark()
+        }
     }
 
     override fun logout() {

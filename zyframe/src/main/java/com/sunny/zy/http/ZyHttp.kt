@@ -5,13 +5,16 @@ import com.sunny.zy.http.parser.GSonResponseParser
 import com.sunny.zy.http.parser.IResponseParser
 import com.sunny.zy.utils.ZyCookieJar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.Response
 import okhttp3.internal.platform.Platform
 import okhttp3.logging.HttpLoggingInterceptor
-import okhttp3.logging.HttpLoggingInterceptor.Level
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.HostnameVerifier
 
 /**
  * Desc
@@ -29,22 +32,27 @@ object ZyHttp {
     var iResponseParser: IResponseParser = GSonResponseParser()
 
     //okHttpClient初始化
-    var okHttpClient: OkHttpClient = OkHttpClient.Builder().apply {
-        addInterceptor(HeaderInterceptor())
-        addNetworkInterceptor(
-            HttpLoggingInterceptor(HttpLoggingInterceptor.Logger {
-                Platform.get().log(Platform.WARN, it, null)
-            }).apply {
-                level = Level.BODY
-            })
-            .hostnameVerifier { _, _ ->
-                return@hostnameVerifier true
-            }
-        connectTimeout(10000L, TimeUnit.MILLISECONDS) //连接超时时间
-        readTimeout(10000L, TimeUnit.MILLISECONDS) //读取超时时间
-            .cookieJar(ZyCookieJar())
-    }.build()
+    var okHttpClient: OkHttpClient = initOkHttpBuilder().build()
 
+    /**
+     * 初始化OKHttp
+     */
+    fun initOkHttpBuilder(): OkHttpClient.Builder {
+        return OkHttpClient.Builder()
+            .addInterceptor(HeaderInterceptor())
+            .addNetworkInterceptor(
+                HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+                    override fun log(message: String) {
+                        Platform.get().log(message, Platform.WARN, null)
+                    }
+                }).apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+            .hostnameVerifier(HostnameVerifier { _, _ -> true })
+            .connectTimeout(10000L, TimeUnit.MILLISECONDS) //连接超时时间
+            .readTimeout(10000L, TimeUnit.MILLISECONDS) //读取超时时间
+            .cookieJar(ZyCookieJar())
+    }
 
     /**
      * get请求
@@ -102,14 +110,52 @@ object ZyHttp {
     }
 
 
+    suspend fun download(
+        url: String,
+        fileName: String?,
+        progressResponseListener: ProgressResponseBody.ProgressResponseListener
+    ) {
+        withContext(IO) {
+            val okHttpBuild = initOkHttpBuilder()
+            okHttpBuild.addNetworkInterceptor(object : Interceptor {
+                override fun intercept(chain: Interceptor.Chain): Response {
+                    val originalResponse = chain.proceed(chain.request())
+                    return originalResponse.newBuilder()
+                        .body(
+                            ProgressResponseBody(
+                                originalResponse.body,
+                                progressResponseListener
+                            )
+                        )
+                        .build()
+                }
+            })
+
+            val request = zyRequest.getRequest(url, null)
+            val response = okHttpBuild.build().newCall(request).execute()
+            val body = response.body
+
+            try {
+                if (body != null) {
+                    val file = iResponseParser.writeResponseBodyToDisk(body, fileName)
+                    progressResponseListener.onComplete(file.path)
+                } else {
+                    progressResponseListener.onFailure("请检查文件地址是否正确")
+                }
+            } catch (e: Exception) {
+                progressResponseListener.onFailure("下载发生错误，请稍后重试！")
+            }
+        }
+    }
+
+
     /**
      * 执行网络请求并处理结果
      * @param request OkHttp请求对象
      * @param onResult 网络请求回调
      * @return HttpResultBean<clazz> 网络请求结果
      */
-    @Suppress("BlockingMethodInNonBlockingContext")
-    private suspend fun <T> execution(request: Request, onResult: OnResult<T>): HttpResultBean<T> {
+    private fun <T> execution(request: Request, onResult: OnResult<T>): HttpResultBean<T> {
         //创建请求结果对象
         val httpResultBean = HttpResultBean<T>()
         try {
@@ -117,34 +163,32 @@ object ZyHttp {
             val response = okHttpClient.newCall(request).execute()
 
             //获取HTTP状态码
-            httpResultBean.httpCode = response.code()
+            httpResultBean.httpCode = response.code
             //获取Response回执信息
-            httpResultBean.msg = response.message()
+            httpResultBean.msg = response.message
 
 
-            withContext(Dispatchers.Main) {
-                onResult.onComplete()
-                //请求成功进行解析
-                if (response.isSuccessful) {
-                    response.body()?.let {
-                        httpResultBean.bean = iResponseParser.parserResponse<T>(
-                            it,
-                            onResult.typeToken,
-                            onResult.serializedName
-                        )
-                        onResult.onSuccess(httpResultBean.bean as T)
+            onResult.onComplete()
 
-                    }
+            //请求成功进行解析
+            if (response.isSuccessful) {
+                response.body?.let {
+                    httpResultBean.bean = iResponseParser.parserResponse<T>(
+                        it,
+                        onResult.typeToken,
+                        onResult.serializedName
+                    )
+                    onResult.onSuccess(httpResultBean.bean as T)
+
                 }
             }
+
 
         } catch (e: Exception) {
             //出现异常获取异常信息
             httpResultBean.exception = e
             e.printStackTrace()
-            withContext(Dispatchers.Main) {
-                onResult.onFailed(httpResultBean.httpCode.toString(), httpResultBean.msg ?: "")
-            }
+            onResult.onFailed(httpResultBean.httpCode.toString(), httpResultBean.msg ?: "")
         }
         //返回请求结果
         return httpResultBean

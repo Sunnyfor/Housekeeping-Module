@@ -3,7 +3,6 @@ package com.sunny.zy.http.parser
 import com.google.gson.Gson
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
-import com.sunny.zy.base.WriteFileBean
 import com.sunny.zy.http.UrlConstant
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -11,7 +10,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
-import java.text.NumberFormat
 
 /**
  * Desc
@@ -30,19 +28,12 @@ class GSonResponseParser : IResponseParser {
         val body = data.string()
 
         if (type is Class<*>) {
-            when (type.name.toString()) {
-                String::class.java.name.toString() -> {
+            when (type.name) {
+                String::class.java.name -> {
                     return body as T
                 }
-
-                File::class.java.name.toString() -> {
-                    return writeResponseBodyToDisk(data, serializedName) as T
-
-                }
             }
-
         } else {
-
             if (type is ParameterizedType) {
                 val jsonObj = JSONObject(body)
                 when (type.rawType) {
@@ -51,7 +42,8 @@ class GSonResponseParser : IResponseParser {
                         val baseModel = BaseModel<Any>()
                         baseModel.msg = jsonObj.optString("msg")
                         baseModel.code = jsonObj.optString("code")
-                        val mData = mGSon.fromJson<Any>(jsonObj.optString(serializedName), childType)
+                        val mData =
+                            mGSon.fromJson<Any>(jsonObj.optString(serializedName), childType)
                         baseModel.data = mData
                         return baseModel as T
                     }
@@ -68,9 +60,8 @@ class GSonResponseParser : IResponseParser {
     }
 
 
-    private fun writeResponseBodyToDisk(data: ResponseBody, serializedName: String?): File {
-
-        val pathFile = File(UrlConstant.TEMP)
+    override fun writeResponseBodyToDisk(data: ResponseBody, serializedName: String?): File {
+        val pathFile = File(UrlConstant.TEMP ?: "")
         if (!pathFile.exists()) {
             pathFile.mkdirs()
         }
@@ -79,19 +70,11 @@ class GSonResponseParser : IResponseParser {
             file.delete()
         }
         file.createNewFile()
-
         val byte = ByteArray(4096)
-        val fileSize = data.contentLength()
         var downloadSize = 0L
 
         val inputStream = data.byteStream()
         val outputStream = FileOutputStream(file)
-        var progress = 0
-
-        val numberFormat = NumberFormat.getInstance()
-        numberFormat.maximumFractionDigits = 0
-        val writeFileBean = WriteFileBean(file, downloadSize, fileSize, progress)
-
         while (true) {
             val read = inputStream.read(byte)
             if (read == -1) {
@@ -99,11 +82,6 @@ class GSonResponseParser : IResponseParser {
             }
             outputStream.write(byte, 0, read)
             downloadSize += read
-            progress = numberFormat.format((downloadSize.toFloat() / fileSize.toFloat()) * 100).toInt()
-            if (progress > writeFileBean.progress) {
-                writeFileBean.downloadSize = downloadSize
-                writeFileBean.progress = progress
-            }
         }
         outputStream.flush()
         return file

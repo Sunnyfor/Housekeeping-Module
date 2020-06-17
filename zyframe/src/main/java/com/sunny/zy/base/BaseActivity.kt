@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import com.sunny.zy.R
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.title.TitleManager
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.utils.OverlayViewUtils
@@ -41,7 +41,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
         val bodyView = LayoutInflater.from(this).inflate(setLayout(), null, false)
         frameBody.addView(bodyView)
 
-        ZyFrame.addActivity(this)
+        ZyFrameStore.addActivity(this)
 
         initView()
         loadData()
@@ -66,6 +66,8 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
      * 点击事件回调
      */
     abstract fun onClickEvent(view: View)
+
+    abstract fun close()
 
     /**
      * 获取title容器
@@ -137,6 +139,7 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
 
     override fun onDestroy() {
         super.onDestroy()
-        ZyFrame.removeActivity(this)
+        close()
+        ZyFrameStore.removeActivity(this)
     }
 }

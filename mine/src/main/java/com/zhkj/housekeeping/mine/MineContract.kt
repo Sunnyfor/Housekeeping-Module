@@ -13,11 +13,13 @@ interface MineContract {
 
     interface View : IBaseView {
         fun showCompanyInfo(companyInfo: MyCompanyInfo)
+        fun showUpdateMark()
         fun logout()
     }
 
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
         abstract fun getCompanyInfo()
+        abstract fun checkUpdateMark()
         abstract fun logout()
     }
 

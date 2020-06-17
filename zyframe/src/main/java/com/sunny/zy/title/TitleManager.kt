@@ -11,17 +11,19 @@ import com.sunny.zy.base.BaseActivity
 class TitleManager(private var baseActivity: BaseActivity) {
 
     fun defaultTitle(
-        frameTitle: ViewGroup,
+        frameTitle: ViewGroup?,
         title: String,
         subtitle: String = ""
     ): DefaultTitleBean {
-        frameTitle.visibility = View.VISIBLE
         val defaultTitleBean = DefaultTitleBean(baseActivity)
-        defaultTitleBean.setTitle(title)
-        defaultTitleBean.setLeftOnClickListener(View.OnClickListener {
-            baseActivity.finish()
-        })
-        defaultTitleBean.showView(frameTitle)
+        frameTitle?.let {
+            it.visibility = View.VISIBLE
+            defaultTitleBean.setTitle(title)
+            defaultTitleBean.setLeftOnClickListener(View.OnClickListener {
+                baseActivity.finish()
+            })
+            defaultTitleBean.showView(frameTitle)
+        }
         return defaultTitleBean
     }
 }

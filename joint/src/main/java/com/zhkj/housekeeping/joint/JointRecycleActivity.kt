@@ -38,5 +38,9 @@ class JointRecycleActivity : BaseActivity() {
 //        jointViewModel.getJointState()
     }
 
+    override fun close() {
+
+    }
+
 
 }

@@ -2,7 +2,7 @@ package com.zhkj
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 
 /**
  * Desc
@@ -14,7 +14,7 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        ZyFrame.init(this)
+        ZyFrameStore.init(this)
         ARouter.init(this)
         ARouter.openDebug()
         ARouter.openLog()

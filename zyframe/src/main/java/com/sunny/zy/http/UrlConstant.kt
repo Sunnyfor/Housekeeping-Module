@@ -1,6 +1,6 @@
 package com.sunny.zy.http
 
-import android.os.Environment
+import com.sunny.zy.ZyFrameStore
 
 /**
  * Desc
@@ -15,9 +15,15 @@ object UrlConstant {
     const val host = "https://www.zhenhekj.com:8807" //正式地址
 
 
-    val TEMP = Environment.getExternalStorageDirectory().path + "/temp" //内存卡缓存路径
+    val TEMP = ZyFrameStore.getContext().getExternalFilesDir("temp")?.path //内存卡缓存路径
 
     const val SYS_LOGIN = "sys/login" //登录接口
+
+    /**
+     * 检查版本更新
+     * versionNumber=1.0.0.1
+     */
+    const val APP_VERSION_UPDATE_URL = "app/appandroidversion/findNewOne"
 
 
     const val DEPARTMENT_OF_TREE = "sys/dept/listFilter" //加载部门(包括公司)

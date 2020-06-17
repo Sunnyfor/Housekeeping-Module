@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <!--外部存储空间根目录-->
-    <external-path
-        name="app_cache"
-        path="com.sunny.zy/temp/" />
+    <external-files-path
+        name="temp"
+        path="temp" />
 </paths>

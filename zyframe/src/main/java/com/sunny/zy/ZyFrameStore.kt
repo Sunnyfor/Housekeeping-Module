@@ -2,19 +2,24 @@ package com.sunny.zy
 
 import android.content.Context
 import com.sunny.zy.base.BaseActivity
+import com.sunny.zy.bean.UserInfoBean
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * 应用类
  * Created by zhangye on 2018/8/2.
  */
-object ZyFrame {
+object ZyFrameStore {
+
+    var isNewVersionDetected = false
 
     private lateinit var instance: Context
 
     private val activityStack = Stack<BaseActivity>()
 
+    private val userInfoBean = UserInfoBean("", "", "")
+
+    var versionName = "1.0.0.0"
 
     fun init(context: Context) {
         instance = context.applicationContext
@@ -23,6 +28,15 @@ object ZyFrame {
     fun getContext() = instance
 
     private val storeMap = HashMap<String, Any>() //内存数据存储
+
+
+    fun setUserInfoBean(mUserInfoBean: UserInfoBean) {
+        userInfoBean.userId = mUserInfoBean.userId
+        userInfoBean.deptId = mUserInfoBean.deptId
+        userInfoBean.name = mUserInfoBean.name
+    }
+
+    fun getUserInfoBean() = userInfoBean
 
     @Suppress("UNCHECKED_CAST")
     fun <T> getData(key: String, isDelete: Boolean): T? {

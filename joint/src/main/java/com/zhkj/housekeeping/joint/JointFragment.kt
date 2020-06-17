@@ -8,7 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.housekeeping.work.joint.bean.JointBean
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.activity.PullRefreshLayoutFragment
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.bean.Dictionary
@@ -103,8 +103,8 @@ class JointFragment : PullRefreshLayoutFragment(), IJointView {
                 if (type == 3) {
                     showDeleteDialog(jointAdapter.getData(position).synergyId.toString())
                 } else {
-                    ZyFrame.setData("joinStateList", joinStateList)
-                    ZyFrame.setData("jointBean", jointAdapter.getData(position))
+                    ZyFrameStore.setData("joinStateList", joinStateList)
+                    ZyFrameStore.setData("jointBean", jointAdapter.getData(position))
                     val intent = Intent(requireContext(), JointCreateActivity::class.java)
                     intent.putExtra("type", type)
                     startActivityForResult(intent, 200)

@@ -1,4 +1,4 @@
-package com.zhkj.housekeeping.login.bean
+package com.sunny.zy.bean
 
 /**
  * Desc

@@ -49,22 +49,25 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.3.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
-    testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     //okHttp的log日志
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.7.2'
     //google的JSON解析库
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime:2.2.0'
+
     //Kotlin协程库
-    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0'
 
     // 上拉加载、下拉刷新
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0'
 
     //圆形imageView
-    api 'de.hdodenhof:circleimageview:2.1.0'
+    api 'de.hdodenhof:circleimageview:3.1.0'
 
     api 'com.alibaba:arouter-api:1.5.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'

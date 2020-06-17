@@ -1,7 +1,7 @@
 package com.sunny.zy.utils
 
 import android.os.Environment
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 import java.io.File
 import java.text.DecimalFormat
 
@@ -16,7 +16,7 @@ class FileUtils {
     fun getCacheDir(): File {
         val file = File(
             Environment.getExternalStorageDirectory(),
-            "${ZyFrame.getContext()?.packageName}/temp"
+            "${ZyFrameStore.getContext()?.packageName}/temp"
         )
         if (!file.exists()) {
             file.mkdirs()

@@ -13,4 +13,5 @@
     <!--设置-->
     <string name="clearComplete">清理完成!</string>
 
+    <string name="dialogDownload">正在下载… </string>
 </resources>

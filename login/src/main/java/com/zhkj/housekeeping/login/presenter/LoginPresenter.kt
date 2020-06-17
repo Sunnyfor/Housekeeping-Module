@@ -1,5 +1,6 @@
 package com.zhkj.housekeeping.login.presenter
 
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.login.LoginContract
 import com.zhkj.housekeeping.login.model.LoginModel
@@ -29,9 +30,10 @@ class LoginPresenter(view: LoginContract.IView) : LoginContract.Presenter(view) 
             val userInfoBean = loginModel.login(username, password)
             hideLoading()
             if (userInfoBean != null) {
-                SpUtil.setString(SpUtil.username, username)
-                SpUtil.setString(SpUtil.password, password)
-                SpUtil.setObject(SpUtil.userInfoBean, userInfoBean)
+                SpUtil.setString(SpUtil.username, username) //持久化存储账号
+                SpUtil.setString(SpUtil.password, password) //持久化存储密码
+                SpUtil.setObject(SpUtil.userInfoBean, userInfoBean) //持久化存储用户信息
+                ZyFrameStore.setUserInfoBean(userInfoBean) //进行内存存储用户信息
                 view?.loginResult(userInfoBean)
             }
         }

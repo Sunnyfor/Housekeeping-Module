@@ -5,7 +5,7 @@ import com.sunny.zy.http.OnResult
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.utils.ToastUtil
-import com.zhkj.housekeeping.login.bean.UserInfoBean
+import com.sunny.zy.bean.UserInfoBean
 import org.json.JSONObject
 
 /**

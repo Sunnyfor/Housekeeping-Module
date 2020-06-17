@@ -8,12 +8,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
+import com.sunny.zy.bean.UserInfoBean
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.SpUtil
-import com.zhkj.housekeeping.login.bean.UserInfoBean
 import com.zhkj.housekeeping.login.presenter.LoginPresenter
 import kotlinx.android.synthetic.main.act_login.*
+import kotlinx.coroutines.cancel
 
 /**
  * Desc
@@ -62,8 +64,13 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     override fun loadData() {
         val userInfoBean = SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)
         if (userInfoBean != null) {
+            ZyFrameStore.setUserInfoBean(userInfoBean)
             loginResult(userInfoBean)
         }
+    }
+
+    override fun close() {
+        loginPresenter.cancel()
     }
 
     override fun onClickEvent(view: View) {

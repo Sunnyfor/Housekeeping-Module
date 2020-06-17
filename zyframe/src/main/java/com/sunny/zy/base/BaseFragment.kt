@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
@@ -43,6 +44,8 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         loadData()
     }
 
+
+    fun getIFrameTitle(): FrameLayout? = findViewById(R.id.iframeTitle)
 
     /**
      * 沉浸式Title

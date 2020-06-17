@@ -1,7 +1,7 @@
 package com.sunny.zy.utils
 
 import android.widget.Toast
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 
 /**
  * Desc单例 Toast
@@ -20,7 +20,7 @@ object ToastUtil {
         content?.let {
             toast?.cancel()
             toast = null
-            toast = Toast.makeText(ZyFrame.getContext(), content, type).apply {
+            toast = Toast.makeText(ZyFrameStore.getContext(), content, type).apply {
                 show()
             }
         }

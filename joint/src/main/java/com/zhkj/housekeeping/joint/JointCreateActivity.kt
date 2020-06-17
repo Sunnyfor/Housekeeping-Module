@@ -8,12 +8,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.housekeeping.work.joint.bean.JointBean
-import com.sunny.zy.ZyFrame
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.bean.AllUsersBean
 import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.leader.AllUserPresenter
 import com.sunny.zy.leader.IAllUsersView
+
 import com.zhkj.housekeeping.joint.adapter.JointReplyAdapter
 import com.zhkj.housekeeping.joint.model.JointViewModel
 import kotlinx.android.synthetic.main.act_create_joint.*
@@ -38,11 +39,11 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
     }
 
     private val jointBean: JointBean? by lazy {
-        ZyFrame.getData<JointBean>("jointBean", true)
+        ZyFrameStore.getData<JointBean>("jointBean", true)
     }
 
     private val jointStateList: ArrayList<Dictionary>? by lazy {
-        ZyFrame.getData<ArrayList<Dictionary>>("joinStateList", true)
+        ZyFrameStore.getData<ArrayList<Dictionary>>("joinStateList", true)
     }
 
     private var checkedItems: BooleanArray? = null
@@ -188,6 +189,10 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
 
     }
 
+    override fun close() {
+        allUserPresenter.cancel()
+    }
+
 
     //选择协同人员
     private fun showSelectDialog() {
@@ -262,9 +267,5 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
         showSelectDialog()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        allUserPresenter.cancel()
-    }
 
 }

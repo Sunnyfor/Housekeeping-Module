@@ -67,6 +67,10 @@ class JointActivity : BaseActivity() {
 
     }
 
+    override fun close() {
+
+    }
+
 
     fun refresh() {
         onActivityResult(0, Activity.RESULT_OK, null)

@@ -25,7 +25,7 @@
                 android:id="@+id/tv_username"
                 style="@style/style_font_black"
                 android:layout_margin="@dimen/dp_20"
-                android:text="@string/app_name"
+                android:text="@string/placeholder"
                 android:textSize="@dimen/sp_18" />
 
             <TextView
@@ -52,6 +52,7 @@
     <androidx.cardview.widget.CardView style="@style/style_item_card_view">
 
         <RelativeLayout
+            android:id="@+id/rl_person_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/dp_20"
@@ -77,6 +78,7 @@
     <androidx.cardview.widget.CardView style="@style/style_item_card_view">
 
         <RelativeLayout
+            android:id="@+id/rl_approval_of_reimbursement"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/dp_20"
@@ -102,6 +104,7 @@
     <androidx.cardview.widget.CardView style="@style/style_item_card_view">
 
         <RelativeLayout
+            android:id="@+id/rl_version"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/dp_20"
@@ -114,9 +117,20 @@
                 android:src="@drawable/svg_version" />
 
             <TextView
+                android:id="@+id/tv_version"
                 style="@style/style_item_card_font"
                 android:layout_marginStart="@dimen/dp_30"
                 android:text="@string/version" />
+
+            <ImageView
+                android:id="@+id/iv_version_mark"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_20"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/dp_20"
+                android:layout_toEndOf="@id/tv_version"
+                android:src="@drawable/svg_version_new"
+                android:visibility="gone"/>
 
             <ImageView style="@style/style_item_card_img" />
 
