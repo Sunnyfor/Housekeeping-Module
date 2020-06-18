@@ -9,7 +9,7 @@
         android:id="@+id/workbench_dest"
         android:name="com.zhkj.housekeeping.work.WorkFragment"
         android:label="@string/workbench"
-        tools:layout="@layout/fram_work" />
+        tools:layout="@layout/fram_work"/>
 
     <fragment
         android:id="@+id/message_dest"

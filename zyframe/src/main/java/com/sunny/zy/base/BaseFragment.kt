@@ -19,9 +19,7 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     private var savedInstanceState: Bundle? = null
 
     private val overlayViewBean = OverlayViewUtils()
-    private val rootView: FrameLayout by lazy {
-        FrameLayout(requireContext())
-    }
+    private var rootView: FrameLayout? = null
     var bodyView: View? = null
 
     override fun onCreateView(
@@ -30,8 +28,11 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         this.savedInstanceState = savedInstanceState
-        bodyView = inflater.inflate(setLayout(), container, false)
-        rootView.addView(bodyView)
+        if (rootView == null) {
+            rootView = FrameLayout(requireContext())
+            bodyView = inflater.inflate(setLayout(), container, false)
+            rootView?.addView(bodyView)
+        }
         return rootView
     }
 
@@ -45,16 +46,14 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     fun getBaseActivity(): BaseActivity = requireActivity() as BaseActivity
 
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         close()
     }
-
 
     abstract fun setLayout(): Int
 
     abstract fun initView()
-
 
     abstract fun loadData()
 
@@ -64,19 +63,19 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     }
 
     override fun showLoading() {
-        overlayViewBean.showView(rootView, ErrorViewType.loading)
+        overlayViewBean.showView(rootView ?: return, ErrorViewType.loading)
     }
 
     override fun hideLoading() {
-        overlayViewBean.hideView(rootView, ErrorViewType.loading)
+        overlayViewBean.hideView(rootView ?: return, ErrorViewType.loading)
     }
 
     override fun showError(errorType: ErrorViewType) {
-        overlayViewBean.showView(rootView, ErrorViewType.networkError)
+        overlayViewBean.showView(rootView ?: return, ErrorViewType.networkError)
     }
 
     override fun hideError(errorType: ErrorViewType) {
-        overlayViewBean.hideView(rootView, ErrorViewType.networkError)
+        overlayViewBean.hideView(rootView ?: return, ErrorViewType.networkError)
     }
 
 

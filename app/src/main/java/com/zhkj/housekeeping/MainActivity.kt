@@ -2,7 +2,6 @@ package com.zhkj.housekeeping
 
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
@@ -40,8 +39,14 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
         ZyFrameStore.versionName = BuildConfig.VERSION_NAME
         //检查版本更新
         presenter.checkVersion(BuildConfig.VERSION_CODE)
-        //初始化导航栏
-        bottom_navigation.setupWithNavController(nav_host_fragment.findNavController())
+
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            if (it.isChecked) {
+                return@setOnNavigationItemSelectedListener false
+            }
+            nav_host_fragment.findNavController().navigate(it.itemId)
+            return@setOnNavigationItemSelectedListener true
+        }
     }
 
 

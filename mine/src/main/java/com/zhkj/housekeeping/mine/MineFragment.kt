@@ -26,6 +26,8 @@ import java.io.File
  */
 class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.View {
 
+    var companyInfo: MyCompanyInfo? = null
+
     private val versionPresenter: VersionUpdateContract.Presenter by lazy {
         VersionUpdatePresenter(this)
     }
@@ -47,16 +49,22 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         rl_approval_of_reimbursement.setOnClickListener(this)
         rl_logout.setOnClickListener(this)
         rl_version.setOnClickListener(this)
+
         getBaseActivity().simpleTitle(getString(R.string.mine))
     }
 
     override fun loadData() {
+        companyInfo?.let {
+            showCompanyInfo(it)
+            return
+        }
+
         minePresenter.getCompanyInfo()
         minePresenter.checkUpdateMark()
     }
 
     override fun close() {
-
+        minePresenter.cancel()
     }
 
     override fun onClick(v: View) {
@@ -71,12 +79,12 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             }
 
             rl_version.id -> {
+                showLoading()
                 versionPresenter.checkVersion(BuildConfig.VERSION_CODE)
             }
 
             //退出登录
             rl_logout.id -> {
-
                 showLogoutDialog()
 
             }
@@ -117,10 +125,6 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             .show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        minePresenter.cancel()
-    }
 
     override fun showVersionUpdate(versionBean: VersionBean) {
         hideLoading()
