@@ -44,9 +44,10 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
     override fun initView() {
         rl_person_info.setOnClickListener(this)
+        rl_approval_of_reimbursement.setOnClickListener(this)
         rl_logout.setOnClickListener(this)
         rl_version.setOnClickListener(this)
-        getBaseActivity().titleManager.defaultTitle(getIFrameTitle(), "")
+        getBaseActivity().simpleTitle(getString(R.string.mine))
     }
 
     override fun loadData() {

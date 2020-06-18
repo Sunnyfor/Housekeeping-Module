@@ -6,12 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
 import com.sunny.zy.R
 import com.sunny.zy.ZyFrameStore
-import com.sunny.zy.title.TitleManager
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.utils.OverlayViewUtils
 import kotlinx.android.synthetic.main.zy_activity_base.*
@@ -29,14 +31,11 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
 
     private val overlayViewBean = OverlayViewUtils()
 
-    lateinit var titleManager: TitleManager
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.savedInstanceState = savedInstanceState
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //强制屏幕
-        titleManager = TitleManager(this)
+        window.statusBarColor = ContextCompat.getColor(this, R.color.color_theme)
         setContentView(R.layout.zy_activity_base)
         val bodyView = LayoutInflater.from(this).inflate(setLayout(), null, false)
         frameBody.addView(bodyView)
@@ -72,12 +71,19 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
     /**
      * 获取title容器
      */
-    fun getFrameTitle(): FrameLayout = findViewById(R.id.frameTitle)
+    fun getToolBar(): Toolbar = findViewById(R.id.toolbar)
+
+
+    fun getTitleView() = findViewById<TextView>(R.id.tv_title)
 
     /**
      * 获取body容器
      */
     fun getFrameBody(): FrameLayout = findViewById(R.id.frameBody)
+
+    fun setSupportActionBar() {
+        setSupportActionBar(getToolBar())
+    }
 
     /**
      * 显示loading覆盖层
@@ -120,8 +126,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
 
     override fun getLifLifecycleOwner(): LifecycleOwner = this
 
+
     /**
-     * 注册点击事件
+     * 批量注册点击事件
      * @param views 注册事件的View
      */
     fun setOnClickListener(vararg views: View) {
@@ -131,11 +138,36 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
     }
 
     /**
-     * 点击事件
+     * 点击事件处理
      */
     override fun onClick(view: View) {
         onClickEvent(view)
     }
+
+
+    /**
+     * 只有文字标题的toolbar
+     */
+    fun simpleTitle(title: String): Toolbar {
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.title = ""
+        toolbar.visibility = View.VISIBLE
+        getTitleView().text = title
+        setSupportActionBar()
+        return toolbar
+    }
+
+    /**
+     * 带返回键的toolbar
+     */
+    fun defaultTitle(
+        title: String
+    ): Toolbar {
+        val toolbar = simpleTitle(title)
+        toolbar.setNavigationIcon(R.drawable.svg_title_back)
+        return toolbar
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

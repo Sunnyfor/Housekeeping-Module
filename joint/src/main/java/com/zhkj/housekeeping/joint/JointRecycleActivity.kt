@@ -20,7 +20,7 @@ class JointRecycleActivity : BaseActivity() {
 
     override fun initView() {
 
-        titleManager.defaultTitle(getFrameTitle(), "协同回收站")
+//        titleManager.defaultTitle(getFrameTitle(), "协同回收站")
 
 //        jointViewModel.jointStateLiveData.observe(this, Observer { list ->
 //            supportFragmentManager.beginTransaction().replace(frameBody.id, JointFragment().apply {

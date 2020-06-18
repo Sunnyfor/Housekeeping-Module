@@ -13,7 +13,7 @@ class WorkFragment : BaseFragment() {
     override fun setLayout(): Int = R.layout.fram_work
 
     override fun initView() {
-
+        getBaseActivity().simpleTitle(getString(R.string.workbench))
     }
 
     override fun loadData() {

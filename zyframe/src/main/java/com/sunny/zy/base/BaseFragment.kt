@@ -5,14 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelStoreOwner
-import com.sunny.zy.R
 import com.sunny.zy.widget.utils.OverlayViewUtils
-import kotlinx.android.synthetic.main.zy_fragment_base.*
-import kotlinx.android.synthetic.main.zy_fragment_base.view.*
 
 
 /**
@@ -23,7 +19,9 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     private var savedInstanceState: Bundle? = null
 
     private val overlayViewBean = OverlayViewUtils()
-
+    private val rootView: FrameLayout by lazy {
+        FrameLayout(requireContext())
+    }
     var bodyView: View? = null
 
     override fun onCreateView(
@@ -32,10 +30,9 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         this.savedInstanceState = savedInstanceState
-        val mView = inflater.inflate(R.layout.zy_fragment_base, container, false)
         bodyView = inflater.inflate(setLayout(), container, false)
-        mView?.iframeBody?.addView(bodyView)
-        return mView
+        rootView.addView(bodyView)
+        return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,26 +42,7 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     }
 
 
-    fun getIFrameTitle(): FrameLayout? = findViewById(R.id.iframeTitle)
-
-    /**
-     * 沉浸式Title
-     */
-    fun immersionTitle() {
-        iframeBody?.apply {
-            (layoutParams as RelativeLayout.LayoutParams).addRule(RelativeLayout.BELOW, 0)
-        }
-        iframeTitle?.setBackgroundResource(R.color.transparent)
-
-    }
-
-
     fun getBaseActivity(): BaseActivity = requireActivity() as BaseActivity
-
-
-    fun <T : View> findViewById(id: Int): T? {
-        return view?.findViewById<T>(id)
-    }
 
 
     override fun onDestroy() {
@@ -86,19 +64,19 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     }
 
     override fun showLoading() {
-        overlayViewBean.showView(iframeBody, ErrorViewType.loading)
+        overlayViewBean.showView(rootView, ErrorViewType.loading)
     }
 
     override fun hideLoading() {
-        overlayViewBean.hideView(iframeBody, ErrorViewType.loading)
+        overlayViewBean.hideView(rootView, ErrorViewType.loading)
     }
 
     override fun showError(errorType: ErrorViewType) {
-        overlayViewBean.showView(iframeBody, ErrorViewType.networkError)
+        overlayViewBean.showView(rootView, ErrorViewType.networkError)
     }
 
     override fun hideError(errorType: ErrorViewType) {
-        overlayViewBean.hideView(iframeBody, ErrorViewType.networkError)
+        overlayViewBean.hideView(rootView, ErrorViewType.networkError)
     }
 
 

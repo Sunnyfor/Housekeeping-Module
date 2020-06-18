@@ -114,7 +114,7 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
             }
         }
 
-        titleManager.defaultTitle(getFrameTitle(),title,"")
+//        titleManager.defaultTitle(getFrameTitle(),title,"")
 
         btn_commit.setOnClickListener(this)
 

@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120">
+        android:layout_height="@dimen/dp_120"
+        android:layout_marginTop="@dimen/dp_4">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,8 +27,8 @@
                 android:id="@+id/tv_username"
                 style="@style/style_font_black"
                 android:layout_margin="@dimen/dp_20"
-                android:text="@string/placeholder"
-                android:textSize="@dimen/sp_18" />
+                tools:text="@string/placeholder"
+                android:textSize="@dimen/sp_20" />
 
             <TextView
                 android:id="@+id/tv_department"
@@ -34,8 +36,7 @@
                 android:layout_below="@+id/tv_username"
                 android:layout_alignStart="@id/tv_username"
                 android:layout_toEndOf="@+id/iv_head"
-                android:text="@string/placeholder"
-                android:textSize="@dimen/sp_16" />
+                tools:text="@string/placeholder" />
 
             <TextView
                 android:id="@+id/tv_company"
@@ -44,8 +45,7 @@
                 android:layout_alignStart="@id/tv_username"
                 android:layout_marginTop="@dimen/dp_5"
                 android:layout_toEndOf="@+id/iv_head"
-                android:text="@string/placeholder"
-                android:textSize="@dimen/sp_16" />
+                tools:text="@string/placeholder" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 
