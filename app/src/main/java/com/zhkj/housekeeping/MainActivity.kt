@@ -9,6 +9,7 @@ import com.sunny.zy.bean.VersionBean
 import com.sunny.zy.contract.VersionUpdateContract
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.presenter.VersionUpdatePresenter
+import com.sunny.zy.utils.DataKey
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.dialog.DownLoadDialog
@@ -35,8 +36,6 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
     }
 
     override fun loadData() {
-        //初始化版本名称
-        ZyFrameStore.versionName = BuildConfig.VERSION_NAME
         //检查版本更新
         presenter.checkVersion(BuildConfig.VERSION_CODE)
 
@@ -55,27 +54,18 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
     }
 
     override fun showVersionUpdate(versionBean: VersionBean) {
-        VersionUpdateDialog(this, versionBean.appAndroidVersion?.updateDetails ?: "") {
-
-            val fileName = "${versionBean.appAndroidVersion?.versionNumber}.apk"
-
-            val file = File(UrlConstant.TEMP, fileName)
-            if (file.exists()) {
-                downLoadDialog.installApk(file)
-            } else {
-                presenter.downLoadAPk(
-                    UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation,
-                    fileName
-                )
-                downLoadDialog.show()
-                downLoadDialog.setProgress(0)
-            }
+        //APP有新版本
+        ZyFrameStore.setData(DataKey.IS_NEW_APP_VERSION, true)
+        VersionUpdateDialog(this, versionBean) {
+            presenter.downLoadAPk(
+                UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation
+            )
+            downLoadDialog.show()
+            downLoadDialog.setProgress(0)
         }.show()
     }
 
-    override fun noNewVersion() {
-        ToastUtil.show("当前版本已是最新！")
-    }
+    override fun noNewVersion() {}
 
     override fun downLoadResult(path: String) {
         downLoadDialog.installApk(File(path))

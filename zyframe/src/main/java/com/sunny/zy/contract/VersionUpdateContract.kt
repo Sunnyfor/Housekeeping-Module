@@ -23,7 +23,7 @@ interface VersionUpdateContract {
         //检查版本
         abstract fun checkVersion(version: Int)
 
-        abstract fun downLoadAPk(url: String,fileName:String?)
+        abstract fun downLoadAPk(url: String)
     }
 
 }

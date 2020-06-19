@@ -2,15 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#7F000000"
     android:clickable="true"
     android:focusable="true"
     android:orientation="vertical">
 
-    <androidx.core.widget.ContentLoadingProgressBar
-        style="?android:progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_100"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+        app:cardCornerRadius="@dimen/dp_6"
+        android:layout_centerVertical="true">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            style="?android:progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center" />
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

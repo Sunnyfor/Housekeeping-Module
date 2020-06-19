@@ -11,15 +11,11 @@ import java.util.*
  */
 object ZyFrameStore {
 
-    var isNewVersionDetected = false
-
     private lateinit var instance: Context
 
     private val activityStack = Stack<BaseActivity>()
 
     private val userInfoBean = UserInfoBean("", "", "")
-
-    var versionName = "1.0.0.0"
 
     fun init(context: Context) {
         instance = context.applicationContext
@@ -39,7 +35,7 @@ object ZyFrameStore {
     fun getUserInfoBean() = userInfoBean
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> getData(key: String, isDelete: Boolean): T? {
+    fun <T> getData(key: String, isDelete: Boolean = false): T? {
 
         if (!storeMap.containsKey(key)) {
             return null

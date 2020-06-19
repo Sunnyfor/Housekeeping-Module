@@ -1,6 +1,7 @@
 package com.zhkj.housekeeping.mine.presenter
 
 import com.sunny.zy.ZyFrameStore
+import com.sunny.zy.utils.DataKey
 import com.zhkj.housekeeping.mine.MineContract
 import com.zhkj.housekeeping.mine.model.MineModel
 import kotlinx.coroutines.Dispatchers.Main
@@ -26,7 +27,7 @@ class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
     }
 
     override fun checkUpdateMark() {
-        if (ZyFrameStore.isNewVersionDetected) {
+        if (ZyFrameStore.getData<Boolean>(DataKey.IS_NEW_APP_VERSION) == true) {
             view?.showUpdateMark()
         }
     }

@@ -2,6 +2,7 @@ package com.zhkj.housekeeping.mine
 
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseFragment
@@ -13,6 +14,7 @@ import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.dialog.DownLoadDialog
 import com.sunny.zy.widget.dialog.VersionUpdateDialog
+import com.zhkj.housekeeping.mine.model.MineViewModel
 import com.zhkj.housekeeping.mine.presenter.MinePresenter
 import kotlinx.android.synthetic.main.fram_mine.*
 import kotlinx.coroutines.cancel
@@ -26,7 +28,9 @@ import java.io.File
  */
 class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.View {
 
-    var companyInfo: MyCompanyInfo? = null
+    private val mineViewModel: MineViewModel by lazy {
+        ViewModelProvider(getBaseActivity()).get(MineViewModel::class.java)
+    }
 
     private val versionPresenter: VersionUpdateContract.Presenter by lazy {
         VersionUpdatePresenter(this)
@@ -45,20 +49,24 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     override fun setLayout(): Int = R.layout.fram_mine
 
     override fun initView() {
+        getBaseActivity().simpleTitle(getString(R.string.mine))
         rl_person_info.setOnClickListener(this)
         rl_approval_of_reimbursement.setOnClickListener(this)
         rl_logout.setOnClickListener(this)
         rl_version.setOnClickListener(this)
-
-        getBaseActivity().simpleTitle(getString(R.string.mine))
     }
 
     override fun loadData() {
-        companyInfo?.let {
+        mineViewModel.myCompanyInfo?.let {
             showCompanyInfo(it)
+            if (mineViewModel.isShowUpdateMark) {
+                showUpdateMark()
+            }
             return
         }
 
+        mineViewModel.username = ZyFrameStore.getUserInfoBean().name
+        //加载网络数据
         minePresenter.getCompanyInfo()
         minePresenter.checkUpdateMark()
     }
@@ -93,15 +101,17 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     }
 
     override fun showCompanyInfo(companyInfo: MyCompanyInfo) {
-        tv_username.text = ZyFrameStore.getUserInfoBean().name
+        tv_username.text = mineViewModel.username
         tv_department.text = companyInfo.deptName
         tv_company.text = companyInfo.companyName
-        tv_version.text = ("${getString(R.string.version)}${ZyFrameStore.versionName}")
-
-
+        tv_version.text = ("${getString(R.string.version)}${BuildConfig.VERSION_NAME}")
+        if (mineViewModel.myCompanyInfo == null) {
+            mineViewModel.myCompanyInfo = companyInfo
+        }
     }
 
     override fun showUpdateMark() {
+        mineViewModel.isShowUpdateMark = true
         iv_version_mark.visibility = View.VISIBLE
     }
 
@@ -128,20 +138,12 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
     override fun showVersionUpdate(versionBean: VersionBean) {
         hideLoading()
-        VersionUpdateDialog(requireContext(), versionBean.appAndroidVersion?.updateDetails ?: "") {
-            val fileName = "${versionBean.appAndroidVersion?.versionNumber}.apk"
-            val file = File(UrlConstant.TEMP, fileName)
-            if (file.exists()) {
-                downLoadDialog.installApk(file)
-            } else {
-                versionPresenter.downLoadAPk(
-                    UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation,
-                    fileName
-                )
-                downLoadDialog.show()
-                downLoadDialog.setProgress(0)
-            }
-
+        VersionUpdateDialog(requireContext(), versionBean) {
+            versionPresenter.downLoadAPk(
+                UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation
+            )
+            downLoadDialog.show()
+            downLoadDialog.setProgress(0)
         }.show()
     }
 

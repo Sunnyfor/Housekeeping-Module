@@ -24,18 +24,20 @@ class VersionUpdatePresenter(view: VersionUpdateContract.View) :
     override fun checkVersion(version: Int) {
         launch(Main) {
             val versionBean = versionUpdateModel.checkVersion(version)
-            if (versionBean == null) {
-                view?.noNewVersion()
-            } else {
-                view?.showVersionUpdate(versionBean)
+            if (versionBean != null) {
+                if (versionBean.appAndroidVersion?.versionCode ?: 0 > version) {
+                    view?.showVersionUpdate(versionBean)
+                } else {
+                    view?.noNewVersion()
+                }
             }
         }
     }
 
     //下载新版本APK
-    override fun downLoadAPk(url: String, fileName: String?) {
+    override fun downLoadAPk(url: String) {
         launch(Main) {
-            versionUpdateModel.downLoadAPK(url, fileName, object :
+            versionUpdateModel.downLoadAPK(url, "housekeeping.apk", object :
                 ProgressResponseBody.ProgressResponseListener {
 
                 val numberFormat = NumberFormat.getInstance().apply {

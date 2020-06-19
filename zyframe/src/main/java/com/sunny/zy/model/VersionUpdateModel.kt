@@ -1,11 +1,11 @@
 package com.sunny.zy.model
 
-import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.bean.VersionBean
 import com.sunny.zy.http.OnResult
 import com.sunny.zy.http.ProgressResponseBody
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import java.io.File
 
 /**
  * Desc
@@ -27,25 +27,22 @@ class VersionUpdateModel {
             object : OnResult<VersionBean>() {})
 
         if (httpResultBean.isSuccess()) {
-            httpResultBean.bean?.appAndroidVersion?.let {
-                if (version < it.versionCode) {
-                    //检测到新版本返回版本信息
-                    ZyFrameStore.isNewVersionDetected = true
-                    return httpResultBean.bean
-                }
-            }
+            return httpResultBean.bean
         }
-        //没有新版本返回null
-        ZyFrameStore.isNewVersionDetected = false
         return null
     }
 
 
     suspend fun downLoadAPK(
         url: String,
-        fileName: String?,
+        fileName: String,
         progressResponseListener: ProgressResponseBody.ProgressResponseListener
     ) {
+
+        val file = File(UrlConstant.TEMP, fileName)
+        if (file.exists()) {
+            file.delete()
+        }
         ZyHttp.download(url, fileName, progressResponseListener)
     }
 
