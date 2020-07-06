@@ -140,7 +140,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         hideLoading()
         VersionUpdateDialog(requireContext(), versionBean) {
             versionPresenter.downLoadAPk(
-                UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation
+                UrlConstant.host + "/" + versionBean.downloadLocation
             )
             downLoadDialog.show()
             downLoadDialog.setProgress(0)

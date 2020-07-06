@@ -7,11 +7,9 @@ import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.bean.VersionBean
 import com.sunny.zy.contract.VersionUpdateContract
-import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.presenter.VersionUpdatePresenter
 import com.sunny.zy.utils.DataKey
 import com.sunny.zy.utils.RouterPath
-import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.dialog.DownLoadDialog
 import com.sunny.zy.widget.dialog.VersionUpdateDialog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -57,9 +55,7 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
         //APP有新版本
         ZyFrameStore.setData(DataKey.IS_NEW_APP_VERSION, true)
         VersionUpdateDialog(this, versionBean) {
-            presenter.downLoadAPk(
-                UrlConstant.host + "/" + versionBean.appAndroidVersion?.downloadLocation
-            )
+            presenter.downLoadAPk(versionBean.downloadLocation ?: "")
             downLoadDialog.show()
             downLoadDialog.setProgress(0)
         }.show()

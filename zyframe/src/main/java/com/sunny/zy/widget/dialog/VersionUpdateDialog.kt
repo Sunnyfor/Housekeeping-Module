@@ -12,8 +12,8 @@ class VersionUpdateDialog(
 ) :
     AlertDialog.Builder(context) {
     init {
-        setTitle("${versionBean.appAndroidVersion?.versionNumber}版本上线了")
-        setMessage(versionBean.appAndroidVersion?.updateDetails)
+        setTitle("${versionBean.versionNumber}版本上线了")
+        setMessage(versionBean.updateDetails)
         setPositiveButton("马上尝试") { _: DialogInterface, _: Int ->
             updateListener?.invoke()
         }

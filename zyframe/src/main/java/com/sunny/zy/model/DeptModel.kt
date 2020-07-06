@@ -2,9 +2,9 @@ package com.sunny.zy.model
 
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.bean.DeptBean
-import com.sunny.zy.http.OnResult
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.http.bean.HttpResultBean
 
 /**
  * Desc 获取部门信息
@@ -14,12 +14,10 @@ import com.sunny.zy.http.ZyHttp
  */
 class DeptModel {
     suspend fun loadDept(): DeptBean? {
-        val httpResultBean = ZyHttp.get(
-            UrlConstant.DEPARTMENT_OF_TREE,
-            null,
-            object : OnResult<BaseModel<DeptBean>>() {})
-        if (httpResultBean.isSuccess()) {
+        val httpResultBean = object : HttpResultBean<BaseModel<DeptBean>>() {}
+        ZyHttp.get(UrlConstant.DEPARTMENT_OF_TREE, null, httpResultBean)
 
+        if (httpResultBean.isSuccess()) {
             httpResultBean.bean?.let {
                 if (it.isSuccess()) {
                     return it.data

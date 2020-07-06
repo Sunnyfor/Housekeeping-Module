@@ -1,11 +1,11 @@
 package com.zhkj.housekeeping.login.model
 
 import com.sunny.zy.base.BaseModel
-import com.sunny.zy.http.OnResult
+import com.sunny.zy.bean.UserInfoBean
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.utils.ToastUtil
-import com.sunny.zy.bean.UserInfoBean
 import org.json.JSONObject
 
 /**
@@ -32,10 +32,8 @@ class LoginModel {
         json.put("username", username)
         json.put("password", password)
 
-        val httpResultBean = ZyHttp.postJson(
-            UrlConstant.SYS_LOGIN,
-            json.toString(),
-            object : OnResult<BaseModel<UserInfoBean>>("sysUserEntityVo") {})
+        val httpResultBean = object : HttpResultBean<BaseModel<UserInfoBean>>("sysUserEntityVo") {}
+        ZyHttp.postJson(UrlConstant.SYS_LOGIN, json.toString(), httpResultBean)
 
         //HTTP请求成功
         if (httpResultBean.isSuccess()) {

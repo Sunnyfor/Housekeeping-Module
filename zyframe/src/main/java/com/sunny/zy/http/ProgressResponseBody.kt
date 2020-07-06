@@ -50,7 +50,5 @@ class ProgressResponseBody(
 
     interface ProgressResponseListener {
         fun onResponseProgress(bytesRead: Long, contentLength: Long, done: Boolean)
-        fun onComplete(path: String)
-        fun onFailure(message: String)
     }
 }

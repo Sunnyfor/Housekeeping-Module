@@ -3,9 +3,9 @@ package com.sunny.zy.leader
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.PageModel
 import com.sunny.zy.bean.AllUsersBean
-import com.sunny.zy.http.OnResult
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.utils.ToastUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -25,10 +25,12 @@ class AllUserPresenter(view: IAllUsersView) : BasePresenter<IAllUsersView>(view)
             params["page"] = "1"
             params["limit"] = "-1"
 
-            val resultBean = ZyHttp.post(
+            val resultBean = object : HttpResultBean<PageModel<AllUsersBean>>() {}
+            ZyHttp.post(
                 UrlConstant.GET_ALL_USER_LIST_URL,
                 params,
-                object : OnResult<PageModel<AllUsersBean>>("page") {})
+                resultBean
+            )
 
             view?.hideLoading()
 

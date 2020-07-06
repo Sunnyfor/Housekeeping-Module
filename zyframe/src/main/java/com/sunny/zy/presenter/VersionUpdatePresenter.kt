@@ -1,11 +1,9 @@
 package com.sunny.zy.presenter
 
 import com.sunny.zy.contract.VersionUpdateContract
-import com.sunny.zy.http.ProgressResponseBody
 import com.sunny.zy.model.VersionUpdateModel
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
-import java.text.NumberFormat
 
 /**
  * Desc
@@ -25,7 +23,7 @@ class VersionUpdatePresenter(view: VersionUpdateContract.View) :
         launch(Main) {
             val versionBean = versionUpdateModel.checkVersion(version)
             if (versionBean != null) {
-                if (versionBean.appAndroidVersion?.versionCode ?: 0 > version) {
+                if (versionBean.versionCode ?: 0 > version) {
                     view?.showVersionUpdate(versionBean)
                 } else {
                     view?.noNewVersion()
@@ -37,45 +35,12 @@ class VersionUpdatePresenter(view: VersionUpdateContract.View) :
     //下载新版本APK
     override fun downLoadAPk(url: String) {
         launch(Main) {
-            versionUpdateModel.downLoadAPK(url, "housekeeping.apk", object :
-                ProgressResponseBody.ProgressResponseListener {
-
-                val numberFormat = NumberFormat.getInstance().apply {
-                    maximumFractionDigits = 0
+            val file = versionUpdateModel.downLoadAPK(url) {
+                launch(Main) {
+                    view?.progress(it)
                 }
-
-                var progress = 0
-
-                override fun onResponseProgress(
-                    bytesRead: Long,
-                    contentLength: Long,
-                    done: Boolean
-                ) {
-                    numberFormat.format((bytesRead.toFloat() / contentLength.toFloat()) * 100)
-                        .toInt().let {
-                            if (it != progress) {
-                                progress = it
-                                launch(Main) {
-                                    view?.progress(progress)
-                                }
-                            }
-                        }
-                }
-
-                override fun onComplete(path: String) {
-                    launch(Main) {
-                        view?.downLoadResult(path)
-                    }
-                }
-
-                override fun onFailure(message: String) {
-                    launch(Main) {
-                        view?.showMessage("下载错误:$message")
-                    }
-
-                }
-
-            })
+            }
+            view?.downLoadResult(file?.path ?: "")
         }
     }
 

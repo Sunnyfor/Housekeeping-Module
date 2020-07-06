@@ -7,9 +7,9 @@ import com.example.housekeeping.work.joint.bean.Reply
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
 import com.sunny.zy.bean.Dictionary
-import com.sunny.zy.http.OnResult
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.utils.ToastUtil
 import org.json.JSONObject
 
@@ -37,12 +37,8 @@ class JointViewModel() : ViewModel() {
         val params = HashMap<String, String>()
         params["name"] = "是否完成"
 
-        val resultBean = ZyHttp.get(
-            UrlConstant.DICT_LIST_URL,
-            params,
-            object : OnResult<PageModel<Dictionary>>() {}
-        )
-
+        val resultBean = object : HttpResultBean<PageModel<Dictionary>>() {}
+        ZyHttp.get(UrlConstant.DICT_LIST_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             jointStateLiveData.value = resultBean.bean?.data?.list ?: arrayListOf()
         } else {
@@ -57,12 +53,8 @@ class JointViewModel() : ViewModel() {
         params["page"] = page.toString()
         params["limit"] = "20"
         params["type"] = type.toString()
-
-        val resultBean = ZyHttp.post(
-            UrlConstant.JOINT_LIST_URL,
-            params,
-            object : OnResult<PageModel<JointBean>>() {}
-        )
+        val resultBean = object : HttpResultBean<PageModel<JointBean>>() {}
+        ZyHttp.post(UrlConstant.JOINT_LIST_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             val result = resultBean.bean?.data?.list ?: arrayListOf()
             if (type == 0) {
@@ -116,18 +108,14 @@ class JointViewModel() : ViewModel() {
         params.put("content", content)
         params.put("synergyIds", synergyIds)
 
-        val resultBean = ZyHttp.postJson(
-            UrlConstant.JOINT_CREATE_URL,
-            params.toString(),
-            object : OnResult<BaseModel<String>>() {}
-        )
+        val resultBean = object : HttpResultBean<BaseModel<String>>() {}
+        ZyHttp.postJson(UrlConstant.JOINT_CREATE_URL, params.toString(), resultBean)
         if (resultBean.isSuccess()) {
             jointCreateLiveData.value = resultBean.bean
         } else {
             ToastUtil.show(resultBean.bean?.msg)
             jointCreateLiveData.value = null
         }
-
     }
 
 
@@ -148,11 +136,8 @@ class JointViewModel() : ViewModel() {
         params.put("checkContent", jointBean.checkContent)
 
 
-        val resultBean = ZyHttp.postJson(
-            UrlConstant.JOINT_CREATE_URL,
-            params.toString(),
-            object : OnResult<BaseModel<String>>() {}
-        )
+        val resultBean = object : HttpResultBean<BaseModel<String>>() {}
+        ZyHttp.postJson(UrlConstant.JOINT_CREATE_URL, params.toString(), resultBean)
         if (resultBean.isSuccess()) {
             jointModifyLiveData.value = resultBean.bean
         } else {
@@ -173,11 +158,8 @@ class JointViewModel() : ViewModel() {
         params.put("synergyId", synergyId)
         params.put("replayContent", replayContent)
 
-        val resultBean = ZyHttp.postJson(
-            UrlConstant.JOINT_REPLY_URL,
-            params.toString(),
-            object : OnResult<ArrayList<Reply>>("list") {}
-        )
+        val resultBean = object : HttpResultBean<ArrayList<Reply>>("list") {}
+        ZyHttp.postJson(UrlConstant.JOINT_REPLY_URL, params.toString(), resultBean)
         if (resultBean.isSuccess()) {
             jointReplyLiveData.value = resultBean.bean
         } else {
@@ -191,11 +173,8 @@ class JointViewModel() : ViewModel() {
         val params = HashMap<String, String>()
         params["id"] = id
 
-        val resultBean = ZyHttp.post(
-            UrlConstant.JOINT_DELETE_URL,
-            params,
-            object : OnResult<BaseModel<String>>() {}
-        )
+        val resultBean = object : HttpResultBean<BaseModel<String>>() {}
+        ZyHttp.post(UrlConstant.JOINT_DELETE_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             jointDeleteLiveData.value = resultBean.bean
         } else {
@@ -210,12 +189,9 @@ class JointViewModel() : ViewModel() {
      */
     suspend fun jointRecycle() {
 
-        val resultBean = ZyHttp.post(
-            UrlConstant.JOINT_RECYCLE_URL,
-            null,
-            object : OnResult<BaseModel<ArrayList<JointBean>>>("synergyEntities") {}
-        )
-
+        val resultBean =
+            object : HttpResultBean<BaseModel<ArrayList<JointBean>>>("synergyEntities") {}
+        ZyHttp.post(UrlConstant.JOINT_RECYCLE_URL, null, resultBean)
         if (resultBean.isSuccess()) {
             jointRecycleLiveData.value = resultBean.bean?.data
         } else {

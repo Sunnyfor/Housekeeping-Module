@@ -1,11 +1,13 @@
 package com.sunny.zy.model
 
+import com.sunny.zy.base.BaseModel
 import com.sunny.zy.bean.VersionBean
-import com.sunny.zy.http.OnResult
-import com.sunny.zy.http.ProgressResponseBody
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
+import com.sunny.zy.http.bean.BaseHttpResultBean
+import com.sunny.zy.http.bean.HttpResultBean
 import java.io.File
+import java.text.NumberFormat
 
 /**
  * Desc
@@ -21,29 +23,52 @@ class VersionUpdateModel {
         val params = hashMapOf<String, String>()
         params["versionCode"] = version.toString()
 
-        val httpResultBean = ZyHttp.post(
+        val httpResultBean = object : HttpResultBean<BaseModel<VersionBean>>("appAndroidVersion") {}
+
+        ZyHttp.post(
             UrlConstant.APP_VERSION_UPDATE_URL,
             params,
-            object : OnResult<VersionBean>() {})
+            httpResultBean
+        )
 
         if (httpResultBean.isSuccess()) {
-            return httpResultBean.bean
+            if (httpResultBean.bean?.isSuccess() == true)
+                return httpResultBean.bean?.data
         }
         return null
     }
 
 
     suspend fun downLoadAPK(
-        url: String,
-        fileName: String,
-        progressResponseListener: ProgressResponseBody.ProgressResponseListener
-    ) {
+        url: String, result: ((progress: Int) -> Unit)
+    ): File? {
 
+        val fileName = "housekeeping.apk"
         val file = File(UrlConstant.TEMP, fileName)
         if (file.exists()) {
             file.delete()
         }
-        ZyHttp.download(url, fileName, progressResponseListener)
+
+        var progress = 0
+        val httpResultBean = object : HttpResultBean<File>(fileName) {
+            override fun notifyData(baseHttpResultBean: BaseHttpResultBean<File>) {
+                val numberFormat = NumberFormat.getInstance().apply {
+                    maximumFractionDigits = 0
+                }
+                numberFormat.format((baseHttpResultBean.readLength.toFloat() / baseHttpResultBean.contentLength.toFloat()) * 100)
+                    .toInt().let { mProgress ->
+                        if (mProgress != progress) {
+                            progress = mProgress
+                            result.invoke(progress)
+                        }
+                    }
+            }
+        }
+        ZyHttp.get(url, null, httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            return httpResultBean.bean
+        }
+        return null
     }
 
 }
