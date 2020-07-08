@@ -1,5 +1,6 @@
 package com.zhkj.housekeeping.login.presenter
 
+import android.content.Context
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.login.LoginContract
@@ -19,6 +20,8 @@ class LoginPresenter(view: LoginContract.IView) : LoginContract.Presenter(view) 
         LoginModel()
     }
 
+    private val permissionsList = arrayListOf<String>()
+
     /**
      * 登录方法
      * @param username 账号
@@ -34,8 +37,21 @@ class LoginPresenter(view: LoginContract.IView) : LoginContract.Presenter(view) 
                 SpUtil.setString(SpUtil.password, password) //持久化存储密码
                 SpUtil.setObject(SpUtil.userInfoBean, userInfoBean) //持久化存储用户信息
                 ZyFrameStore.setUserInfoBean(userInfoBean) //进行内存存储用户信息
-                view?.loginResult(userInfoBean)
+                view?.showLoginResult(userInfoBean)
             }
+        }
+    }
+
+    /**
+     *  检查APP所需权限
+     */
+    fun checkPermission(context: Context) {
+        permissionsList.clear()
+        val hasPermission = loginModel.checkPermission(context, permissionsList)
+        if (hasPermission) {
+            view?.permissionOk()
+        } else {
+            view?.permissionsNo(Array(permissionsList.size) { permissionsList[it] })
         }
     }
 }

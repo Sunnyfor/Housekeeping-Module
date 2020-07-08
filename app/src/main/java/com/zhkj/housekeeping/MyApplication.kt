@@ -1,4 +1,4 @@
-package com.zhkj
+package com.zhkj.housekeeping
 
 import android.app.Application
 import com.alibaba.android.arouter.launcher.ARouter
@@ -15,8 +15,8 @@ class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         ZyFrameStore.init(this)
-        ARouter.init(this)
-        ARouter.openDebug()
         ARouter.openLog()
+        ARouter.openDebug()
+        ARouter.init(this)
     }
 }

@@ -1,23 +1,24 @@
 package com.sunny.zy.utils
 
-import android.os.Environment
+import android.net.Uri
+import android.os.Build
+import androidx.core.content.FileProvider
 import com.sunny.zy.ZyFrameStore
+import com.sunny.zy.http.Constant
+import com.sunny.zy.http.UrlConstant
 import java.io.File
 import java.text.DecimalFormat
 
 /**
  * 文件操作相关工具类
  */
-class FileUtils {
+object FileUtils {
 
     /**
      * 获取换成你文件路径
      */
-    fun getCacheDir(): File {
-        val file = File(
-            Environment.getExternalStorageDirectory(),
-            "${ZyFrameStore.getContext()?.packageName}/temp"
-        )
+    private fun getCacheDir(): File {
+        val file = File(UrlConstant.TEMP ?: "")
         if (!file.exists()) {
             file.mkdirs()
         }
@@ -96,7 +97,7 @@ class FileUtils {
      * 删除所有缓存文件
      */
     fun deleteAllFile() {
-        getCacheDir().listFiles().forEach {
+        getCacheDir().listFiles()?.forEach {
             deleteFolderFile(it.path)
         }
     }
@@ -113,4 +114,22 @@ class FileUtils {
         }
     }
 
+    /**
+     * 从一个文件路径得到URI
+     */
+    fun getUriFromPath(path: String): Uri? {
+        try {
+            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                FileProvider.getUriForFile(
+                    ZyFrameStore.getContext(), Constant.authorities, File(path)
+                )
+            } else {
+                Uri.fromFile(File(path))
+            }
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return null
+    }
 }

@@ -1,7 +1,13 @@
 package com.zhkj.housekeeping.work
 
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseFragment
+import com.sunny.zy.utils.RouterPath
+import com.zhkj.housekeeping.work.adapter.WorkFunctionAdapter
+import com.zhkj.housekeeping.work.bean.FunctionBean
+import kotlinx.android.synthetic.main.fram_work.*
 
 /**
  * Desc
@@ -10,10 +16,50 @@ import com.sunny.zy.base.BaseFragment
  * Date 2020/6/12 18:42
  */
 class WorkFragment : BaseFragment() {
+    private val functionList = arrayListOf<FunctionBean>()
+
+
     override fun setLayout(): Int = R.layout.fram_work
 
     override fun initView() {
-        getBaseActivity().simpleTitle(getString(R.string.workbench))
+        getBaseActivity().simpleTitle(getString(R.string.workbench)).apply {
+            elevation = 0F
+        }
+
+        functionList.add(FunctionBean().apply {
+            title = "签到"
+            icon = R.drawable.svg_work_sign
+            onClickListener = View.OnClickListener {
+                ARouter.getInstance().build(RouterPath.SIGN_IN_ACTIVITY).navigation()
+            }
+        })
+
+        functionList.add(FunctionBean().apply {
+            title = "计划"
+            icon = R.drawable.svg_work_plan
+        })
+
+        functionList.add(FunctionBean().apply {
+            title = "项目"
+            icon = R.drawable.svg_work_project
+        })
+
+        functionList.add(FunctionBean().apply {
+            title = "任务"
+            icon = R.drawable.svg_work_task
+        })
+
+        functionList.add(FunctionBean().apply {
+            title = "协同"
+            icon = R.drawable.svg_work_joint
+        })
+
+        recycler.layoutManager = GridLayoutManager(context, 4)
+        recycler.adapter = WorkFunctionAdapter(functionList)
+    }
+
+    override fun onClickEvent(view: View) {
+
     }
 
     override fun loadData() {
@@ -24,7 +70,4 @@ class WorkFragment : BaseFragment() {
 
     }
 
-    override fun onClick(v: View?) {
-
-    }
 }

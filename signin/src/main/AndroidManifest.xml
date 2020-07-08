@@ -1,0 +1,8 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhkj.housekeeping.signin">
+
+    <application>
+        <activity android:name=".activity.SignInActivity" />
+        <activity android:name=".activity.SignInRecordActivity" />
+    </application>
+</manifest>

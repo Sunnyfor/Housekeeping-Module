@@ -75,7 +75,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         minePresenter.cancel()
     }
 
-    override fun onClick(v: View) {
+    override fun onClickEvent(v: View) {
         when (v.id) {
             rl_person_info.id -> {
 

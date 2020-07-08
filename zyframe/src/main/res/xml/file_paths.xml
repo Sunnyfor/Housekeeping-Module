@@ -2,6 +2,6 @@
 <paths>
     <!--外部存储空间根目录-->
     <external-files-path
-        name="temp"
+        name="external"
         path="temp" />
 </paths>

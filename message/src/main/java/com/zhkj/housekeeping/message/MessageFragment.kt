@@ -10,6 +10,9 @@ class MessageFragment : BaseFragment() {
         getBaseActivity().simpleTitle(getString(R.string.message))
     }
 
+    override fun onClickEvent(view: View) {
+    }
+
     override fun loadData() {
 
     }
@@ -18,7 +21,4 @@ class MessageFragment : BaseFragment() {
 
     }
 
-    override fun onClick(v: View?) {
-
-    }
 }

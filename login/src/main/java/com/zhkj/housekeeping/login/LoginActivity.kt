@@ -1,11 +1,12 @@
 package com.zhkj.housekeeping.login
 
-import android.content.Context
+import android.os.Build
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
@@ -45,14 +46,12 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
         }
 
         //拦截键盘的ENTER进行快捷登录
-        et_password.setOnEditorActionListener { v, _, event ->
+        et_password.setOnEditorActionListener { _, _, event ->
 
             if (event.keyCode == KeyEvent.KEYCODE_ENTER) {
                 btn_login.performClick()
                 //获取输入服务
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                if (imm.isActive)
-                    imm.hideSoftInputFromWindow(v.applicationWindowToken, 0)
+                hideKeyboard()
             }
             return@setOnEditorActionListener false
         }
@@ -62,11 +61,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     }
 
     override fun loadData() {
-        val userInfoBean = SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)
-        if (userInfoBean != null) {
-            ZyFrameStore.setUserInfoBean(userInfoBean)
-            loginResult(userInfoBean)
-        }
+        loginPresenter.checkPermission(this)
     }
 
     override fun close() {
@@ -81,9 +76,43 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
         }
     }
 
-    override fun loginResult(user: UserInfoBean) {
+    override fun showLoginResult(user: UserInfoBean) {
         ARouter.getInstance().build(RouterPath.APP_MAIN_ACTIVITY).navigation()
         finish()
+    }
+
+
+    override fun permissionOk() {
+        val userInfoBean = SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)
+        if (userInfoBean != null) {
+            ZyFrameStore.setUserInfoBean(userInfoBean)
+            showLoginResult(userInfoBean)
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    override fun permissionsNo(permissions: Array<String>) {
+        AlertDialog.Builder(this)
+            .setCancelable(true)
+            .setTitle("提示")
+            .setMessage("获取不到授权，APP将无法正常使用，请允许APP获取权限！")
+            .setPositiveButton("确定") { _, _ ->
+                requestPermissions(permissions, BuildConfig.VERSION_CODE)
+            }.setNegativeButton("取消") { _, _ ->
+                finish()
+            }.show()
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //检查APP权限
+        loginPresenter.checkPermission(this)
     }
 
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sign_in">签到</string>
+    <string name="day_card">日签卡</string>
+    <string name="sign_in_video">签到视频</string>
+    <string name="sign_in_now">立即签到</string>
+    <string name="body_temperature_today_hint">今日量体温了吗？</string>
+    <string name="body_temperature_today">今日小主体温 / °C：</string>
+    <string name="sign_in_record">签到记录</string>
+</resources>

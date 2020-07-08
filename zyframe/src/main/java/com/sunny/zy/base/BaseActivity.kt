@@ -1,17 +1,18 @@
 package com.sunny.zy.base
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStoreOwner
 import com.sunny.zy.R
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.utils.ToastUtil
@@ -37,9 +38,10 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT //强制屏幕
         window.statusBarColor = ContextCompat.getColor(this, R.color.color_theme)
         setContentView(R.layout.zy_activity_base)
-        val bodyView = LayoutInflater.from(this).inflate(setLayout(), null, false)
-        frameBody.addView(bodyView)
-
+        if (setLayout() != 0) {
+            val bodyView = LayoutInflater.from(this).inflate(setLayout(), null, false)
+            frameBody.addView(bodyView)
+        }
         ZyFrameStore.addActivity(this)
 
         initView()
@@ -121,12 +123,6 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
     }
 
 
-    override fun getViewModelStoreOwner(): ViewModelStoreOwner = this
-
-
-    override fun getLifLifecycleOwner(): LifecycleOwner = this
-
-
     /**
      * 批量注册点击事件
      * @param views 注册事件的View
@@ -150,9 +146,9 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
      */
     fun simpleTitle(title: String): Toolbar {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = ""
+        toolbar.title = title
         toolbar.visibility = View.VISIBLE
-        getTitleView().text = title
+        getRightImageView().visibility = View.GONE
         setSupportActionBar()
         return toolbar
     }
@@ -164,10 +160,41 @@ abstract class BaseActivity : AppCompatActivity(), IBaseView,
         title: String
     ): Toolbar {
         val toolbar = simpleTitle(title)
-        toolbar.setNavigationIcon(R.drawable.svg_title_back)
+        toolbar.setNavigationIcon(R.drawable.svg_title_white)
+        toolbar.setNavigationOnClickListener {
+            finish()
+        }
         return toolbar
     }
 
+
+    fun rightTitle(
+        title: String,
+        res: Int,
+        onClickListener: View.OnClickListener? = null
+    ): Toolbar {
+        val toolbar = defaultTitle(title)
+        getRightImageView().apply {
+            visibility = View.VISIBLE
+            setImageResource(res)
+            setOnClickListener(onClickListener)
+        }
+        return toolbar
+    }
+
+    private fun getRightImageView() = toolbar.findViewById<ImageView>(R.id.iv_right)
+
+
+    /**
+     * 隐藏输入法键盘
+     */
+    fun hideKeyboard() {
+        val im = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        im.hideSoftInputFromWindow(
+            this.currentFocus?.windowToken,
+            InputMethodManager.HIDE_NOT_ALWAYS
+        )
+    }
 
     override fun onDestroy() {
         super.onDestroy()

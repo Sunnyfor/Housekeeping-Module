@@ -12,7 +12,7 @@ object Constant {
 
     var host = ""
 
-    const val authorities = "com.example.housekeeping.provider"
+    const val authorities = "com.zhkj.housekeeping.provider"
 
     const val VERSION = "v1"  //接口版本
 }

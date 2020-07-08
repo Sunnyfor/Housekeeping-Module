@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_120"
+    android:layout_marginBottom="@dimen/dp_5"
+    android:layout_margin="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:contentDescription="@string/app_name"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_sign_in" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/style_font_black"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_8"
+        android:textSize="@dimen/sp_14"
+        android:textStyle="bold"
+        tools:text="2019-10-06 21:10:40" />
+
+    <TextView
+        android:id="@+id/tv_temperature"
+        style="@style/style_font_black"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textSize="@dimen/sp_24"
+        android:textStyle="bold"
+        tools:text="37°C" />
+
+</RelativeLayout>

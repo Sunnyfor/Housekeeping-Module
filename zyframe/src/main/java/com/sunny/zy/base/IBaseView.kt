@@ -19,8 +19,4 @@ interface IBaseView {
     fun hideError(errorType: ErrorViewType)
 
     fun showMessage(message: String)
-
-    fun getViewModelStoreOwner():ViewModelStoreOwner
-
-    fun getLifLifecycleOwner(): LifecycleOwner
 }

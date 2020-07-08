@@ -13,7 +13,9 @@ import com.sunny.zy.bean.UserInfoBean
 interface LoginContract {
 
     interface IView : IBaseView {
-        fun loginResult(user: UserInfoBean)
+        fun showLoginResult(user: UserInfoBean)
+        fun permissionOk()
+        fun permissionsNo(permissions: Array<String>)
     }
 
     abstract class Presenter(view: IView) : BasePresenter<IView>(view) {

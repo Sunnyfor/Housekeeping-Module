@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelStoreOwner
 import com.sunny.zy.widget.utils.OverlayViewUtils
 
 
@@ -28,8 +26,8 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         savedInstanceState: Bundle?
     ): View? {
         this.savedInstanceState = savedInstanceState
-        if (rootView == null) {
-            rootView = FrameLayout(requireContext())
+        rootView = FrameLayout(requireContext())
+        if (setLayout() != 0) {
             bodyView = inflater.inflate(setLayout(), container, false)
             rootView?.addView(bodyView)
         }
@@ -46,17 +44,28 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     fun getBaseActivity(): BaseActivity = requireActivity() as BaseActivity
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        close()
+    /**
+     * 批量注册点击事件
+     * @param views 注册事件的View
+     */
+    fun setOnClickListener(vararg views: View, onClickListener: View.OnClickListener? = this) {
+        views.forEach {
+            it.setOnClickListener(onClickListener)
+        }
     }
+
 
     abstract fun setLayout(): Int
 
     abstract fun initView()
 
+    abstract fun onClickEvent(view: View)
+
     abstract fun loadData()
 
+    fun setLayoutView(view: View) {
+        rootView?.addView(view)
+    }
 
     override fun showMessage(message: String) {
         getBaseActivity().showMessage(message)
@@ -78,10 +87,17 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
         overlayViewBean.hideView(rootView ?: return, ErrorViewType.networkError)
     }
 
+    override fun onClick(v: View) {
+        onClickEvent(v)
+    }
 
-    override fun getLifLifecycleOwner(): LifecycleOwner = this
 
-    override fun getViewModelStoreOwner(): ViewModelStoreOwner = this
+    override fun onDestroyView() {
+        super.onDestroyView()
+        close()
+    }
 
     abstract fun close()
+
+
 }

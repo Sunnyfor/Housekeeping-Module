@@ -65,4 +65,10 @@ object UrlConstant {
      * 协同回收站
      */
     const val JOINT_RECYCLE_URL = "app/synergy/synergyRubbish"
+
+    /**
+     * 文件上传
+     */
+    const val STS_UPLOAD = "sys/sysfujian/upload"
+
 }
