@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--创建项目页面输入框的样式-->
+
+    <style name="style_create_project_edit" parent="style_common_edit">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/transparent</item>
+    </style>
+
+
+    <style name="style_title_icon">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/color_black</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:gravity">center</item>
+    </style>
+</resources>

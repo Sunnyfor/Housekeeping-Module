@@ -37,6 +37,8 @@ class PullRefreshRecyclerLayout : SmartRefreshLayout {
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
+    var isShowEmptyView = true
+
     init {
         setRefreshHeader(ClassicsHeader(context))
         setRefreshFooter(ClassicsFooter(context))
@@ -54,11 +56,16 @@ class PullRefreshRecyclerLayout : SmartRefreshLayout {
     }
 
     fun showEmptyView() {
-        hideEmptyView()
-        fmLayout.addView(emptyView, layoutParams)
+        if (isShowEmptyView){
+            hideEmptyView()
+            fmLayout.addView(emptyView, layoutParams)
+        }
+
     }
 
     fun hideEmptyView() {
-        fmLayout.removeView(emptyView)
+        if (isShowEmptyView){
+            fmLayout.removeView(emptyView)
+        }
     }
 }

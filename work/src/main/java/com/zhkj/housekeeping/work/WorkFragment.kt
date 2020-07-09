@@ -37,6 +37,10 @@ class WorkFragment : BaseFragment() {
         functionList.add(FunctionBean().apply {
             title = "计划"
             icon = R.drawable.svg_work_plan
+            onClickListener = View.OnClickListener {
+                ARouter.getInstance().build(RouterPath.PLAN_ACTIVITY).navigation()
+            }
+
         })
 
         functionList.add(FunctionBean().apply {

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="add_plan">添加计划</string>
+    <string name="today">今天</string>
+    <string name="input_title">输入标题</string>
+    <string name="plan_status">计划状态</string>
+    <string name="to_be_executed">待执行</string>
+    <string name="select_or_search">请选择或搜索</string>
+    <string name="execution_module">执行模块</string>
+    <string name="plan_day">计划天数</string>
+    <string name="day">天</string>
+    <string name="default_day">1</string>
+    <string name="plan_cycle">计划周期</string>
+    <string name="until">&#160;&#160;至&#160;&#160;</string>
+    <string name="add_content">添加内容</string>
+    <string name="commit">提交</string>
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+</resources>

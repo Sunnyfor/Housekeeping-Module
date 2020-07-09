@@ -22,6 +22,7 @@ open class PullRefreshFragment<T> : BaseFragment() {
     var loadData: (() -> Unit)? = null
     var enableRefresh: Boolean = true
     var enableLoadMore: Boolean = true
+    var isShowEmptyView = true
 
     private val pullRefreshLayout: PullRefreshRecyclerLayout by lazy {
         PullRefreshRecyclerLayout(context)
@@ -32,6 +33,7 @@ open class PullRefreshFragment<T> : BaseFragment() {
     override fun initView() {
 
         setLayoutView(pullRefreshLayout)
+        pullRefreshLayout.isShowEmptyView = isShowEmptyView
         pullRefreshLayout.setUnEnableRefreshAndLoad(enableRefresh, enableLoadMore)
         pullRefreshLayout.recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(context)
         pullRefreshLayout.recyclerView.adapter = adapter
