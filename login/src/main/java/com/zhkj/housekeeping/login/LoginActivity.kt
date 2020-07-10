@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
@@ -27,6 +28,10 @@ import kotlinx.coroutines.cancel
 @Route(path = RouterPath.LOGIN_LOGIN_ACTIVITY)
 class LoginActivity : BaseActivity(), LoginContract.IView {
 
+    @JvmField
+    @Autowired
+    var logout:Boolean = false
+
     private val loginPresenter: LoginPresenter by lazy {
         LoginPresenter(this)
     }
@@ -34,6 +39,13 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     override fun setLayout(): Int = R.layout.act_login
 
     override fun initView() {
+        ARouter.getInstance().inject(this)
+
+        if (logout){
+            //关闭其他所有页面
+            ZyFrameStore.finishAllActivity(this)
+            SpUtil.clear()
+        }
 
         //设置密码显示与隐藏
         cb_show_password.setOnCheckedChangeListener { _, isChecked ->

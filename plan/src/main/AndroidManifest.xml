@@ -3,6 +3,8 @@
 
     <application>
         <activity android:name=".activity.PlanActivity" />
-        <activity android:name=".activity.PlanExtendActivity" />
+        <activity
+            android:name=".activity.PlanExtendActivity"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>

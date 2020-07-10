@@ -71,6 +71,43 @@ class PlanExtendModel {
         return null
     }
 
+    //修改计划
+    suspend fun updatePlan(
+        planId: String,
+        planTitle: String,
+        activeStatus: String,
+        contentId: String,
+        content: String
+    ): BaseModel<Any>? {
+        val params = JSONObject()
+        params.put("planId", planId)
+        params.put("planTitle", planTitle)
+        params.put("activeStatus", activeStatus)
+        params.put("contentId", contentId)
+        params.put("content", content)
+
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.postJson(PlanUrlConstant.PLAN_UPDATE_URL, params.toString(), httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true)
+                return httpResultBean.bean
+        }
+        return null
+    }
+
+    //删除计划
+    suspend fun deletePlan(ids: Array<String>): BaseModel<Any>? {
+        val params = JSONArray(ids)
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.postJson(PlanUrlConstant.PLAN_DELETE_URL, params.toString(), httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true)
+                return httpResultBean.bean
+        }
+        return null
+    }
+
+
     /**
      * 计算两个日期相隔天数
      */

@@ -16,7 +16,7 @@ class PlanExtendContract {
 
         fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>)
 
-        fun createPlanSuccess()
+        fun showPlanResult()
     }
 
     abstract class Presenter(iView: IView) : BasePresenter<IView>(iView) {
@@ -41,6 +41,24 @@ class PlanExtendContract {
             isNotTask: String?,
             contentList: java.util.ArrayList<String>
         )
+
+
+        /**
+         * 修改计划
+         */
+        abstract fun updatePlan(
+            planId: String,
+            planTitle: String,
+            activeStatus: String,
+            contentId: String,
+            content: String
+        )
+
+
+        /**
+         * 删除计划
+         */
+        abstract fun deletePlan(ids: Array<String>)
 
     }
 }

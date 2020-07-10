@@ -7,11 +7,12 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.bean.Dictionary
-import com.sunny.zy.utils.LogUtil
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.TimerPackUtil
 import com.sunny.zy.utils.ToastUtil
@@ -39,19 +40,19 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
         const val CRATE = 1
     }
 
+    @JvmField
+    @Autowired
     var type = CRATE
+
+
+    val bean: PlanBean? by lazy {
+        ZyFrameStore.getData<PlanBean>(PlanBean::class.java.simpleName, true)
+    }
+
     private var activeStatus = 0
-    private var planStatusStrArray: Array<String>? = null
 
     private val presenter: PlanExtendPresenter by lazy {
         PlanExtendPresenter(this)
-    }
-
-
-    private val dayMillisecond = 1000L * 60 * 60 * 24
-
-    val bean: PlanBean? by lazy {
-        ZyFrameStore.getData<PlanBean>(PlanBean::class.java.simpleName)
     }
 
     private val contentList = arrayListOf<String>()
@@ -68,7 +69,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
     override fun initView() {
 
-        type = intent.getIntExtra("type", CRATE)
+        ARouter.getInstance().inject(this)
 
         if (type == CRATE) {
             defaultTitle("创建计划")
@@ -76,8 +77,8 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             btn_modify.visibility = View.GONE
             btn_delete.visibility = View.GONE
             btn_commit.visibility = View.VISIBLE
-            cl_plan_status.visibility = View.GONE
-            cl_plan_module.visibility = View.VISIBLE
+            cl_status.visibility = View.GONE
+            cl_module.visibility = View.VISIBLE
 
             val startDate = intent.getStringExtra("date")
 
@@ -88,30 +89,62 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             edit_plan_day.setText("1")
 
             setOnClickListener(
-                tv_plan_module,
-                tv_start_date,
-                tv_end_date,
-                btn_commit
+                tv_start_date, tv_end_date, btn_commit
             )
 
         } else {
             defaultTitle("计划详情")
+
+            edit_plan_day.keyListener = null
+            btn_modify.visibility = View.VISIBLE
+            btn_delete.visibility = View.VISIBLE
+            btn_commit.visibility = View.GONE
+            cl_status.visibility = View.VISIBLE
+            cl_plan_day.visibility = View.GONE
+            cl_cycle.visibility = View.GONE
+
+            bean?.let {
+                activeStatus = it.activeStatus
+                edit_title.setText(it.planTitle)
+                tv_status.text = it.activeStatusName
+                tv_start_date.text = it.planStartDate.replace(" 00:00:00", "")
+                tv_end_date.text = it.planEndDate.replace(" 00:00:00", "")
+                presenter.calculateDay(tv_start_date.text.toString(), tv_end_date.text.toString())
+
+                it.content?.let { content ->
+                    if (content.isNotEmpty()) {
+                        if (content.contains("·")) {
+                            contentList.addAll(content.split("·"))
+                        } else {
+                            contentList.add(content)
+                        }
+                        adapter.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            setOnClickListener(
+                btn_modify, btn_delete
+            )
+
         }
 
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
-        setOnClickListener(tv_add)
+        setOnClickListener(tv_add, tv_plan_module)
 
     }
 
     override fun loadData() {
+        if (type == PREVIEW)
+            presenter.loadPlanExecutionModule()//加载执行模块
     }
 
     override fun onClickEvent(view: View) {
         when (view.id) {
 
-            tv_plan_module.id, iv_module_more.id -> {
+            tv_plan_module.id -> {
                 presenter.loadPlanExecutionModule()//加载执行模块
             }
 
@@ -156,7 +189,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             btn_commit.id -> {
                 //创建计划
                 presenter.createPlan(
-                    edit_plan_title.text.toString(),
+                    edit_title.text.toString(),
                     tv_start_date.text.toString(),
                     tv_end_date.text.toString(),
                     tv_plan_module.tag?.toString(),
@@ -164,8 +197,16 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 )
             }
 
-            tv_plan_status.id, iv_status_more.id -> {
+            tv_status.id -> {
                 presenter.loadPlanStatus()
+            }
+
+            btn_modify.id -> {
+                updatePlan()
+            }
+
+            btn_delete.id -> {
+                showDeleteDialog()
             }
 
         }
@@ -206,12 +247,47 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
     }
 
 
+    //修改计划
+    private fun updatePlan() {
+        val content = StringBuilder()
+        contentList.forEachIndexed { index, str ->
+            content.append(str)
+            if (index != contentList.size - 1) {
+                content.append("·")
+            }
+        }
+        bean?.let {
+            presenter.updatePlan(
+                it.planId.toString(),
+                edit_title.text.toString(),
+                activeStatus.toString(),
+                it.contentId.toString(),
+                content.toString()
+            )
+        }
+    }
+
+    //显示删除Dialog确认框
+    private fun showDeleteDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("删除提醒")
+            .setMessage("是否确定要删除计划？")
+            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
+                bean?.let {
+                    presenter.deletePlan(arrayOf(it.planId.toString()))
+                }
+            }
+            .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
+            .show()
+    }
+
+
     //显示计划状态
     override fun showPlanStatus(dictionaryList: ArrayList<Dictionary>) {
         AlertDialog.Builder(this)
             .setTitle("选择计划状态")
             .setItems(Array(dictionaryList.size) { dictionaryList[it].value }) { _: DialogInterface, index: Int ->
-                tv_plan_status.text = planStatusStrArray?.get(index) ?: ""
+                tv_status.text = dictionaryList[index].value
                 activeStatus = dictionaryList[index].code
             }.show()
     }
@@ -219,17 +295,24 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
     //显示执行模块
     override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {
+
+        if (type == PREVIEW && tv_plan_module.text.toString() == getString(R.string.select_or_search)) {
+            tv_plan_module.text = dictionaryList.find { it.code == bean?.isNotTask }?.value
+            return
+        }
+
         AlertDialog.Builder(this)
             .setTitle("选择执行模块")
             .setItems(Array(dictionaryList.size) { dictionaryList[it].value }) { _, index ->
                 tv_plan_module.text = dictionaryList[index].value
                 tv_plan_module.tag = dictionaryList[index].code
+                bean?.isNotTask = tv_plan_module.tag as Int
             }
             .show()
     }
 
     //计划创建成功
-    override fun createPlanSuccess() {
+    override fun showPlanResult() {
         setResult(Activity.RESULT_OK)
         finish()
     }

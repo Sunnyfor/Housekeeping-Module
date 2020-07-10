@@ -1,5 +1,7 @@
 package com.zhkj.housekeeping.plan.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.view.Menu
 import android.view.View
 import androidx.appcompat.widget.Toolbar
@@ -7,6 +9,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.fragment.PullRefreshFragment
 import com.sunny.zy.utils.RouterPath
@@ -32,9 +35,6 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
     private var calendar: Calendar? = null
 
-    private var currentYear = 2020
-    private var currentMonth = 7
-    private var currentDay = 1
     private val pullRefreshFragment = PullRefreshFragment<PlanBean>()
 
     private val presenter: PlanPresenter by lazy {
@@ -45,17 +45,20 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
     override fun initView() {
 
-        currentYear = calendarView.curYear
-        currentMonth = calendarView.curMonth
-        currentDay = calendarView.curDay
+        calendar = calendarView.selectedCalendar
 
-        toolbar = defaultTitle("${currentYear}年${currentMonth}月")
+        toolbar = defaultTitle("${calendarView.curYear}年${calendarView.curMonth}月")
         toolbar.setOnMenuItemClickListener {
 
             when (it.itemId) {
+
                 R.id.menu_add -> {
-                    ARouter.getInstance().build(RouterPath.PLAN_EXTEND_ACTIVITY).navigation()
+                    val date = "${calendar?.year}-${calendar?.month}-${calendar?.day}"
+                    ARouter.getInstance().build(RouterPath.PLAN_EXTEND_ACTIVITY)
+                        .withInt("type", PlanExtendActivity.CRATE)
+                        .withString("date", date).navigation(this, 10000)
                 }
+
                 R.id.menu_today -> {
                     calendarView.scrollToCurrent(true)
                 }
@@ -73,7 +76,11 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
         pullRefreshFragment.adapter = PlanListAdapter().apply {
             setOnItemClickListener { _, position ->
-                getData(position)
+                ZyFrameStore.setData(PlanBean::class.java.simpleName,getData(position))
+                ARouter.getInstance().build(RouterPath.PLAN_EXTEND_ACTIVITY)
+                    .withInt("type", PlanExtendActivity.PREVIEW)
+                    .navigation(this@PlanActivity, 10000)
+
             }
         }
 
@@ -85,9 +92,24 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     }
 
     override fun loadData() {
-        presenter.loadPlanMark(currentYear, currentMonth)
-        presenter.loadPlanList("${currentYear}-${currentMonth}-${currentDay}", null)
+        loadPlanMark(calendar)
+        loadPlanList()
     }
+
+
+    private fun loadPlanMark(calendar: Calendar?) {
+        calendar?.let {
+            presenter.loadPlanMark(it.year, it.month)
+        }
+
+    }
+
+    private fun loadPlanList() {
+        calendar?.let {
+            presenter.loadPlanList("${it.year}-${it.month}-${it.day}", null)
+        }
+    }
+
 
     override fun onClickEvent(view: View) {
 
@@ -103,31 +125,23 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     }
 
     override fun onCalendarSelect(calendar: Calendar, isClick: Boolean) {
+
+        if (calendar.month != this.calendar?.month) {
+            loadPlanMark(calendar)
+        }
+
         this.calendar = calendar
+        toolbar.title = "${calendar.year}年${calendar.month}月"
         pullRefreshFragment.page = 1
-        presenter.loadPlanList("${calendar.year}-${calendar.month}-${calendar.day}", null)
+        loadPlanList()
     }
 
-    override fun onCalendarOutOfRange(calendar: Calendar) {
+    override fun onCalendarOutOfRange(calendar: Calendar) {}
 
-    }
+    override fun onMonthChange(year: Int, month: Int) {}
 
-    override fun onMonthChange(year: Int, month: Int) {
-        currentYear = year
-        currentMonth = month
-        setTitleDate()
-        loadData()
-    }
+    override fun onYearChange(year: Int) {}
 
-    override fun onYearChange(year: Int) {
-        currentYear = year
-        setTitleDate()
-    }
-
-
-    private fun setTitleDate() {
-        toolbar.title = "${currentYear}年${currentMonth}月"
-    }
 
     override fun showPlanMark(scheme: HashMap<String, Calendar>) {
         calendarView.setSchemeDate(scheme)
@@ -136,5 +150,16 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
     override fun showPlanList(planList: ArrayList<PlanBean>) {
         pullRefreshFragment.addData(planList)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 10000 && resultCode == Activity.RESULT_OK) {
+            calendar?.let {
+                loadPlanMark(it)
+                loadPlanList()
+            }
+        }
     }
 }

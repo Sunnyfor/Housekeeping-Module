@@ -37,7 +37,6 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
                 view?.showPlanStatus(planStatusList)
             }
         }
-
     }
 
     /**
@@ -50,15 +49,18 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
                 planExtendModel.loadPlanExecutionModule()?.let {
                     planStatusList.clear()
                     planStatusList.addAll(it)
-                    view?.showPlanStatus(planStatusList)
+                    view?.showPlanExecutionModule(planStatusList)
                 }
                 hideLoading()
             } else {
-                view?.showPlanStatus(planStatusList)
+                view?.showPlanExecutionModule(planStatusList)
             }
         }
     }
 
+    /**
+     * 创建计划
+     */
     override fun createPlan(
         planTitle: String?,
         planStartDate: String,
@@ -84,7 +86,39 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
                 isNotTask,
                 contentList
             )?.let {
-                view?.createPlanSuccess()
+                view?.showPlanResult()
+            }
+            hideLoading()
+        }
+    }
+
+    override fun updatePlan(
+        planId: String,
+        planTitle: String,
+        activeStatus: String,
+        contentId: String,
+        content: String
+    ) {
+
+        if (planTitle.isEmpty()) {
+            view?.showMessage("请输入计划标题！")
+            return
+        }
+
+        launch(Main) {
+            showLoading()
+            planExtendModel.updatePlan(planId, planTitle, activeStatus, contentId, content)?.let {
+                view?.showPlanResult()
+            }
+            hideLoading()
+        }
+    }
+
+    override fun deletePlan(ids: Array<String>) {
+        launch(Main) {
+            showLoading()
+            planExtendModel.deletePlan(ids)?.let {
+                view?.showPlanResult()
             }
             hideLoading()
         }

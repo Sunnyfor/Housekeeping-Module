@@ -21,15 +21,19 @@ class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
 
     override fun getCompanyInfo() {
         launch(Main) {
+            view?.showLoading()
             view?.showCompanyInfo(mineModel.getMyCompanyInfo())
+            view?.hideLoading()
         }
 
     }
 
     override fun checkUpdateMark() {
+        view?.showLoading()
         if (ZyFrameStore.getData<Boolean>(DataKey.IS_NEW_APP_VERSION) == true) {
             view?.showUpdateMark()
         }
+        view?.hideLoading()
     }
 
     override fun logout() {

@@ -3,6 +3,7 @@ package com.sunny.zy
 import android.content.Context
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.bean.UserInfoBean
+import com.sunny.zy.utils.LogUtil
 import java.util.*
 
 /**
@@ -83,10 +84,16 @@ object ZyFrameStore {
     /**
      * 关闭所有的Activity
      */
-    fun finishAllActivity() {
-        activityStack.forEach {
-            it.finish()
+    fun finishAllActivity(activity: BaseActivity? = null) {
+        activityStack.forEach{
+            if(activity != it){
+                LogUtil.i("关闭:${activity?.packageName}")
+                it.finish()
+            }
         }
         activityStack.clear()
+        activity?.let {
+            activityStack.add(activity)
+        }
     }
 }

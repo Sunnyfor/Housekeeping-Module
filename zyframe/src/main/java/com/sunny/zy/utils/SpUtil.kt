@@ -108,4 +108,12 @@ object SpUtil {
         sharedPreferences.edit().remove(key).apply()
     }
 
+
+    /**
+     * 清空share文件
+     */
+    fun clear() {
+        sharedPreferences.edit().clear().apply()
+    }
+
 }

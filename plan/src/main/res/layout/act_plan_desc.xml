@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edit_plan_title"
+        android:id="@+id/edit_title"
         style="@style/style_item_card_view"
         android:background="@color/white"
         android:hint="@string/input_title"
@@ -20,14 +20,14 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_plan_status"
+        android:id="@+id/cl_status"
         style="@style/style_item_card_view"
         android:background="@color/white"
         android:paddingStart="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_plan_title">
+        app:layout_constraintTop_toBottomOf="@id/edit_title">
 
         <TextView
             style="@style/style_item_card_font"
@@ -37,10 +37,11 @@
 
 
         <TextView
-            android:id="@+id/tv_plan_status"
+            android:id="@+id/tv_status"
             style="@style/style_title_icon"
             android:gravity="center_vertical"
             android:text="@string/to_be_executed"
+            android:textColor="@color/red"
             app:layout_constraintEnd_toStartOf="@id/iv_status_more"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,6 +49,7 @@
             android:id="@+id/iv_status_more"
             style="@style/style_item_card_img"
             android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
             android:contentDescription="@string/app_name"
             android:src="@drawable/svg_more"
             app:layout_constraintEnd_toEndOf="parent"
@@ -56,14 +58,14 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_plan_module"
+        android:id="@+id/cl_module"
         style="@style/style_item_card_view"
         android:background="@color/white"
         android:paddingStart="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_plan_status">
+        app:layout_constraintTop_toBottomOf="@id/cl_status">
 
         <TextView
             style="@style/style_item_card_font"
@@ -100,7 +102,7 @@
         android:paddingEnd="@dimen/dp_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_plan_module">
+        app:layout_constraintTop_toBottomOf="@id/cl_module">
 
         <TextView
             style="@style/style_item_card_font"

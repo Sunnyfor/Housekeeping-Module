@@ -75,8 +75,8 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         minePresenter.cancel()
     }
 
-    override fun onClickEvent(v: View) {
-        when (v.id) {
+    override fun onClickEvent(view: View) {
+        when (view.id) {
             rl_person_info.id -> {
 
                 ToastUtil.show()
@@ -87,7 +87,6 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             }
 
             rl_version.id -> {
-                showLoading()
                 versionPresenter.checkVersion(BuildConfig.VERSION_CODE)
             }
 
@@ -116,9 +115,9 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     }
 
     override fun logout() {
-        ZyFrameStore.finishAllActivity()
         //跳转登录页面
-        ARouter.getInstance().build(RouterPath.LOGIN_LOGIN_ACTIVITY).navigation()
+        ARouter.getInstance().build(RouterPath.LOGIN_LOGIN_ACTIVITY)
+            .withBoolean("logout", true).navigation()
 
     }
 
@@ -137,7 +136,6 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
 
     override fun showVersionUpdate(versionBean: VersionBean) {
-        hideLoading()
         VersionUpdateDialog(requireContext(), versionBean) {
             versionPresenter.downLoadAPk(
                 UrlConstant.host + "/" + versionBean.downloadLocation
@@ -148,7 +146,6 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     }
 
     override fun noNewVersion() {
-        hideLoading()
         iv_version_mark.visibility = View.GONE
         ToastUtil.show("当前版本已是最新！")
     }
