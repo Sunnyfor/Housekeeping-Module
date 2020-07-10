@@ -41,7 +41,7 @@
             style="@style/style_title_icon"
             android:gravity="center_vertical"
             android:text="@string/to_be_executed"
-            android:textColor="@color/red"
+            android:textColor="@color/color_theme"
             app:layout_constraintEnd_toStartOf="@id/iv_status_more"
             app:layout_constraintTop_toTopOf="parent" />
 
