@@ -14,9 +14,9 @@
         style="@style/style_font_black"
         android:layout_width="0dp"
         android:text="@string/app_name"
-        android:textSize="@dimen/sp_17"
         android:textColor="@color/color_theme"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintEnd_toStartOf="@id/view_setting"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,10 +35,22 @@
 
     <TextView
         android:id="@+id/tv_task_status"
-        style="@style/style_font_gray"
+        style="@style/style_font_black"
         android:layout_margin="0dp"
         android:text="@string/to_be_executed"
-        android:textColor="@color/color_theme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_task_time" />
+
+
+    <ImageView
+        android:id="@+id/view_setting"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="@dimen/dp_30"
+        android:src="@drawable/svg_plan_setting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingStart="@dimen/dp_5"
+        android:paddingEnd="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
