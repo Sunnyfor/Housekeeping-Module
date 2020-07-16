@@ -5,19 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edit_title"
-        style="@style/style_item_card_view"
-        android:background="@color/white"
-        android:hint="@string/input_title"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_10"
-        android:textColor="@color/color_theme"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <EditText
+            android:id="@+id/edit_title"
+            style="@style/style_item_card_view"
+            android:hint="@string/input_title"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:textColor="@color/color_theme"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_status"
@@ -27,7 +33,7 @@
         android:paddingEnd="@dimen/dp_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edit_title">
+        app:layout_constraintTop_toBottomOf="@id/cl_title">
 
         <TextView
             style="@style/style_item_card_font"
@@ -41,18 +47,9 @@
             style="@style/style_title_icon"
             android:gravity="center_vertical"
             android:text="@string/to_be_executed"
-            app:layout_constraintEnd_toStartOf="@id/iv_status_more"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_status_more"
-            style="@style/style_item_card_img"
-            android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/svg_more"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -219,29 +216,12 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_modify"
             style="@style/style_common_btn"
-            android:layout_width="0dp"
             android:layout_marginTop="@dimen/dp_10"
             android:layout_marginBottom="@dimen/dp_10"
-            android:text="@string/save"
+            android:text="@string/modify"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/btn_delete"
-            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_delete"
-            style="@style/style_common_btn"
-            android:layout_width="0dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginBottom="@dimen/dp_10"
-            android:text="@string/delete"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintStart_toEndOf="@id/btn_modify"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

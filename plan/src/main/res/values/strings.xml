@@ -14,6 +14,7 @@
     <string name="until">&#160;&#160;至&#160;&#160;</string>
     <string name="add_content">添加内容</string>
     <string name="commit">提交</string>
+    <string name="modify">修改</string>
     <string name="save">保存</string>
     <string name="delete">删除</string>
 </resources>

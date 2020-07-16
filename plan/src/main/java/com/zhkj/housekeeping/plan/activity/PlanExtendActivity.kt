@@ -4,8 +4,14 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -75,7 +81,6 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             defaultTitle("创建计划")
 
             btn_modify.visibility = View.GONE
-            btn_delete.visibility = View.GONE
             btn_commit.visibility = View.VISIBLE
             cl_status.visibility = View.GONE
             cl_module.visibility = View.VISIBLE
@@ -95,9 +100,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
         } else {
             defaultTitle("计划详情")
 
-            edit_plan_day.keyListener = null
             btn_modify.visibility = View.VISIBLE
-            btn_delete.visibility = View.VISIBLE
             btn_commit.visibility = View.GONE
             cl_status.visibility = View.VISIBLE
             cl_plan_day.visibility = View.GONE
@@ -121,10 +124,20 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                         adapter.notifyDataSetChanged()
                     }
                 }
+
+                if (it.activeStatus == 2) {
+                    edit_title.keyListener = null
+                    edit_title.setBackgroundResource(R.color.color_white)
+                    btn_modify.visibility = View.GONE
+                    tv_add.visibility = View.GONE
+                    iv_module_more.visibility = View.GONE
+                } else {
+                    tv_plan_module.setOnClickListener(this)
+                }
             }
 
             setOnClickListener(
-                btn_modify, btn_delete
+                btn_modify
             )
 
         }
@@ -132,7 +145,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
-        setOnClickListener(tv_add, tv_plan_module)
+        tv_add.setOnClickListener(this)
 
     }
 
@@ -201,10 +214,9 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 updatePlan()
             }
 
-            btn_delete.id -> {
-                showDeleteDialog()
+            tv_add.id -> {
+                showAddDialog()
             }
-
         }
     }
 
@@ -307,4 +319,43 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
     override fun showDeletePlantResult(id: Int) {}
 
     override fun showCompletePlantResult(id: Int) {}
+
+
+    private fun showAddDialog() {
+        val parentLayout = RelativeLayout(this)
+        val editLayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+        editLayoutParams.leftMargin = resources.getDimension(R.dimen.dp_20).toInt()
+        editLayoutParams.rightMargin = resources.getDimension(R.dimen.dp_20).toInt()
+        editLayoutParams.topMargin = resources.getDimension(R.dimen.dp_20).toInt()
+
+        val editText = EditText(this)
+        editText.setPadding(resources.getDimension(R.dimen.dp_10).toInt(),
+            resources.getDimension(R.dimen.dp_10).toInt(),
+            resources.getDimension(R.dimen.dp_10).toInt(),
+            resources.getDimension(R.dimen.dp_10).toInt())
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.sp_14))
+        editText.setBackgroundResource(R.drawable.sel_border)
+        editText.imeOptions = EditorInfo.TYPE_CLASS_TEXT
+        editText.isSingleLine = false
+        editText.setLines(3)
+        editText.gravity = Gravity.TOP
+
+        editText.hint = "请输入内容"
+        editText.setTextColor(ContextCompat.getColor(this, R.color.color_theme))
+        parentLayout.addView(editText, editLayoutParams)
+        AlertDialog.Builder(this)
+            .setTitle("添加内容")
+            .setView(parentLayout)
+            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
+                val content = editText.text.toString()
+                if (content.isNotEmpty()) {
+                    val no = contentList.size + 1
+                    contentList.add("$no.$content")
+                    adapter.notifyDataSetChanged()
+                    recycler.layoutManager?.scrollToPosition(contentList.size - 1)
+                }
+            }
+            .setPositiveButton("关闭") { _: DialogInterface, _: Int -> }
+            .show()
+    }
 }

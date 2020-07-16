@@ -190,13 +190,9 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     }
 
 
-    override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {
+    override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {}
 
-    }
-
-    override fun showCreatePlanResult() {
-
-    }
+    override fun showCreatePlanResult() {}
 
     override fun showTransferNextWeekResult() {
         loadPlanMark(calendar)
