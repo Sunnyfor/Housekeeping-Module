@@ -1,10 +1,12 @@
 package com.zhkj.housekeeping.plan.model
 
+import com.google.gson.Gson
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.model.DictionaryModel
+import com.zhkj.housekeeping.plan.bean.PlanBean
 import com.zhkj.housekeeping.plan.http.PlanUrlConstant
 import com.zhkj.housekeeping.plan.util.DateUtil
 import org.json.JSONArray
@@ -96,10 +98,42 @@ class PlanExtendModel {
     }
 
     //删除计划
-    suspend fun deletePlan(ids: Array<String>): BaseModel<Any>? {
-        val params = JSONArray(ids)
+    suspend fun deletePlan(id: Int): BaseModel<Any>? {
+        val params = JSONArray()
+        params.put(id)
         val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
-        ZyHttp.postJson(PlanUrlConstant.PLAN_DELETE_URL, params.toString(), httpResultBean)
+        ZyHttp.deleteJson(PlanUrlConstant.PLAN_DELETE_URL, params.toString(), httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true)
+                return httpResultBean.bean
+        }
+        return null
+    }
+
+
+    //周计划下移
+    suspend fun transferNextWeek(bean: PlanBean): BaseModel<Any>? {
+        val params = JSONObject(Gson().toJson(bean))
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.deleteJson(
+            PlanUrlConstant.PLAN_TRANSFER_NEXT_WEEK_URL,
+            params.toString(),
+            httpResultBean
+        )
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true)
+                return httpResultBean.bean
+        }
+        return null
+    }
+
+    
+    //完成计划
+    suspend fun completePlan(id: String): BaseModel<Any>? {
+        val params = HashMap<String, String>()
+        params["planId"] = id
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.get(PlanUrlConstant.PLAN_UPDATE_FINISH_URL, params, httpResultBean)
         if (httpResultBean.isSuccess()) {
             if (httpResultBean.bean?.isSuccess() == true)
                 return httpResultBean.bean

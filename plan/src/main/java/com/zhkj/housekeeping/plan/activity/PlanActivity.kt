@@ -11,14 +11,19 @@ import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
+import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.fragment.PullRefreshFragment
 import com.sunny.zy.utils.RouterPath
+import com.sunny.zy.utils.ToastUtil
 import com.zhkj.housekeeping.plan.R
 import com.zhkj.housekeeping.plan.adapter.PlanListAdapter
 import com.zhkj.housekeeping.plan.bean.PlanBean
 import com.zhkj.housekeeping.plan.contract.PlanContract
+import com.zhkj.housekeeping.plan.contract.PlanExtendContract
+import com.zhkj.housekeeping.plan.presenter.PlanExtendPresenter
 import com.zhkj.housekeeping.plan.presenter.PlanPresenter
 import kotlinx.android.synthetic.main.act_plan.*
+import kotlinx.coroutines.cancel
 
 /**
  * Desc 计划主页
@@ -29,7 +34,7 @@ import kotlinx.android.synthetic.main.act_plan.*
 @Route(path = RouterPath.PLAN_ACTIVITY)
 class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     CalendarView.OnMonthChangeListener
-    , CalendarView.OnYearChangeListener, PlanContract.IView {
+    , CalendarView.OnYearChangeListener, PlanContract.IView, PlanExtendContract.IView {
 
     private lateinit var toolbar: Toolbar
 
@@ -39,6 +44,10 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
     private val presenter: PlanPresenter by lazy {
         PlanPresenter(this)
+    }
+
+    private val extendPresenter: PlanExtendPresenter by lazy {
+        PlanExtendPresenter(this)
     }
 
     override fun setLayout(): Int = R.layout.act_plan
@@ -76,10 +85,26 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
 
         pullRefreshFragment.adapter = PlanListAdapter().apply {
             setOnItemClickListener { _, position ->
-                ZyFrameStore.setData(PlanBean::class.java.simpleName,getData(position))
+                ZyFrameStore.setData(PlanBean::class.java.simpleName, getData(position))
                 ARouter.getInstance().build(RouterPath.PLAN_EXTEND_ACTIVITY)
                     .withInt("type", PlanExtendActivity.PREVIEW)
                     .navigation(this@PlanActivity, 10000)
+
+            }
+
+            settingOnClickListener = object : PlanListAdapter.ISettingOnClickListener {
+
+                override fun onCompleteClickListener(bean: PlanBean) {
+                    extendPresenter.completePlan(bean.planId)
+                }
+
+                override fun onDeleteClickListener(bean: PlanBean) {
+                    extendPresenter.deletePlan(bean.planId)
+                }
+
+                override fun onNextClickListener(bean: PlanBean) {
+                    extendPresenter.transferNextWeek(bean)
+                }
 
             }
         }
@@ -116,7 +141,8 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     }
 
     override fun close() {
-
+        presenter.cancel()
+        extendPresenter.cancel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -160,6 +186,38 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
                 loadPlanMark(it)
                 loadPlanList()
             }
+        }
+    }
+
+
+    override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {
+
+    }
+
+    override fun showCreatePlanResult() {
+
+    }
+
+    override fun showTransferNextWeekResult() {
+        loadPlanMark(calendar)
+        ToastUtil.show("数据下移成功！")
+    }
+
+    override fun showDeletePlantResult(id: Int) {
+        pullRefreshFragment.getAllData()?.find { it.planId == id }?.let {
+            loadPlanMark(calendar)
+            pullRefreshFragment.deleteData(it)
+            pullRefreshFragment.adapter?.notifyDataSetChanged()
+
+        }
+
+    }
+
+    override fun showCompletePlantResult(id: Int) {
+        pullRefreshFragment.getAllData()?.find { it.planId == id }?.let {
+            it.activeStatus = 2
+            it.activeStatusName = "已完成"
+            pullRefreshFragment.adapter?.notifyDataSetChanged()
         }
     }
 }

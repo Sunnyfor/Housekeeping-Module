@@ -31,6 +31,8 @@ class PlanListAdapter : BaseRecycleAdapter<PlanBean>(arrayListOf()) {
                 ""
             )} 至 ${getData(position).planEndDate.replace(" 00:00:00", "")}")
 
+        holder.itemView.tv_task_status.text = getData(position).activeStatusName
+
         holder.itemView.view_setting.setOnClickListener {
             showSettingDialog(getData(position))
         }
@@ -41,9 +43,11 @@ class PlanListAdapter : BaseRecycleAdapter<PlanBean>(arrayListOf()) {
             R.layout.item_plan_list, parent, false
         )
 
+
+
     private fun showSettingDialog(bean: PlanBean) {
-        val settingArray = if (bean.activeStatusName == "完成") {
-            Array(settingList.size - 1) { settingList[it + 1] }
+        val settingArray = if (bean.activeStatus == 2) {
+            Array(1) { settingList[1] }
         } else {
             Array(settingList.size) { settingList[it] }
         }

@@ -44,9 +44,16 @@ abstract class BaseRecycleAdapter<T>(private var list: ArrayList<T>) :
         list.removeAt(position)
     }
 
+    fun deleteData(data: T) {
+        list.remove(data)
+    }
+
+
     fun clearData() {
         list.clear()
     }
+
+    fun getAllData() = list
 
     /*
      * 子条目点击事件

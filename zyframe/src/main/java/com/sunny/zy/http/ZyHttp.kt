@@ -128,6 +128,16 @@ object ZyHttp {
     }
 
 
+    suspend fun <T> deleteJson(url: String, json: String, httpResultBean: HttpResultBean<T>) {
+        return withContext(Dispatchers.IO) {
+            //创建okHttp请求
+            val request = zyRequest.deleteJsonRequest(url, json)
+            execution(request, httpResultBean)
+        }
+
+    }
+
+
     suspend fun <T> formUpload(url: String, filePath: String, httpResultBean: HttpResultBean<T>) {
         return withContext(Dispatchers.IO) {
             //创建okHttp请求

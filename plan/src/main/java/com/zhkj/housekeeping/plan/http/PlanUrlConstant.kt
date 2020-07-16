@@ -35,4 +35,15 @@ object PlanUrlConstant {
      * 删除计划
      */
     const val PLAN_DELETE_URL = "app/plan/delete"
+
+
+    /**
+     * 周计划下移
+     */
+    const val PLAN_TRANSFER_NEXT_WEEK_URL = "app/plan/transferNextWeek"
+
+    /**
+     * 计划完成
+     */
+    const val PLAN_UPDATE_FINISH_URL = "app/plan/updatePlanFinish"
 }

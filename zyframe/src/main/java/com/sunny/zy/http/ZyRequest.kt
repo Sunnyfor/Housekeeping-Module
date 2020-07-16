@@ -69,6 +69,14 @@ class ZyRequest {
         return Request.Builder().url(urlSb.toString()).post(body.build()).build()
     }
 
+    /**
+     *  DELETE请求
+     */
+    fun deleteJsonRequest(url: String, json: String): Request {
+        val urlSb = getUrlSb(url)
+        val body = json.toRequestBody("application/json; charset=utf-8".toMediaType())
+        return Request.Builder().url(urlSb.toString()).delete(body).build()
+    }
 
     /**
      * FORM形式上传文件

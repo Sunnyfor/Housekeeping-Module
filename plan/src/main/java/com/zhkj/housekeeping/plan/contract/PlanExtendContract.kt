@@ -3,6 +3,7 @@ package com.zhkj.housekeeping.plan.contract
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
 import com.sunny.zy.bean.Dictionary
+import com.zhkj.housekeeping.plan.bean.PlanBean
 
 /**
  * Desc
@@ -12,19 +13,15 @@ import com.sunny.zy.bean.Dictionary
  */
 class PlanExtendContract {
     interface IView : IBaseView {
-        fun showPlanStatus(dictionaryList: ArrayList<Dictionary>)
-
         fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>)
 
-        fun showPlanResult()
+        fun showCreatePlanResult()
+        fun showTransferNextWeekResult()
+        fun showDeletePlantResult(id: Int)
+        fun showCompletePlantResult(id: Int)
     }
 
     abstract class Presenter(iView: IView) : BasePresenter<IView>(iView) {
-        /**
-         * 加载计划状态
-         */
-        abstract fun loadPlanStatus()
-
         /**
          * 加载执行模块
          */
@@ -58,7 +55,18 @@ class PlanExtendContract {
         /**
          * 删除计划
          */
-        abstract fun deletePlan(ids: Array<String>)
+        abstract fun deletePlan(id:Int)
 
+
+
+        /**
+         * 周计划下移
+         */
+        abstract fun transferNextWeek(bean:PlanBean)
+
+        /**
+         * 完成计划
+         */
+        abstract fun completePlan(id: Int)
     }
 }

@@ -2,6 +2,7 @@ package com.zhkj.housekeeping.plan.presenter
 
 
 import com.sunny.zy.bean.Dictionary
+import com.zhkj.housekeeping.plan.bean.PlanBean
 import com.zhkj.housekeeping.plan.contract.PlanExtendContract
 import com.zhkj.housekeeping.plan.model.PlanExtendModel
 import kotlinx.coroutines.Dispatchers.Main
@@ -20,24 +21,6 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
         PlanExtendModel()
     }
 
-    /**
-     * 加载计划状态
-     */
-    override fun loadPlanStatus() {
-        launch(Main) {
-            if (planStatusList.isEmpty()) {
-                showLoading()
-                planExtendModel.loadPlanStatus()?.let {
-                    planStatusList.clear()
-                    planStatusList.addAll(it)
-                    view?.showPlanStatus(planStatusList)
-                }
-                hideLoading()
-            } else {
-                view?.showPlanStatus(planStatusList)
-            }
-        }
-    }
 
     /**
      * 加载计划执行模块
@@ -86,7 +69,7 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
                 isNotTask,
                 contentList
             )?.let {
-                view?.showPlanResult()
+                view?.showCreatePlanResult()
             }
             hideLoading()
         }
@@ -108,17 +91,37 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
         launch(Main) {
             showLoading()
             planExtendModel.updatePlan(planId, planTitle, activeStatus, contentId, content)?.let {
-                view?.showPlanResult()
+                view?.showCreatePlanResult()
             }
             hideLoading()
         }
     }
 
-    override fun deletePlan(ids: Array<String>) {
+    override fun deletePlan(id: Int) {
         launch(Main) {
             showLoading()
-            planExtendModel.deletePlan(ids)?.let {
-                view?.showPlanResult()
+            planExtendModel.deletePlan(id)?.let {
+                view?.showDeletePlantResult(id)
+            }
+            hideLoading()
+        }
+    }
+
+    override fun transferNextWeek(bean: PlanBean) {
+        launch(Main) {
+            showLoading()
+            planExtendModel.transferNextWeek(bean)?.let {
+                view?.showTransferNextWeekResult()
+            }
+            hideLoading()
+        }
+    }
+
+    override fun completePlan(id: Int) {
+        launch(Main) {
+            showLoading()
+            planExtendModel.completePlan(id.toString())?.let {
+                view?.showCompletePlantResult(id)
             }
             hideLoading()
         }

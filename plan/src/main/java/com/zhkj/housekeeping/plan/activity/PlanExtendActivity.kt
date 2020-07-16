@@ -197,10 +197,6 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 )
             }
 
-            tv_status.id -> {
-                presenter.loadPlanStatus()
-            }
-
             btn_modify.id -> {
                 updatePlan()
             }
@@ -274,22 +270,11 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             .setMessage("是否确定要删除计划？")
             .setNegativeButton("确定") { _: DialogInterface, _: Int ->
                 bean?.let {
-                    presenter.deletePlan(arrayOf(it.planId.toString()))
+                    presenter.deletePlan(it.planId)
                 }
             }
             .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
             .show()
-    }
-
-
-    //显示计划状态
-    override fun showPlanStatus(dictionaryList: ArrayList<Dictionary>) {
-        AlertDialog.Builder(this)
-            .setTitle("选择计划状态")
-            .setItems(Array(dictionaryList.size) { dictionaryList[it].value }) { _: DialogInterface, index: Int ->
-                tv_status.text = dictionaryList[index].value
-                activeStatus = dictionaryList[index].code
-            }.show()
     }
 
 
@@ -312,8 +297,14 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
     }
 
     //计划创建成功
-    override fun showPlanResult() {
+    override fun showCreatePlanResult() {
         setResult(Activity.RESULT_OK)
         finish()
     }
+
+    override fun showTransferNextWeekResult() {}
+
+    override fun showDeletePlantResult(id: Int) {}
+
+    override fun showCompletePlantResult(id: Int) {}
 }
