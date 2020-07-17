@@ -65,7 +65,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
 
     private val adapter: PlanContentAdapter by lazy {
-        PlanContentAdapter(contentList) { _: View, position: Int ->
+        PlanContentAdapter(bean?.activeStatus?:0,contentList) { _: View, position: Int ->
             contentList.removeAt(position)
             adapter.notifyDataSetChanged()
         }
@@ -267,20 +267,6 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             it.planTitle = edit_title.text.toString()
             presenter.updatePlan(it)
         }
-    }
-
-    //显示删除Dialog确认框
-    private fun showDeleteDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("删除提醒")
-            .setMessage("是否确定要删除计划？")
-            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
-                bean?.let {
-                    presenter.deletePlan(it.planId)
-                }
-            }
-            .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
-            .show()
     }
 
 

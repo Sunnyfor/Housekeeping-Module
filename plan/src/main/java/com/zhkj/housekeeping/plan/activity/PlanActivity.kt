@@ -1,9 +1,11 @@
 package com.zhkj.housekeeping.plan.activity
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.view.Menu
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -99,7 +101,7 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
                 }
 
                 override fun onDeleteClickListener(bean: PlanBean) {
-                    extendPresenter.deletePlan(bean.planId)
+                    showDeleteDialog(bean.planId)
                 }
 
                 override fun onNextClickListener(bean: PlanBean) {
@@ -215,5 +217,17 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
             it.activeStatusName = "已完成"
             pullRefreshFragment.adapter?.notifyDataSetChanged()
         }
+    }
+
+    //显示删除Dialog确认框
+    private fun showDeleteDialog(planId: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("删除提醒")
+            .setMessage("是否确定要删除计划？")
+            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
+                extendPresenter.deletePlan(planId)
+            }
+            .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
+            .show()
     }
 }

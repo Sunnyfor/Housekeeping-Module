@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.item_plan_content.view.*
  * Mail zhangye98@foxmail.com
  * Date 2020/7/9 17:59
  */
-class PlanContentAdapter(
+class PlanContentAdapter(var activeStatus:Int,
     list: ArrayList<String>,
     var deleteClickListener: (view: View, position: Int) -> Unit
 ) : BaseRecycleAdapter<String>(list) {
@@ -29,5 +29,12 @@ class PlanContentAdapter(
         holder.itemView.btn_delete.setOnClickListener {
             deleteClickListener.invoke(it, position)
         }
+
+        if (activeStatus == 2){
+            holder.itemView.btn_delete.visibility = View.INVISIBLE
+        }else{
+            holder.itemView.btn_delete.visibility = View.VISIBLE
+        }
+
     }
 }
