@@ -75,21 +75,20 @@ class PlanExtendModel {
 
     //修改计划
     suspend fun updatePlan(
-        planId: String,
-        planTitle: String,
-        activeStatus: String,
-        contentId: String,
-        content: String
+        bean: PlanBean
     ): BaseModel<Any>? {
+
         val params = JSONObject()
-        params.put("planId", planId)
-        params.put("planTitle", planTitle)
-        params.put("activeStatus", activeStatus)
-        params.put("contentId", contentId)
-        params.put("content", content)
+        params.put("planStartDate", bean.planStartDate)
+        params.put("planEndDate", bean.planEndDate)
+        params.put("isNotTask", bean.isNotTask)
+
+        val planList = JSONArray()
+        planList.put(JSONObject(Gson().toJson(bean)))
+        params.put("planList", planList)
 
         val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
-        ZyHttp.postJson(PlanUrlConstant.PLAN_UPDATE_URL, params.toString(), httpResultBean)
+        ZyHttp.postJson(PlanUrlConstant.PLAN_CREATE_URL, params.toString(), httpResultBean)
         if (httpResultBean.isSuccess()) {
             if (httpResultBean.bean?.isSuccess() == true)
                 return httpResultBean.bean
@@ -127,7 +126,7 @@ class PlanExtendModel {
         return null
     }
 
-    
+
     //完成计划
     suspend fun completePlan(id: String): BaseModel<Any>? {
         val params = HashMap<String, String>()

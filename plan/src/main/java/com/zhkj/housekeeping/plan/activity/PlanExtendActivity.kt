@@ -94,7 +94,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             edit_plan_day.setText("1")
 
             setOnClickListener(
-                tv_start_date, tv_end_date, btn_commit
+                tv_start_date, tv_end_date, btn_commit,tv_plan_module
             )
 
         } else {
@@ -136,9 +136,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 }
             }
 
-            setOnClickListener(
-                btn_modify
-            )
+            setOnClickListener(btn_modify)
 
         }
 
@@ -265,13 +263,9 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             }
         }
         bean?.let {
-            presenter.updatePlan(
-                it.planId.toString(),
-                edit_title.text.toString(),
-                activeStatus.toString(),
-                it.contentId.toString(),
-                content.toString()
-            )
+            it.content = content.toString()
+            it.planTitle = edit_title.text.toString()
+            presenter.updatePlan(it)
         }
     }
 
@@ -323,16 +317,21 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
     private fun showAddDialog() {
         val parentLayout = RelativeLayout(this)
-        val editLayoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
+        val editLayoutParams = RelativeLayout.LayoutParams(
+            RelativeLayout.LayoutParams.MATCH_PARENT,
+            RelativeLayout.LayoutParams.WRAP_CONTENT
+        )
         editLayoutParams.leftMargin = resources.getDimension(R.dimen.dp_20).toInt()
         editLayoutParams.rightMargin = resources.getDimension(R.dimen.dp_20).toInt()
         editLayoutParams.topMargin = resources.getDimension(R.dimen.dp_20).toInt()
 
         val editText = EditText(this)
-        editText.setPadding(resources.getDimension(R.dimen.dp_10).toInt(),
+        editText.setPadding(
             resources.getDimension(R.dimen.dp_10).toInt(),
             resources.getDimension(R.dimen.dp_10).toInt(),
-            resources.getDimension(R.dimen.dp_10).toInt())
+            resources.getDimension(R.dimen.dp_10).toInt(),
+            resources.getDimension(R.dimen.dp_10).toInt()
+        )
         editText.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.sp_14))
         editText.setBackgroundResource(R.drawable.sel_border)
         editText.imeOptions = EditorInfo.TYPE_CLASS_TEXT

@@ -76,21 +76,17 @@ class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.
     }
 
     override fun updatePlan(
-        planId: String,
-        planTitle: String,
-        activeStatus: String,
-        contentId: String,
-        content: String
+        bean:PlanBean
     ) {
 
-        if (planTitle.isEmpty()) {
+        if (bean.planTitle.isEmpty()) {
             view?.showMessage("请输入计划标题！")
             return
         }
 
         launch(Main) {
             showLoading()
-            planExtendModel.updatePlan(planId, planTitle, activeStatus, contentId, content)?.let {
+            planExtendModel.updatePlan(bean)?.let {
                 view?.showCreatePlanResult()
             }
             hideLoading()

@@ -44,11 +44,7 @@ class PlanExtendContract {
          * 修改计划
          */
         abstract fun updatePlan(
-            planId: String,
-            planTitle: String,
-            activeStatus: String,
-            contentId: String,
-            content: String
+            bean:PlanBean
         )
 
 
