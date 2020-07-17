@@ -1,57 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/dp_20"
-    android:layout_marginTop="@dimen/dp_10"
-    android:layout_marginRight="@dimen/dp_20"
-    android:layout_marginBottom="@dimen/dp_10"
-    android:background="@drawable/sel_chat_bubble_right_bg"
-    tools:ignore="HardcodedText">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_task_name"
-        style="@style/style_font_white"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_content"
         android:layout_width="match_parent"
-        android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_10"
-        android:text="@string/app_name"
-        android:textSize="@dimen/sp_17" />
-
-
-    <TextView
-        android:id="@+id/tv_task_person"
-        style="@style/style_font_white"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_task_name"
-        android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/dp_15"
         android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginEnd="@dimen/dp_20"
-        android:gravity="center"
-        android:textSize="@dimen/sp_16"
-        tools:text="计划负责人" />
+        android:layout_marginEnd="@dimen/dp_15"
+        android:layout_marginBottom="@dimen/dp_1"
+        android:background="@drawable/corners_dp5_white"
+        android:elevation="@dimen/dp_1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_30"
-        android:layout_below="@id/tv_task_person"
-        android:layout_marginBottom="@dimen/dp_10"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_20">
+        <TextView
+            android:id="@+id/tv_joint_name"
+            style="@style/style_font_black"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_50"
+            android:textSize="@dimen/sp_18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="标题" />
 
-        <Button
-            android:id="@+id/tv_state"
-            style="@style/style_font_white"
-            android:background="@drawable/sel_chat_bubble_right_bg"
-            android:text="未完成" />
+        <TextView
+            android:id="@+id/tv_joint_content"
+            style="@style/style_font_black"
+            android:layout_width="0dp"
+            android:textColor="@color/color_theme"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/tv_joint_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_joint_name"
+            tools:text="内容" />
+
+
+        <TextView
+            android:id="@+id/tv_task_person"
+            style="@style/style_font_gray"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:textSize="@dimen/sp_14"
+            app:layout_constraintEnd_toEndOf="@id/tv_joint_content"
+            app:layout_constraintStart_toStartOf="@id/tv_joint_content"
+            app:layout_constraintTop_toBottomOf="@id/tv_joint_content"
+            tools:text="协同参与人" />
+
 
         <TextView
             android:id="@+id/tv_date"
-            style="@style/style_font_white"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="2020年5月19日" />
-    </RelativeLayout>
-</RelativeLayout>
+            style="@style/style_font_gray"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_task_person"
+            tools:text="2020年5月19日" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_state"
+        style="@style/style_font_white"
+        android:layout_marginEnd="@dimen/dp_5"
+        android:background="@drawable/svg_label_bg"
+        android:elevation="@dimen/dp_2"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/dp_8"
+        android:paddingEnd="0dp"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/cl_content"
+        tools:text="未完成" />
+</androidx.constraintlayout.widget.ConstraintLayout>

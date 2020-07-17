@@ -3,7 +3,7 @@ package com.zhkj.housekeeping.joint.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.housekeeping.work.joint.bean.Reply
+import com.zhkj.housekeeping.joint.bean.Reply
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.base.BaseRecycleViewHolder
 import com.zhkj.housekeeping.joint.R
@@ -20,14 +20,14 @@ class JointReplyAdapter(list: ArrayList<Reply>) : BaseRecycleAdapter<Reply>(list
     }
 
     override fun onBindViewHolder(holder: BaseRecycleViewHolder, position: Int) {
-        if (getItemViewType(position) == 0) {
-            holder.itemView.tv_message_right.text = getData(position).replayContent
-            holder.itemView.tv_username_right?.text = ("${getData(position).sendUserName} \t ${getData(position).createDate}")
-        } else {
-            holder.itemView.tv_message_left.text = getData(position).replayContent
-            holder.itemView.tv_username_left?.text = ("${getData(position).sendUserName} \t ${getData(position).createDate}")
-        }
+//        if (getItemViewType(position) == 0) {
+//            holder.itemView.tv_message_right.text = getData(position).replayContent
+//            holder.itemView.tv_username_right?.text = ("${getData(position).sendUserName} \t ${getData(position).createDate}")
+//        } else {
+//            holder.itemView.tv_message_left.text = getData(position).replayContent
+//            holder.itemView.tv_username_left?.text = ("${getData(position).sendUserName} \t ${getData(position).createDate}")
+//        }
     }
 
-    override fun getItemViewType(position: Int): Int = if (getData(position).sendUserId.toString() == "1") 0 else 1
+//    override fun getItemViewType(position: Int): Int = if (getData(position).sendUserId.toString() == "1") 0 else 1
 }

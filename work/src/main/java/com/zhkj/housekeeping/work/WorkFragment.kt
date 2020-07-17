@@ -56,6 +56,9 @@ class WorkFragment : BaseFragment() {
         functionList.add(FunctionBean().apply {
             title = "协同"
             icon = R.drawable.svg_work_joint
+            onClickListener = View.OnClickListener {
+                ARouter.getInstance().build(RouterPath.JOINT_ACTIVITY).navigation()
+            }
         })
 
         recycler.layoutManager = GridLayoutManager(context, 4)

@@ -22,16 +22,8 @@ import com.zhkj.housekeeping.joint.model.JointViewModel
 import kotlinx.android.synthetic.main.act_create_joint.*
 import kotlinx.coroutines.cancel
 
-class JointCreateActivity : BaseActivity(), IAllUsersView {
-    companion object {
-        const val TYPE_CREATE = 0
-        const val TYPE_PREVIEW = 1
-        const val TYPE_MODIFY = 2
-    }
-
-    @JvmField
-    @Autowired
-    var type = TYPE_CREATE
+@Route(path = RouterPath.JOINT_CREATE_ACTIVITY)
+class JointCreateActivity2 : BaseActivity(), IAllUsersView {
 
     private val allUserPresenter: AllUserPresenter by lazy {
         AllUserPresenter(this)
@@ -53,132 +45,130 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
     private var checkedId = StringBuilder()
     private var userList = ArrayList<AllUsersBean>()
 
-    override fun setLayout(): Int = R.layout.act_create_joint
+    override fun setLayout(): Int = R.layout.act_joint_create
 
 
     override fun initView() {
 
-        type = intent.getIntExtra("type", TYPE_CREATE)
+        defaultTitle("创建协同")
 
-        var title = ""
-
-        when (type) {
-            TYPE_CREATE -> {
-                tv_select.setOnClickListener(this)
-                title = "创建协同"
-            }
-
-            TYPE_PREVIEW, TYPE_MODIFY -> {
-                ll_state.visibility = View.VISIBLE
-
-                jointBean?.let {
-                    tv_state.text = it.stateName
-                    if (it.state == 1) {
-                        edit_verify.visibility = View.VISIBLE
-                        edit_verify.setText(it.checkContent)
-                    } else {
-                        edit_verify.visibility = View.GONE
-                        edit_verify.setText("")
-                    }
-                    edit_content.setText(it.content)
-//                    edit_content.setSelection(it.content.length)
-                    tv_select.text = it.synergyNames
-
-                    checkedId.clear()
-                    checkedId.append(it.synergyIds)
-                }
-
-                if (type == TYPE_PREVIEW) {
-                    title = "协同详情"
-
-                    iv_person_more.visibility = View.GONE
-                    iv_state_more.visibility = View.GONE
-
-                    btn_commit.visibility = View.GONE
-                    ll_send.visibility = View.VISIBLE
-                    edit_content.keyListener = null
-                    edit_verify.keyListener = null
-                    rl_list.visibility = View.VISIBLE
-
-                    if (jointBean?.replyList?.isNotEmpty() == true) {
-                        tv_no_data.visibility = View.GONE
-                        recyclerView.layoutManager = LinearLayoutManager(this)
-                        recyclerView.adapter = JointReplyAdapter(
-                            jointBean?.replyList
-                                ?: arrayListOf()
-                        )
-                    }
-                    emotion_send.setOnClickListener(this)
-                } else {
-                    title = "修改协同"
-                    tv_select.setOnClickListener(this)
-                    ll_state.setOnClickListener(this)
-                }
-            }
-        }
+//        when (type) {
+//            TYPE_CREATE -> {
+//                tv_select.setOnClickListener(this)
+//                title =
+//            }
+//
+//            TYPE_PREVIEW, TYPE_MODIFY -> {
+//                ll_state.visibility = View.VISIBLE
+//
+//                jointBean?.let {
+//                    tv_state.text = it.stateName
+//                    if (it.state == 1) {
+//                        edit_verify.visibility = View.VISIBLE
+//                        edit_verify.setText(it.checkContent)
+//                    } else {
+//                        edit_verify.visibility = View.GONE
+//                        edit_verify.setText("")
+//                    }
+//                    edit_content.setText(it.content)
+////                    edit_content.setSelection(it.content.length)
+//                    tv_select.text = it.synergyNames
+//
+//                    checkedId.clear()
+//                    checkedId.append(it.synergyIds)
+//                }
+//
+//                if (type == TYPE_PREVIEW) {
+//                    title = "协同详情"
+//
+//                    iv_person_more.visibility = View.GONE
+//                    iv_state_more.visibility = View.GONE
+//
+//                    btn_commit.visibility = View.GONE
+//                    ll_send.visibility = View.VISIBLE
+//                    edit_content.keyListener = null
+//                    edit_verify.keyListener = null
+//                    rl_list.visibility = View.VISIBLE
+//
+//                    if (jointBean?.replyList?.isNotEmpty() == true) {
+//                        tv_no_data.visibility = View.GONE
+//                        recyclerView.layoutManager = LinearLayoutManager(this)
+//                        recyclerView.adapter = JointReplyAdapter(
+//                            jointBean?.replyList
+//                                ?: arrayListOf()
+//                        )
+//                    }
+//                    emotion_send.setOnClickListener(this)
+//                } else {
+//                    title = "修改协同"
+//                    tv_select.setOnClickListener(this)
+//                    ll_state.setOnClickListener(this)
+//                }
+//            }
+//        }
 
 //        titleManager.defaultTitle(getFrameTitle(),title,"")
 
-        btn_commit.setOnClickListener(this)
+//        btn_commit.setOnClickListener(this)
 
-        //创建协同回调
-        jointViewModel.jointCreateLiveData.observe(this, Observer {
-            hideLoading()
-            if (it?.msg == "success") {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        })
-
-        jointViewModel.jointModifyLiveData.observe(this, Observer {
-            hideLoading()
-            if (it?.msg == "success") {
-                setResult(Activity.RESULT_OK)
-                finish()
-            }
-        })
-
-        jointViewModel.jointReplyLiveData.observe(this, Observer {
-            et_input.setText("")
-            hideLoading()
-            jointBean?.replyList = it ?: arrayListOf()
-            recyclerView.adapter = JointReplyAdapter(
-                it
-                    ?: arrayListOf()
-            )
-        })
+//        //创建协同回调
+//        jointViewModel.jointCreateLiveData.observe(this, Observer {
+//            hideLoading()
+//            if (it?.msg == "success") {
+//                setResult(Activity.RESULT_OK)
+//                finish()
+//            }
+//        })
+//
+//        jointViewModel.jointModifyLiveData.observe(this, Observer {
+//            hideLoading()
+//            if (it?.msg == "success") {
+//                setResult(Activity.RESULT_OK)
+//                finish()
+//            }
+//        })
+//
+//        jointViewModel.jointReplyLiveData.observe(this, Observer {
+//            et_input.setText("")
+//            hideLoading()
+//            jointBean?.replyList = it ?: arrayListOf()
+//            recyclerView.adapter = JointReplyAdapter(
+//                it
+//                    ?: arrayListOf()
+//            )
+//        })
     }
 
     override fun onClickEvent(v: View) {
         when (v.id) {
             tv_select.id -> {
-                if (type != TYPE_PREVIEW) {
-                    if (checkedItems == null) {
-                        allUserPresenter.getAllUser()
-                    } else {
-                        showSelectDialog()
-                    }
-                }
+//                if (type != TYPE_PREVIEW) {
+//                    if (checkedItems == null) {
+//                        allUserPresenter.getAllUser()
+//                    } else {
+//                        showSelectDialog()
+//                    }
+//                }
             }
             ll_state.id -> {
                 showStateDialog()
             }
             btn_commit.id -> {
-                if (type == TYPE_CREATE) {
-                    showLoading()
-//                    jointViewModel.createJoint(edit_content.text.toString(), checkedId.toString())
-                    return
-                }
+//                if (type == TYPE_CREATE) {
+//                    showLoading()
+////                    jointViewModel.createJoint(edit_content.text.toString(), checkedId.toString())
+//                    return
+//                }
 
-                if (type == TYPE_MODIFY) {
-                    jointBean?.let {
-                        it.content = edit_content.text.toString()
-                        it.checkContent = edit_verify.text.toString()
-                        showLoading()
-//                        jointViewModel.modifyJoint(it)
-                    }
-
-                }
+//                if (type == TYPE_MODIFY) {
+//                    jointBean?.let {
+//                        it.content = edit_content.text.toString()
+//                        it.checkContent = edit_verify.text.toString()
+//                        showLoading()
+////                        jointViewModel.modifyJoint(it)
+//                    }
+//
+//                }
             }
 
             emotion_send.id -> {

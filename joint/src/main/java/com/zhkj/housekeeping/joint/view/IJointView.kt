@@ -1,6 +1,6 @@
 package com.zhkj.housekeeping.joint.view
 
-import com.example.housekeeping.work.joint.bean.JointBean
+import com.zhkj.housekeeping.joint.bean.JointBean
 import com.sunny.zy.base.IBaseView
 
 /**

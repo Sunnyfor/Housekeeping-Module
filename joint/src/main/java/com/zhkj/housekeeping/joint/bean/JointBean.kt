@@ -1,32 +1,39 @@
-package com.example.housekeeping.work.joint.bean
+package com.zhkj.housekeeping.joint.bean
 
 data class JointBean(
-        var checkContent: String,
-        var content: String,
-        var createDate: String,
-        var createUserId: Int,
-        var endDate: Any,
-        var getUserId: Int,
-        var isDelete: Int,
-        var replyList: ArrayList<Reply>,
-        var startDate: String,
-        var state: Int,
-        var stateName: String,
-        var synergyId: Int,
-        var synergyIds: String,
-        var synergyNames: String,
-        var synergyType: Int,
-        var updateDate: String,
-        var updateUserId: Int,
-        var userName: String
+    var checkContent: String? = null,
+    var content: String? = null,
+    var createDate: String? = null,
+    var createUserId: Int,
+    var endDate: Any,
+    var getUserId: Int,
+    var isDelete: Int,
+    var replyList: ArrayList<Reply>,
+    var startDate: String? = null,
+    var state: Int,
+    var stateName: String? = null,
+    var synergyId: Int,
+    var synergyIds: String? = null,
+    var synergyNames: String? = null,
+    var synergyType: Int,
+    var updateDate: String? = null,
+    var updateUserId: Int,
+    var userName: String? = null,
+    var createUserName: String? = null,
+    var synergyTitle: String? = null,
+    var executeBindingPlanId: String? = null,
+    var coverId: String? = null
 )
 
 data class Reply(
-        var createDate: String,
-        var replayContent: String,
-        var replayId: Int,
-        var replayUserId: Any,
-        var sendUserId: Int,
-        var sendUserName: String,
-        var synergyId: Int
+    var id: String? = null,
+    var userId: String? = null,
+    var userName: String? = null,
+    var groupId: String? = null,
+    var leiXing: String? = null,
+    var content: String? = null,
+    var isDel: String? = null,
+    var isRead: String? = null,
+    var sendTime: String? = null,
+    var isBack: String? = null
 )

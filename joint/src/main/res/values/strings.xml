@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="create">创建</string>
+    <string name="create_joint">创建协同</string>
+    <string name="recycle_bin">回收站</string>
     <string name="commit">提交</string>
+    <string name="me_issued">我下发</string>
+    <string name="me_cooperate">我协同</string>
+    <string name="joint_title">协同标题</string>
+    <string name="joint_title_hint">请输入协同标题</string>
+    <string name="joint_content">协同内容</string>
+    <string name="joint_content_hint">请输入协同内容</string>
+    <string name="joint_person">协同人员</string>
+    <string name="joint_person_hint">请选择协同人员</string>
 </resources>

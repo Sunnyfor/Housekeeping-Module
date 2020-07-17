@@ -2,4 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.zhkj.housekeeping.joint">
 
+    <application>
+        <activity android:name=".JointActivity" />
+        <activity android:name=".JointRecycleActivity" />
+        <activity android:name=".JointCreateActivity2" />
+    </application>
 </manifest>

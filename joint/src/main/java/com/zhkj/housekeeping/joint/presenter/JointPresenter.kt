@@ -1,11 +1,8 @@
 package com.zhkj.housekeeping.joint.presenter
 
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.housekeeping.work.joint.bean.JointBean
-import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
-import com.zhkj.housekeeping.joint.model.JointViewModel
+import com.zhkj.housekeeping.joint.contract.JointContract
+import com.zhkj.housekeeping.joint.model.JointModel
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
@@ -15,11 +12,11 @@ import kotlinx.coroutines.launch
  * Mail zhangye98@foxmail.com
  * Date 2020/6/4 11:43
  */
-class JointPresenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
+class JointPresenter(iView: IBaseView) : JointContract.Presenter(iView) {
 
-//    private val viewModel: JointViewModel by lazy {
-//        ViewModelProvider(view.getViewModelStoreOwner()).get(JointViewModel::class.java)
-//    }
+    private val jointModel: JointModel by lazy {
+        JointModel()
+    }
 
 
     //获取协同数据及监听协同数据
@@ -57,22 +54,29 @@ class JointPresenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
 //        }
 //    }
 //
-//    //加载协同数据
-//    fun loadJointList(page: Int, type: Int) {
-//        launch(Main) {
-//            showLoading()
-//            viewModel.getJointList(page, type)
-//            hideLoading()
-//        }
-//    }
+    //加载协同数据
+    override fun loadJointList(page: Int, type: Int) {
+        launch(Main) {
+            jointModel.loadJointList(page, type)?.let {
+                if (view is JointContract.IJointListView) {
+                    (view as JointContract.IJointListView).showJointList(it)
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    //
 //
-//
-//    //加载协同回收站数据
-//    fun loadJointRecycle() {
-//        launch(Main) {
-//            showLoading()
-//            viewModel.jointRecycle()
-//            hideLoading()
-//        }
-//    }
+    //加载协同回收站数据
+    fun loadJointRecycle() {
+        launch(Main) {
+            jointModel.jointRecycle()?.let {
+                if (view is JointContract.IJointRecycleBinView) {
+                    (view as JointContract.IJointRecycleBinView).showRecycleList(it)
+                }
+            }
+            hideLoading()
+        }
+    }
 }

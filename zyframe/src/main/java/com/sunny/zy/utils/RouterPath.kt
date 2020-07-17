@@ -19,4 +19,10 @@ object RouterPath {
     const val PLAN_ACTIVITY = "/plan/PlanActivity" //计划首页
 
     const val PLAN_EXTEND_ACTIVITY = "/plan/PlanExtendActivity" //计划内容、创建计划，相关页面
+
+    const val JOINT_ACTIVITY = "/joint/JointActivity" //协同首页
+
+    const val JOINT_RECYCLE_ACTIVITY = "/joint/JointRecycleActivity" //协同回收站
+
+    const val JOINT_CREATE_ACTIVITY = "/joint/JointCreateActivity" //创建协同
 }

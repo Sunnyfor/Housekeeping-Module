@@ -2,16 +2,27 @@ package com.zhkj.housekeeping.joint
 
 
 import android.view.View
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.sunny.zy.base.BaseActivity
-import com.zhkj.housekeeping.joint.model.JointViewModel
+import com.sunny.zy.fragment.PullRefreshFragment
+import com.sunny.zy.utils.RouterPath
+import com.zhkj.housekeeping.joint.adapter.JointAdapter
+import com.zhkj.housekeeping.joint.bean.JointBean
+import com.zhkj.housekeeping.joint.contract.JointContract
+import com.zhkj.housekeeping.joint.presenter.JointPresenter
+import kotlinx.coroutines.cancel
 
-class JointRecycleActivity : BaseActivity() {
+@Route(path = RouterPath.JOINT_RECYCLE_ACTIVITY)
+class JointRecycleActivity : BaseActivity(), JointContract.IJointRecycleBinView {
 
-    private val jointViewModel: JointViewModel by lazy {
-        ViewModelProviders.of(this).get(JointViewModel::class.java)
+    private val jointPresenter: JointPresenter by lazy {
+        JointPresenter(this)
+    }
+
+    private val pullRefreshFragment = PullRefreshFragment<JointBean>()
+
+    private val jointAdapter: JointAdapter by lazy {
+        JointAdapter()
     }
 
 
@@ -20,26 +31,33 @@ class JointRecycleActivity : BaseActivity() {
 
     override fun initView() {
 
-//        titleManager.defaultTitle(getFrameTitle(), "协同回收站")
+        defaultTitle("协同回收站")
 
-//        jointViewModel.jointStateLiveData.observe(this, Observer { list ->
-//            supportFragmentManager.beginTransaction().replace(frameBody.id, JointFragment().apply {
-//                type = 2
-//                joinStateList = list
-//            }).commit()
-//        })
+        showLoading()
+        pullRefreshFragment.enableLoadMore = false
+        pullRefreshFragment.adapter = jointAdapter
+        pullRefreshFragment.loadData = {
+            loadData()
+        }
+
+        supportFragmentManager.beginTransaction().replace(getFrameBody().id, pullRefreshFragment)
+            .commit()
     }
 
-    override fun onClickEvent(v: View) {
+    override fun onClickEvent(view: View) {
 
     }
 
     override fun loadData() {
-//        jointViewModel.getJointState()
+        jointPresenter.loadJointRecycle()
     }
 
     override fun close() {
+        jointPresenter.cancel()
+    }
 
+    override fun showRecycleList(data: ArrayList<JointBean>) {
+        pullRefreshFragment.addData(data)
     }
 
 
