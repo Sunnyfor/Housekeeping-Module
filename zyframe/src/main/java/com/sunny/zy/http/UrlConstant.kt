@@ -26,18 +26,12 @@ object UrlConstant {
     const val APP_VERSION_UPDATE_URL = "app/appandroidversion/findNewOne"
 
 
-    const val DEPARTMENT_OF_TREE = "sys/dept/listFilter" //加载部门(包括公司)
 
     /**
      * 字典接口
      */
     const val DICT_LIST_URL = "sys/dict/list"
 
-
-    /**
-     * 获取全部用户列表
-     */
-    const val GET_ALL_USER_LIST_URL = "sys/user/list"
 
 
     /**

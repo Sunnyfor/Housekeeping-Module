@@ -8,21 +8,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Autowired
-import com.alibaba.android.arouter.facade.annotation.Route
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.AllUsersBean
 import com.sunny.zy.bean.Dictionary
-import com.sunny.zy.leader.AllUserPresenter
-import com.sunny.zy.leader.IAllUsersView
-import com.sunny.zy.utils.RouterPath
 import com.zhkj.housekeeping.joint.adapter.JointReplyAdapter
 import com.zhkj.housekeeping.joint.bean.JointBean
 import com.zhkj.housekeeping.joint.model.JointViewModel
 import kotlinx.android.synthetic.main.act_create_joint.*
-import kotlinx.coroutines.cancel
 
-class JointCreateActivity : BaseActivity(), IAllUsersView {
+class JointCreateActivity : BaseActivity() {
     companion object {
         const val TYPE_CREATE = 0
         const val TYPE_PREVIEW = 1
@@ -33,9 +27,9 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
     @Autowired
     var type = TYPE_CREATE
 
-    private val allUserPresenter: AllUserPresenter by lazy {
-        AllUserPresenter(this)
-    }
+//    private val allUserPresenter: AllUserPresenter by lazy {
+//        AllUserPresenter(this)
+//    }
 
     private val jointViewModel: JointViewModel by lazy {
         ViewModelProvider(this).get(JointViewModel::class.java)
@@ -51,7 +45,7 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
 
     private var checkedItems: BooleanArray? = null
     private var checkedId = StringBuilder()
-    private var userList = ArrayList<AllUsersBean>()
+//    private var userList = ArrayList<AllUsersBean>()
 
     override fun setLayout(): Int = R.layout.act_create_joint
 
@@ -154,7 +148,7 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
             tv_select.id -> {
                 if (type != TYPE_PREVIEW) {
                     if (checkedItems == null) {
-                        allUserPresenter.getAllUser()
+//                        allUserPresenter.getAllUser()
                     } else {
                         showSelectDialog()
                     }
@@ -193,40 +187,40 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
     }
 
     override fun close() {
-        allUserPresenter.cancel()
+//        allUserPresenter.cancel()
     }
 
 
     //选择协同人员
     private fun showSelectDialog() {
-        AlertDialog.Builder(this)
-            .setTitle("选择协同人员")
-            .setMultiChoiceItems(
-                Array(userList.size) { userList[it].username },
-                checkedItems
-            ) { _: DialogInterface, index: Int, checked: Boolean ->
-                checkedItems?.set(index, checked)
-            }
-            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
-                val personSb = StringBuilder()
-                checkedId.clear()
-                checkedItems?.forEachIndexed { index, b ->
-                    if (b) {
-                        personSb.append(userList[index].username).append("、")
-                        checkedId.append(userList[index].userId).append(",")
-                    }
-                }
-                if (personSb.isNotEmpty()) {
-                    personSb.deleteCharAt(personSb.lastIndexOf("、"))
-                    checkedId.deleteCharAt(checkedId.lastIndexOf(","))
-                    tv_select.text = personSb.toString()
-                    jointBean?.synergyIds = checkedId.toString()
-                } else {
-                    tv_select.text = "请选择"
-                }
-            }
-            .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
-            .show()
+//        AlertDialog.Builder(this)
+//            .setTitle("选择协同人员")
+//            .setMultiChoiceItems(
+//                Array(userList.size) { userList[it].username },
+//                checkedItems
+//            ) { _: DialogInterface, index: Int, checked: Boolean ->
+//                checkedItems?.set(index, checked)
+//            }
+//            .setNegativeButton("确定") { _: DialogInterface, _: Int ->
+//                val personSb = StringBuilder()
+//                checkedId.clear()
+//                checkedItems?.forEachIndexed { index, b ->
+//                    if (b) {
+//                        personSb.append(userList[index].username).append("、")
+//                        checkedId.append(userList[index].userId).append(",")
+//                    }
+//                }
+//                if (personSb.isNotEmpty()) {
+//                    personSb.deleteCharAt(personSb.lastIndexOf("、"))
+//                    checkedId.deleteCharAt(checkedId.lastIndexOf(","))
+//                    tv_select.text = personSb.toString()
+//                    jointBean?.synergyIds = checkedId.toString()
+//                } else {
+//                    tv_select.text = "请选择"
+//                }
+//            }
+//            .setPositiveButton("取消") { _: DialogInterface, _: Int -> }
+//            .show()
     }
 
 
@@ -251,24 +245,24 @@ class JointCreateActivity : BaseActivity(), IAllUsersView {
 
     }
 
-    override fun getAllUser(list: ArrayList<AllUsersBean>) {
-        userList.clear()
-        userList.addAll(list)
-        checkedItems = BooleanArray(userList.size)
-        if (checkedId.isNotEmpty()) {
-            if (checkedId.contains(",")) {
-                checkedId.split(",").forEach { userId ->
-                    checkedItems?.set(userList.indexOf(userList.find { it.userId == userId }), true)
-                }
-            } else {
-                checkedItems?.set(
-                    userList.indexOf(userList.find { it.userId == checkedId.toString() }),
-                    true
-                )
-            }
-        }
-        showSelectDialog()
-    }
+//    override fun getAllUser(list: ArrayList<AllUsersBean>) {
+//        userList.clear()
+//        userList.addAll(list)
+//        checkedItems = BooleanArray(userList.size)
+//        if (checkedId.isNotEmpty()) {
+//            if (checkedId.contains(",")) {
+//                checkedId.split(",").forEach { userId ->
+//                    checkedItems?.set(userList.indexOf(userList.find { it.userId == userId }), true)
+//                }
+//            } else {
+//                checkedItems?.set(
+//                    userList.indexOf(userList.find { it.userId == checkedId.toString() }),
+//                    true
+//                )
+//            }
+//        }
+//        showSelectDialog()
+//    }
 
 
 }

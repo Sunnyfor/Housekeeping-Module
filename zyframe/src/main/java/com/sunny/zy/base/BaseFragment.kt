@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.view.contains
 import androidx.fragment.app.Fragment
 import com.sunny.zy.widget.utils.OverlayViewUtils
 
@@ -64,7 +65,12 @@ abstract class BaseFragment : Fragment(), IBaseView, View.OnClickListener {
     abstract fun loadData()
 
     fun setLayoutView(view: View) {
-        rootView?.addView(view)
+        rootView?.let {
+            if (it.contains(view)) {
+                it.removeView(view)
+            }
+            it.addView(view)
+        }
     }
 
     override fun showMessage(message: String) {

@@ -25,4 +25,6 @@ object RouterPath {
     const val JOINT_RECYCLE_ACTIVITY = "/joint/JointRecycleActivity" //协同回收站
 
     const val JOINT_CREATE_ACTIVITY = "/joint/JointCreateActivity" //创建协同
+
+    const val USER_SELECT_ACTIVITY = "/user/SelectUserActivity" //选择人员
 }

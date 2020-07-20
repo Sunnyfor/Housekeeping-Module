@@ -12,10 +12,11 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.UserInfoBean
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.login.presenter.LoginPresenter
+import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.util.UserManager
 import kotlinx.android.synthetic.main.act_login.*
 import kotlinx.coroutines.cancel
 
@@ -30,7 +31,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
 
     @JvmField
     @Autowired
-    var logout:Boolean = false
+    var logout: Boolean = false
 
     private val loginPresenter: LoginPresenter by lazy {
         LoginPresenter(this)
@@ -41,7 +42,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     override fun initView() {
         ARouter.getInstance().inject(this)
 
-        if (logout){
+        if (logout) {
             //关闭其他所有页面
             ZyFrameStore.finishAllActivity(this)
             SpUtil.clear()
@@ -89,16 +90,17 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     }
 
     override fun showLoginResult(user: UserInfoBean) {
+        UserManager.saveUserInfoBean(user)
         ARouter.getInstance().build(RouterPath.APP_MAIN_ACTIVITY).navigation()
         finish()
     }
 
 
     override fun permissionOk() {
-        val userInfoBean = SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)
-        if (userInfoBean != null) {
-            ZyFrameStore.setUserInfoBean(userInfoBean)
-            showLoginResult(userInfoBean)
+        UserManager.getUserInfoBean().let {
+            if (it.hasValue) {
+                showLoginResult(it)
+            }
         }
     }
 

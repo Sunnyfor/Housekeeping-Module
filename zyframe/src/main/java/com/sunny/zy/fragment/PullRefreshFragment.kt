@@ -8,6 +8,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.sunny.zy.base.BaseFragment
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.widget.PullRefreshRecyclerLayout
+import kotlinx.android.synthetic.main.zy_activity_base.*
 
 /**
  * Desc
@@ -31,7 +32,6 @@ open class PullRefreshFragment<T> : BaseFragment() {
     override fun setLayout(): Int = 0
 
     override fun initView() {
-
         setLayoutView(pullRefreshLayout)
         pullRefreshLayout.isShowEmptyView = isShowEmptyView
         pullRefreshLayout.setUnEnableRefreshAndLoad(enableRefresh, enableLoadMore)

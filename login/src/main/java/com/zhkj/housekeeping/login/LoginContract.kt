@@ -2,7 +2,7 @@ package com.zhkj.housekeeping.login
 
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
-import com.sunny.zy.bean.UserInfoBean
+import com.zhkj.user.bean.UserInfoBean
 
 /**
  * Desc

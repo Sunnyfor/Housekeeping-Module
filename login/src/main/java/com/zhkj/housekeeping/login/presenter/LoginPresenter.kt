@@ -35,8 +35,6 @@ class LoginPresenter(view: LoginContract.IView) : LoginContract.Presenter(view) 
             if (userInfoBean != null) {
                 SpUtil.setString(SpUtil.username, username) //持久化存储账号
                 SpUtil.setString(SpUtil.password, password) //持久化存储密码
-                SpUtil.setObject(SpUtil.userInfoBean, userInfoBean) //持久化存储用户信息
-                ZyFrameStore.setUserInfoBean(userInfoBean) //进行内存存储用户信息
                 view?.showLoginResult(userInfoBean)
             }
         }

@@ -2,7 +2,6 @@ package com.sunny.zy
 
 import android.content.Context
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.UserInfoBean
 import com.sunny.zy.utils.LogUtil
 import java.util.*
 
@@ -16,7 +15,6 @@ object ZyFrameStore {
 
     private val activityStack = Stack<BaseActivity>()
 
-    private val userInfoBean = UserInfoBean("", "", "")
 
     fun init(context: Context) {
         instance = context.applicationContext
@@ -25,15 +23,6 @@ object ZyFrameStore {
     fun getContext() = instance
 
     private val storeMap = HashMap<String, Any>() //内存数据存储
-
-
-    fun setUserInfoBean(mUserInfoBean: UserInfoBean) {
-        userInfoBean.userId = mUserInfoBean.userId
-        userInfoBean.deptId = mUserInfoBean.deptId
-        userInfoBean.name = mUserInfoBean.name
-    }
-
-    fun getUserInfoBean() = userInfoBean
 
     @Suppress("UNCHECKED_CAST")
     fun <T> getData(key: String, isDelete: Boolean = false): T? {
@@ -85,8 +74,8 @@ object ZyFrameStore {
      * 关闭所有的Activity
      */
     fun finishAllActivity(activity: BaseActivity? = null) {
-        activityStack.forEach{
-            if(activity != it){
+        activityStack.forEach {
+            if (activity != it) {
                 LogUtil.i("关闭:${activity?.packageName}")
                 it.finish()
             }

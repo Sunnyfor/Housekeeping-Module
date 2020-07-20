@@ -2,8 +2,10 @@ package com.zhkj.housekeeping.mine.presenter
 
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.utils.DataKey
+import com.sunny.zy.utils.SpUtil
 import com.zhkj.housekeeping.mine.MineContract
-import com.zhkj.housekeeping.mine.model.MineModel
+import com.zhkj.housekeeping.mine.MyCompanyInfo
+import com.zhkj.user.model.UserModel
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
 
@@ -15,17 +17,28 @@ import kotlinx.coroutines.launch
  */
 class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
 
-    private val mineModel: MineModel by lazy {
-        MineModel()
+    private val userModel: UserModel by lazy {
+        UserModel()
     }
+
 
     override fun getCompanyInfo() {
         launch(Main) {
             view?.showLoading()
-            view?.showCompanyInfo(mineModel.getMyCompanyInfo())
+
+            userModel.loadDeptList()?.let { bean ->
+                val myCompanyInfo = MyCompanyInfo()
+                if (bean.checkedId.isNotEmpty()) {
+                    bean.sysDept.find { it.deptId == bean.checkedId[0] }?.let { dept ->
+                        myCompanyInfo.companyName =
+                            bean.sysDept.find { it.deptId == dept.parentId }?.name ?: ""
+                        myCompanyInfo.deptName = dept.name
+                    }
+                }
+                view?.showCompanyInfo(myCompanyInfo)
+            }
             view?.hideLoading()
         }
-
     }
 
     override fun checkUpdateMark() {
@@ -37,7 +50,9 @@ class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
     }
 
     override fun logout() {
-        mineModel.logout()
+        SpUtil.remove(SpUtil.username)
+        SpUtil.remove(SpUtil.password)
+        SpUtil.remove(SpUtil.userInfoBean)
         view?.logout()
     }
 }

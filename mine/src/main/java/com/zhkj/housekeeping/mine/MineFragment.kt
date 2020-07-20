@@ -4,7 +4,6 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
-import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseFragment
 import com.sunny.zy.bean.VersionBean
 import com.sunny.zy.contract.VersionUpdateContract
@@ -16,6 +15,7 @@ import com.sunny.zy.widget.dialog.DownLoadDialog
 import com.sunny.zy.widget.dialog.VersionUpdateDialog
 import com.zhkj.housekeeping.mine.model.MineViewModel
 import com.zhkj.housekeeping.mine.presenter.MinePresenter
+import com.zhkj.user.util.UserManager
 import kotlinx.android.synthetic.main.fram_mine.*
 import kotlinx.coroutines.cancel
 import java.io.File
@@ -65,7 +65,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             return
         }
 
-        mineViewModel.username = ZyFrameStore.getUserInfoBean().name
+        mineViewModel.username = UserManager.getUserInfoBean().name
         //加载网络数据
         minePresenter.getCompanyInfo()
         minePresenter.checkUpdateMark()

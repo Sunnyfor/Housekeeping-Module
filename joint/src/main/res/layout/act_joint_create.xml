@@ -85,7 +85,7 @@
         <TextView
             android:id="@+id/tv_person_hint"
             style="@style/style_item_card_font"
-            android:text="@string/joint_content"
+            android:text="@string/joint_person"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

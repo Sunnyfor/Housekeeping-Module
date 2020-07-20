@@ -5,11 +5,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import com.sunny.zy.base.BaseModel
-import com.sunny.zy.bean.UserInfoBean
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.utils.ToastUtil
+import com.zhkj.user.bean.UserInfoBean
 import org.json.JSONObject
 
 /**

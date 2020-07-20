@@ -1,4 +1,4 @@
-package com.sunny.zy.bean
+package com.zhkj.user.bean
 
 /**
  * Desc
