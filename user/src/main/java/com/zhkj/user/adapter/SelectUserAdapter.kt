@@ -3,6 +3,7 @@ package com.zhkj.user.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.base.BaseRecycleViewHolder
 import com.zhkj.user.R
@@ -18,6 +19,13 @@ import kotlinx.android.synthetic.main.item_select_user.view.*
 class SelectUserAdapter(list: ArrayList<OtherUserBean>) : BaseRecycleAdapter<OtherUserBean>(list) {
 
     var checkLock = false
+
+    init {
+        setOnItemClickListener { view, _ ->
+            view.findViewById<CheckBox>(R.id.checkbox).performClick()
+        }
+    }
+
 
     override fun onBindViewHolder(holder: BaseRecycleViewHolder, position: Int) {
         holder.itemView.tv_name.text = getData(position).username ?: ""

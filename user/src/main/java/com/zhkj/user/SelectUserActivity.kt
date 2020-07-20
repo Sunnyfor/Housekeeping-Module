@@ -86,8 +86,6 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
             tabTitleList.add(it.key ?: "")
             initFragment(PullRefreshFragment(), it.value as ArrayList<OtherUserBean>)
         }
-//        viewpager.offscreenPageLimit = tab_layout.tabCount
-
         viewpager.adapter = object :
             FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
             override fun getItem(position: Int): Fragment = fragmentList[position]
