@@ -69,9 +69,9 @@ class JointPresenter(iView: IBaseView) : JointContract.Presenter(iView) {
     //
 //
     //加载协同回收站数据
-    fun loadJointRecycle() {
+    override fun loadJointRecycle(page:Int) {
         launch(Main) {
-            jointModel.jointRecycle()?.let {
+            jointModel.jointRecycle(page)?.let {
                 if (view is JointContract.IJointRecycleBinView) {
                     (view as JointContract.IJointRecycleBinView).showRecycleList(it)
                 }

@@ -22,5 +22,6 @@ class JointContract {
 
     abstract class Presenter(iView: IBaseView) : BasePresenter<IBaseView>(iView) {
         abstract fun loadJointList(page: Int, type: Int)
+        abstract fun loadJointRecycle(page:Int)
     }
 }

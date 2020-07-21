@@ -1,13 +1,13 @@
 package com.zhkj.housekeeping.joint.model
 
-import com.zhkj.housekeeping.joint.bean.JointBean
-import com.zhkj.housekeeping.joint.bean.Reply
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
 import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
+import com.zhkj.housekeeping.joint.bean.JointBean
+import com.zhkj.housekeeping.joint.bean.Reply
 import com.zhkj.housekeeping.joint.http.JointUrlConstant
 import org.json.JSONObject
 
@@ -46,7 +46,7 @@ class JointModel {
         params["limit"] = "20"
         params["type"] = type.toString()
         val resultBean = object : HttpResultBean<PageModel<JointBean>>() {}
-        ZyHttp.post(JointUrlConstant.JOINT_LIST_URL, params, resultBean)
+        ZyHttp.get(JointUrlConstant.JOINT_LIST_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             if (resultBean.bean?.isSuccess() == true) {
                 return resultBean.bean?.data?.list
@@ -157,10 +157,14 @@ class JointModel {
     /**
      *  协同回收站
      */
-    suspend fun jointRecycle(): ArrayList<JointBean>? {
+    suspend fun jointRecycle(page: Int): ArrayList<JointBean>? {
+        val params = HashMap<String, String>()
+        params["page"] = page.toString()
+        params["limit"] = "20"
+        params["type"] = "0"
         val resultBean =
             object : HttpResultBean<BaseModel<ArrayList<JointBean>>>("synergyEntities") {}
-        ZyHttp.post(JointUrlConstant.JOINT_RECYCLE_URL, null, resultBean)
+        ZyHttp.get(JointUrlConstant.JOINT_RECYCLE_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             if (resultBean.bean?.isSuccess() == true) {
                 return resultBean.bean?.data

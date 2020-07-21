@@ -1,11 +1,14 @@
 package com.zhkj.user
 
 import android.app.Activity
+import android.content.Intent
 import android.view.Menu
 import android.view.View
+import android.widget.CheckBox
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -26,6 +29,8 @@ import kotlinx.android.synthetic.main.act_select_user.*
  */
 @Route(path = RouterPath.USER_SELECT_ACTIVITY)
 class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
+
+    private var currentFragment: PullRefreshFragment<OtherUserBean>? = null
 
     @Autowired
     @JvmField
@@ -48,18 +53,43 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
         toolbar = defaultTitle(getString(R.string.select_person))
 
+
         toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.menu_complete_dest) {
-//                val intent = Intent()
-//                val dataList = pullRefreshFragment.adapter?.getAllData()
-//                    ?.filter { bean -> bean.isAlreadyJoinPeople } as ArrayList
-//                intent.putParcelableArrayListExtra("data", dataList)
-                setResult(Activity.RESULT_OK, intent)
-                finish()
+
+            currentFragment?.getAllData()?.forEach { bean ->
+                bean.isAlreadyJoinPeople = it.title == getString(R.string.select_all)
             }
+            if (it.title == getString(R.string.select_all)) {
+                it.title = getString(R.string.cancel)
+            } else {
+                it.title = getString(R.string.select_all)
+            }
+            currentFragment?.adapter?.notifyDataSetChanged()
+
             return@setOnMenuItemClickListener true
         }
 
+        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+
+            }
+
+            override fun onPageSelected(position: Int) {
+                currentFragment = fragmentList[position]
+                updateTitle()
+            }
+
+        })
+
+        btn_complete.setOnClickListener(this)
     }
 
     override fun loadData() {
@@ -67,7 +97,20 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
     }
 
     override fun onClickEvent(view: View) {
-
+        when (view.id) {
+            btn_complete.id -> {
+                val intent = Intent()
+                val dataList = arrayListOf<OtherUserBean>()
+                fragmentList.forEach { fragment ->
+                    fragment.getAllData()?.filter { it.isAlreadyJoinPeople }?.let {
+                        dataList.addAll(it)
+                    }
+                }
+                intent.putParcelableArrayListExtra("data", dataList)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -88,7 +131,10 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
         }
         viewpager.adapter = object :
             FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-            override fun getItem(position: Int): Fragment = fragmentList[position]
+            override fun getItem(position: Int): Fragment {
+                return fragmentList[position]
+            }
+
             override fun getCount(): Int = fragmentList.size
             override fun getPageTitle(position: Int): CharSequence? {
                 return tabTitleList[position]
@@ -96,7 +142,10 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
         }
         tab_layout.setupWithViewPager(viewpager)
+        currentFragment = fragmentList[0]
+        updateTitle()
     }
+
 
     private fun initFragment(
         fragment: PullRefreshFragment<OtherUserBean>,
@@ -114,7 +163,21 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
             }
         }
 
-        fragment.adapter = SelectUserAdapter(list)
+        fragment.adapter = SelectUserAdapter(list).apply {
+            setOnItemClickListener { view, _ ->
+                view.findViewById<CheckBox>(R.id.checkbox).performClick()
+                updateTitle()
+            }
+        }
         fragmentList.add(fragment)
+    }
+
+
+    private fun updateTitle() {
+        if (currentFragment?.getAllData()?.find { !it.isAlreadyJoinPeople } != null) {
+            toolbar.menu.getItem(0).title = getString(R.string.select_all)
+        } else {
+            toolbar.menu.getItem(0).title = getString(R.string.cancel)
+        }
     }
 }

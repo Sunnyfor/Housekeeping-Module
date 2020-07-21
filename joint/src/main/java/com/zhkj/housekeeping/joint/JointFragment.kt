@@ -3,7 +3,9 @@ package com.zhkj.housekeeping.joint
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AlertDialog
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.fragment.PullRefreshFragment
+import com.sunny.zy.utils.RouterPath
 import com.zhkj.housekeeping.joint.adapter.JointAdapter
 import com.zhkj.housekeeping.joint.bean.JointBean
 import com.zhkj.housekeeping.joint.contract.JointContract
@@ -16,7 +18,12 @@ class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointList
     private val jointAdapter: JointAdapter by lazy {
         JointAdapter().apply {
             setOnItemClickListener { _, i ->
-                showSelectDialog(i)
+                if (type == 0) {
+                    showSelectDialog(i)
+                } else {
+                    ARouter.getInstance().build(RouterPath.JOINT_DETAIL_ACTIVITY)
+                        .navigation()
+                }
             }
         }
     }

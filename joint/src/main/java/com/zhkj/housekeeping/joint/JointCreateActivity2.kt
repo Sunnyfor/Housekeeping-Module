@@ -14,11 +14,14 @@ import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.utils.RouterPath
 import com.zhkj.housekeeping.joint.bean.JointBean
 import com.zhkj.housekeeping.joint.model.JointViewModel
+import com.zhkj.user.bean.OtherUserBean
 import kotlinx.android.synthetic.main.act_create_joint.*
 import kotlinx.android.synthetic.main.act_joint_create.*
 
 @Route(path = RouterPath.JOINT_CREATE_ACTIVITY)
 class JointCreateActivity2 : BaseActivity() {
+
+    private val selectUserList = ArrayList<OtherUserBean>()
 
     private val jointViewModel: JointViewModel by lazy {
         ViewModelProvider(this).get(JointViewModel::class.java)
@@ -137,8 +140,8 @@ class JointCreateActivity2 : BaseActivity() {
 
 
                 ARouter.getInstance().build(RouterPath.USER_SELECT_ACTIVITY)
-                    .withStringArrayList("selectUserIds", arrayListOf("19","8","12"))
-                    .navigation()
+                    .withStringArrayList("selectUserIds", arrayListOf("19", "8", "12"))
+                    .navigation(this, 10000)
 
 //                if (type != TYPE_PREVIEW) {
 //                    if (checkedItems == null) {
@@ -189,8 +192,8 @@ class JointCreateActivity2 : BaseActivity() {
     private fun showSelectDialog() {
 
         ARouter.getInstance().build(RouterPath.USER_SELECT_ACTIVITY)
-            .withStringArrayList("selectUserIds", arrayListOf("19","8","12"))
-            .navigation()
+            .withStringArrayList("selectUserIds", arrayListOf("19", "8", "12"))
+            .navigation(this, 10000)
 
 //        AlertDialog.Builder(this)
 //            .setTitle("选择协同人员")
@@ -246,8 +249,17 @@ class JointCreateActivity2 : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 10000 && resultCode == Activity.RESULT_OK){
-
+        if (requestCode == 10000 && resultCode == Activity.RESULT_OK) {
+            selectUserList.clear()
+            data?.extras?.get("data")?.let { list ->
+                if (list is ArrayList<*>) {
+                    list.forEach { bean ->
+                        if (bean is OtherUserBean) {
+                            selectUserList.add(bean)
+                        }
+                    }
+                }
+            }
         }
     }
 

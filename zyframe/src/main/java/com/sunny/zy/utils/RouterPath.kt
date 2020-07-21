@@ -26,5 +26,8 @@ object RouterPath {
 
     const val JOINT_CREATE_ACTIVITY = "/joint/JointCreateActivity" //创建协同
 
+    const val JOINT_DETAIL_ACTIVITY = "/joint/JointDetailActivity" //协同详情
+
     const val USER_SELECT_ACTIVITY = "/user/SelectUserActivity" //选择人员
+
 }

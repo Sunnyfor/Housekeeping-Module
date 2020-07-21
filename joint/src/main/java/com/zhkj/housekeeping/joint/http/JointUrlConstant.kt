@@ -11,7 +11,7 @@ object JointUrlConstant {
     /**
      * 协同列表
      */
-    const val JOINT_LIST_URL = "app/synergy/listAll"
+    const val JOINT_LIST_URL = "app/synergys"
 
     /**
      * 创建协同
@@ -31,6 +31,6 @@ object JointUrlConstant {
     /**
      * 协同回收站
      */
-    const val JOINT_RECYCLE_URL = "app/synergy/synergyRubbish"
+    const val JOINT_RECYCLE_URL = "app/synergys"
 
 }

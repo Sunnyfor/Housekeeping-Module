@@ -46,6 +46,7 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
             //关闭其他所有页面
             ZyFrameStore.finishAllActivity(this)
             SpUtil.clear()
+
         }
 
         //设置密码显示与隐藏
@@ -74,6 +75,9 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
     }
 
     override fun loadData() {
+        if (logout){
+            return
+        }
         loginPresenter.checkPermission(this)
     }
 

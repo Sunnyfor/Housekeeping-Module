@@ -76,7 +76,7 @@ object ZyFrameStore {
     fun finishAllActivity(activity: BaseActivity? = null) {
         activityStack.forEach {
             if (activity != it) {
-                LogUtil.i("关闭:${activity?.packageName}")
+                LogUtil.i("关闭:${activity?.javaClass?.simpleName}")
                 it.finish()
             }
         }
