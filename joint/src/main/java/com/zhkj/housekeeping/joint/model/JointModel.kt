@@ -163,11 +163,11 @@ class JointModel {
         params["limit"] = "20"
         params["type"] = "0"
         val resultBean =
-            object : HttpResultBean<BaseModel<ArrayList<JointBean>>>("synergyEntities") {}
+            object : HttpResultBean<PageModel<JointBean>>() {}
         ZyHttp.get(JointUrlConstant.JOINT_RECYCLE_URL, params, resultBean)
         if (resultBean.isSuccess()) {
             if (resultBean.bean?.isSuccess() == true) {
-                return resultBean.bean?.data
+                return resultBean.bean?.data?.list
             }
         }
         return null
