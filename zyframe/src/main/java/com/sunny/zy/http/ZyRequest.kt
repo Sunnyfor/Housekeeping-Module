@@ -70,6 +70,18 @@ class ZyRequest {
     }
 
     /**
+     * PATCH-Form请求生成
+     */
+    fun patchFormRequest(url: String, params: HashMap<String, String>?): Request {
+        val urlSb = getUrlSb(url)
+        val body = FormBody.Builder()
+        params?.entries?.forEach {
+            body.add(it.key, it.value)
+        }
+        return Request.Builder().url(urlSb.toString()).patch(body.build()).build()
+    }
+
+    /**
      *  DELETE请求
      */
     fun deleteJsonRequest(url: String, json: String): Request {

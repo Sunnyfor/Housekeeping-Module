@@ -1,9 +1,9 @@
 package com.zhkj.housekeeping.joint
 
 import android.content.DialogInterface
-import android.content.Intent
 import androidx.appcompat.app.AlertDialog
 import com.alibaba.android.arouter.launcher.ARouter
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.fragment.PullRefreshFragment
 import com.sunny.zy.utils.RouterPath
 import com.zhkj.housekeeping.joint.adapter.JointAdapter
@@ -12,7 +12,8 @@ import com.zhkj.housekeeping.joint.contract.JointContract
 import com.zhkj.housekeeping.joint.presenter.JointPresenter
 import kotlinx.coroutines.cancel
 
-class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointListView {
+class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointListView,
+    JointContract.IJointDeleteView {
     var type = 0
 
     private val jointAdapter: JointAdapter by lazy {
@@ -21,6 +22,7 @@ class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointList
                 if (type == 0) {
                     showSelectDialog(i)
                 } else {
+                    ZyFrameStore.setData("jointBean", getData(i))
                     ARouter.getInstance().build(RouterPath.JOINT_DETAIL_ACTIVITY)
                         .navigation()
                 }
@@ -65,19 +67,19 @@ class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointList
                 )
             ) { dialogInterface: DialogInterface, index: Int ->
                 dialogInterface.dismiss()
-                val type = when (index) {
-                    0 -> JointCreateActivity.TYPE_PREVIEW
-                    1 -> JointCreateActivity.TYPE_MODIFY
-                    else -> 3
-                }
-                if (type == 3) {
-                    showDeleteDialog(jointAdapter.getData(position).synergyId.toString())
-                } else {
-//                    ZyFrameStore.setData("joinStateList", joinStateList)
-//                    ZyFrameStore.setData("jointBean", jointAdapter.getData(position))
-                    val intent = Intent(requireContext(), JointCreateActivity::class.java)
-                    intent.putExtra("type", type)
-                    startActivityForResult(intent, 200)
+
+                when (index) {
+                    0 -> {
+                        ZyFrameStore.setData("jointBean", adapter?.getData(position))
+                        ARouter.getInstance().build(RouterPath.JOINT_DETAIL_ACTIVITY)
+                            .navigation()
+                    }
+                    1 -> {
+                        ZyFrameStore.setData("jointBean", adapter?.getData(position))
+                        ARouter.getInstance().build(RouterPath.JOINT_CREATE_ACTIVITY)
+                            .navigation(getBaseActivity(), 11000)
+                    }
+                    2 -> showDeleteDialog(jointAdapter.getData(position))
                 }
             }.show()
     }
@@ -86,19 +88,22 @@ class JointFragment : PullRefreshFragment<JointBean>(), JointContract.IJointList
     /**
      * 删除协同对话框
      */
-    private fun showDeleteDialog(id: String) {
+    private fun showDeleteDialog(bean: JointBean) {
         AlertDialog.Builder(requireContext()).setTitle("删除协同")
-            .setMessage("是否确认删除协同？")
-            .setNegativeButton("删除") { _: DialogInterface, _: Int ->
-//                getBaseActivity().launch(Main) {
-//                    jointViewModel.deleteJoint(id)
-//                }
-
-            }.setPositiveButton("取消") { _: DialogInterface, _: Int -> }
+            .setMessage("是否确认删除《${bean.synergyTitle}》？")
+            .setPositiveButton("删除") { _: DialogInterface, _: Int ->
+                jointPresenter.deleteJoint(bean.synergyId.toString())
+            }.setNegativeButton("取消") { _: DialogInterface, _: Int -> }
             .show()
     }
 
     override fun showJointList(data: ArrayList<JointBean>) {
         addData(data)
+    }
+
+    override fun showDeleteJointResult(id: String) {
+        getAllData()?.find { it.synergyId.toString() == id }?.let {
+            deleteData(it)
+        }
     }
 }

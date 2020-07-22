@@ -1,6 +1,7 @@
 package com.zhkj.housekeeping.joint.presenter
 
 import com.sunny.zy.base.IBaseView
+import com.zhkj.housekeeping.joint.bean.JointBean
 import com.zhkj.housekeeping.joint.contract.JointContract
 import com.zhkj.housekeeping.joint.model.JointModel
 import kotlinx.coroutines.Dispatchers.Main
@@ -19,41 +20,6 @@ class JointPresenter(iView: IBaseView) : JointContract.Presenter(iView) {
     }
 
 
-    //获取协同数据及监听协同数据
-//    fun getJointList(type: Int, observer: Observer<ArrayList<JointBean>>): ArrayList<JointBean> {
-//        return when (type) {
-//            0 -> {
-//                view?.let {
-//                    viewModel.jointIssuedListLiveData.observe(
-//                        it.getLifLifecycleOwner(), observer
-//                    )
-//                }
-//                viewModel.jointIssuedListLiveData.value ?: arrayListOf()
-//            }
-//
-//            1 -> {
-//                view?.let {
-//                    viewModel.jointListLiveData.observe(
-//                        it.getLifLifecycleOwner(), observer
-//                    )
-//                }
-//                viewModel.jointListLiveData.value ?: arrayListOf()
-//            }
-//
-//            2 -> {
-//                view?.let {
-//                    viewModel.jointRecycleLiveData.observe(
-//                        it.getLifLifecycleOwner(), observer
-//                    )
-//                }
-//                viewModel.jointRecycleLiveData.value ?: arrayListOf()
-//            }
-//            else -> {
-//                arrayListOf()
-//            }
-//        }
-//    }
-//
     //加载协同数据
     override fun loadJointList(page: Int, type: Int) {
         launch(Main) {
@@ -66,14 +32,107 @@ class JointPresenter(iView: IBaseView) : JointContract.Presenter(iView) {
         }
     }
 
-    //
-//
     //加载协同回收站数据
-    override fun loadJointRecycle(page:Int) {
+    override fun loadJointRecycle() {
         launch(Main) {
-            jointModel.jointRecycle(page)?.let {
+            jointModel.jointRecycle()?.let {
                 if (view is JointContract.IJointRecycleBinView) {
                     (view as JointContract.IJointRecycleBinView).showRecycleList(it)
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    //创建协同
+    override fun createJoint(
+        synergyTitle: String, content: String, synergyNames: String, synergyIds: String
+    ) {
+        if (synergyTitle.isEmpty()) {
+            view?.showMessage("请输入协同标题！")
+            return
+        }
+
+        if (content.isEmpty()) {
+            view?.showMessage("请输入协同内容！")
+            return
+        }
+
+        launch(Main) {
+            showLoading()
+            jointModel.createJoint(synergyTitle, content, synergyNames, synergyIds)?.let {
+                view?.showMessage("创建成功！")
+                if (view is JointContract.IJointCreateView) {
+                    (view as JointContract.IJointCreateView).showCreateJointResult()
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    //加载计划可用状态
+    override fun loadJointState() {
+        launch(Main) {
+            showLoading()
+            jointModel.loadJointState()?.let {
+                if (view is JointContract.IJointCreateView) {
+                    (view as JointContract.IJointCreateView).showJointStateList(it)
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    //修改协同
+    override fun modifyJoint(jointBean: JointBean) {
+        launch(Main) {
+            showLoading()
+            jointModel.modifyJoint(jointBean)?.let {
+                view?.showMessage("修改成功！")
+                if (view is JointContract.IJointCreateView) {
+                    (view as JointContract.IJointCreateView).showModifyJointResult()
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    override fun deleteJoint(id: String) {
+        launch(Main) {
+            showLoading()
+            jointModel.deleteJoint(id)?.let {
+                view?.showMessage("删除成功！")
+                if (view is JointContract.IJointDeleteView) {
+                    (view as JointContract.IJointDeleteView).showDeleteJointResult(id)
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    override fun sendReply(groupId: String, content: String) {
+
+        if (content.isEmpty()) {
+            return
+        }
+        launch(Main) {
+            showLoading()
+            jointModel.sendReply(groupId, content)?.let {
+                view?.showMessage("发送成功！")
+                if (view is JointContract.IJointReplyView) {
+                    (view as JointContract.IJointReplyView).showReplyJoint()
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    override fun loadReplyList(id: String) {
+        launch(Main) {
+            showLoading()
+            jointModel.loadReplyList(id)?.let {
+                if (view is JointContract.IJointReplyView) {
+                    (view as JointContract.IJointReplyView).showReplyJointList(it)
                 }
             }
             hideLoading()

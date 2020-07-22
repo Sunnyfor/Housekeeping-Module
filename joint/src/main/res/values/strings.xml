@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="create">创建</string>
+    <string name="modify">修改</string>
     <string name="create_joint">创建协同</string>
     <string name="recycle_bin">回收站</string>
     <string name="commit">提交</string>
@@ -11,5 +12,10 @@
     <string name="joint_content">协同内容</string>
     <string name="joint_content_hint">请输入协同内容</string>
     <string name="joint_person">协同人员</string>
-    <string name="joint_person_hint">请选择协同人员</string>
+    <string name="joint_person_hint">选择协同人员</string>
+    <string name="joint_state">协同状态</string>
+    <string name="unfinished">未完成</string>
+    <string name="input_review_content">输入审核内容</string>
+    <string name="send">发送</string>
+    <string name="reply">回复</string>
 </resources>

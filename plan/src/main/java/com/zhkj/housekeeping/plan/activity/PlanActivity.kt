@@ -205,7 +205,6 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
         pullRefreshFragment.getAllData()?.find { it.planId == id }?.let {
             loadPlanMark(calendar)
             pullRefreshFragment.deleteData(it)
-            pullRefreshFragment.adapter?.notifyDataSetChanged()
 
         }
 

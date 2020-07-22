@@ -88,10 +88,12 @@ open class PullRefreshFragment<T> : BaseFragment() {
 
     fun deleteData(index: Int) {
         adapter?.deleteData(index)
+        adapter?.notifyDataSetChanged()
     }
 
     fun deleteData(data: T) {
         adapter?.deleteData(data)
+        adapter?.notifyDataSetChanged()
     }
 
 

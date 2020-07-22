@@ -9,9 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
-import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.fragment.PullRefreshFragment
 import com.sunny.zy.utils.RouterPath
@@ -32,9 +31,10 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
     private var currentFragment: PullRefreshFragment<OtherUserBean>? = null
 
-    @Autowired
-    @JvmField
-    var selectUserIds = ArrayList<String>()
+
+    private val selectUserIds: ArrayList<String> by lazy {
+        ZyFrameStore.getData<ArrayList<String>>("selectUserIds", true) ?: arrayListOf()
+    }
 
     lateinit var toolbar: Toolbar
 
@@ -49,7 +49,6 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
     override fun initView() {
 
-        ARouter.getInstance().inject(this)
 
         toolbar = defaultTitle(getString(R.string.select_person))
 

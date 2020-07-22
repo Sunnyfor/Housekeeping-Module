@@ -5,7 +5,7 @@ data class JointBean(
     var content: String? = null,
     var createDate: String? = null,
     var createUserId: Int,
-    var endDate: Any,
+    var endDate: String? = null,
     var getUserId: Int,
     var isDelete: Int,
     var replyList: ArrayList<Reply>,
@@ -23,17 +23,18 @@ data class JointBean(
     var synergyTitle: String? = null,
     var executeBindingPlanId: String? = null,
     var coverId: String? = null
-)
+) {
+    data class Reply(
+        var id: String? = null,
+        var userId: String? = null,
+        var userName: String? = null,
+        var groupId: String? = null,
+        var leiXing: String? = null,
+        var content: String? = null,
+        var isDel: String? = null,
+        var isRead: String? = null,
+        var sendTime: String? = null,
+        var isBack: String? = null
+    )
+}
 
-data class Reply(
-    var id: String? = null,
-    var userId: String? = null,
-    var userName: String? = null,
-    var groupId: String? = null,
-    var leiXing: String? = null,
-    var content: String? = null,
-    var isDel: String? = null,
-    var isRead: String? = null,
-    var sendTime: String? = null,
-    var isBack: String? = null
-)

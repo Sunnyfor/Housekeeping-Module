@@ -112,6 +112,19 @@ object ZyHttp {
     }
 
 
+    suspend fun <T> patch(
+        url: String,
+        params: HashMap<String, String>?,
+        httpResultBean: HttpResultBean<T>
+    ) {
+        return withContext(Dispatchers.IO) {
+            //创建okHttp请求
+            val request = zyRequest.patchFormRequest(url, params)
+            execution(request, httpResultBean)
+        }
+    }
+
+
     /**
      * post传递JSON请求
      * @param url URL服务器地址

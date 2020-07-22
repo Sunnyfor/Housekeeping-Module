@@ -34,6 +34,7 @@ class JointRecycleActivity : BaseActivity(), JointContract.IJointRecycleBinView 
         defaultTitle("协同回收站")
 
         showLoading()
+        pullRefreshFragment.enableLoadMore = false
         pullRefreshFragment.adapter = jointAdapter
         pullRefreshFragment.loadData = {
             loadData()
@@ -48,7 +49,7 @@ class JointRecycleActivity : BaseActivity(), JointContract.IJointRecycleBinView 
     }
 
     override fun loadData() {
-        jointPresenter.loadJointRecycle(pullRefreshFragment.page)
+        jointPresenter.loadJointRecycle()
     }
 
     override fun close() {

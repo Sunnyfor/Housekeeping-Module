@@ -26,7 +26,7 @@
             android:id="@+id/edit_title"
             style="@style/style_item_card_font"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_20"
             android:gravity="start|center_vertical"
             android:hint="@string/joint_title_hint"
             android:importantForAutofill="no"
@@ -59,7 +59,7 @@
             android:id="@+id/edit_content"
             style="@style/style_item_card_font"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_20"
             android:gravity="start|center_vertical"
             android:hint="@string/joint_content_hint"
             android:importantForAutofill="no"
@@ -94,21 +94,88 @@
             android:id="@+id/tv_person"
             style="@style/style_item_card_font"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginStart="@dimen/dp_20"
             android:gravity="start"
             android:text="@string/joint_person_hint"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/tv_person_hint"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/iv_person"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_state"
+        style="@style/style_item_card_view"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:minHeight="@dimen/dp_50"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_person"
+        android:visibility="gone">
+
+
+        <TextView
+            android:id="@+id/tv_state_hint"
+            style="@style/style_item_card_font"
+            android:text="@string/joint_state"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_state"
+            style="@style/style_item_card_font"
+            android:layout_marginStart="@dimen/dp_20"
+            android:gravity="start"
+            android:text="@string/unfinished"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_state_hint"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_state"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <EditText
+        android:id="@+id/edit_review"
+        style="@style/style_font_black"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_80"
+        android:layout_marginTop="@dimen/dp_2"
+        android:background="@drawable/corners_dp5_white"
+        android:gravity="top"
+        android:hint="@string/input_review_content"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:maxLines="3"
+        android:padding="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/cl_state" />
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_commit"
         style="@style/style_common_btn"
+        android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/create"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

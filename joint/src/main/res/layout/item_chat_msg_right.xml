@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/dp_16">
+
+    <TextView
+        android:id="@+id/tv_right_date"
+        style="@style/style_font_gray"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        android:visibility="gone"
+        tools:text="2020年7月22日" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/iv_head"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
+        android:layout_below="@id/tv_right_date"
         android:layout_alignParentEnd="true"
         android:background="@drawable/icon_default_head" />
 
     <TextView
         android:id="@+id/tv_username_right"
         style="@style/style_font_gray"
+        android:layout_below="@id/tv_right_date"
         android:layout_toStartOf="@id/iv_head"
         android:paddingStart="@dimen/dp_10"
         android:paddingEnd="@dimen/dp_10"
-        tools:text="JoannChen"
-        android:textSize="@dimen/sp_12" />
+        android:textSize="@dimen/sp_12"
+        tools:text="JoannChen" />
 
     <TextView
         android:id="@+id/tv_message_right"
@@ -30,17 +41,4 @@
         android:background="@drawable/sel_chat_bubble_right_bg"
         android:padding="@dimen/dp_10"
         tools:text="@string/app_name" />
-
-    <ImageView
-        android:id="@+id/iv_message_right"
-        style="@style/style_font_white"
-        android:maxWidth="@dimen/dp_120"
-        android:maxHeight="@dimen/dp_160"
-        android:layout_below="@id/tv_username_right"
-        android:layout_alignEnd="@id/tv_username_right"
-        android:layout_margin="@dimen/dp_5"
-        android:background="@drawable/sel_chat_bubble_right_bg"
-        android:padding="@dimen/dp_10"
-        android:adjustViewBounds="true"
-        android:visibility="gone"/>
 </RelativeLayout>

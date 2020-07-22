@@ -6,6 +6,6 @@
         <activity android:name=".JointActivity" />
         <activity android:name=".JointDetailActivity" />
         <activity android:name=".JointRecycleActivity" />
-        <activity android:name=".JointCreateActivity2" />
+        <activity android:name=".JointCreateActivity" />
     </application>
 </manifest>

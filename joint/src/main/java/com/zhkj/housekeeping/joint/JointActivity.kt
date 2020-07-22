@@ -34,7 +34,8 @@ class JointActivity : BaseActivity() {
                 }
 
                 R.id.menu_add -> {
-                    ARouter.getInstance().build(RouterPath.JOINT_CREATE_ACTIVITY).navigation()
+                    ARouter.getInstance().build(RouterPath.JOINT_CREATE_ACTIVITY)
+                        .navigation(this, 11000)
                 }
 
             }
@@ -73,10 +74,6 @@ class JointActivity : BaseActivity() {
     }
 
     override fun loadData() {
-//        launch(Main) {
-//            showLoading()
-//            jointViewModel.getJointState()
-//        }
 
     }
 
@@ -91,17 +88,16 @@ class JointActivity : BaseActivity() {
     }
 
 
-    fun refresh() {
-        onActivityResult(0, Activity.RESULT_OK, null)
-    }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            fragmentList.forEach {
+        if (requestCode == 11000 && resultCode == Activity.RESULT_OK) {
+
+            fragmentList[0].let {
+                it.page = 1
                 it.loadData()
             }
+
         }
     }
 }
