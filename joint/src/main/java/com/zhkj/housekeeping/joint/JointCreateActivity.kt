@@ -16,6 +16,7 @@ import com.zhkj.housekeeping.joint.contract.JointContract
 import com.zhkj.housekeeping.joint.presenter.JointPresenter
 import com.zhkj.user.bean.OtherUserBean
 import kotlinx.android.synthetic.main.act_joint_create.*
+import kotlinx.coroutines.cancel
 
 @Route(path = RouterPath.JOINT_CREATE_ACTIVITY)
 class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
@@ -118,7 +119,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
     }
 
     override fun close() {
-
+        presenter.cancel()
     }
 
 

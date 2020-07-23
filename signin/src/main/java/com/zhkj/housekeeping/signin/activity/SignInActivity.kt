@@ -22,6 +22,7 @@ import com.zhkj.housekeeping.signin.bean.SignInBean
 import com.zhkj.housekeeping.signin.contract.SignInContract
 import com.zhkj.housekeeping.signin.presenter.SignInPresenter
 import kotlinx.android.synthetic.main.act_sign_in.*
+import kotlinx.coroutines.cancel
 import java.io.File
 
 /**
@@ -108,7 +109,9 @@ class SignInActivity : BaseActivity(), SignInContract.IView {
         presenter.loadSignInInfo()
     }
 
-    override fun close() {}
+    override fun close() {
+        presenter.cancel()
+    }
 
 
     override fun showSignInInfo(signInBean: SignInBean) {

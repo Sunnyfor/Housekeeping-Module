@@ -29,6 +29,7 @@ import com.zhkj.housekeeping.plan.contract.PlanExtendContract
 import com.zhkj.housekeeping.plan.presenter.PlanExtendPresenter
 import com.zhkj.housekeeping.plan.util.DateUtil
 import kotlinx.android.synthetic.main.act_plan_desc.*
+import kotlinx.coroutines.cancel
 import java.text.ParseException
 
 /**
@@ -65,7 +66,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
 
     private val adapter: PlanContentAdapter by lazy {
-        PlanContentAdapter(bean?.activeStatus?:0,contentList) { _: View, position: Int ->
+        PlanContentAdapter(bean?.activeStatus ?: 0, contentList) { _: View, position: Int ->
             contentList.removeAt(position)
             adapter.notifyDataSetChanged()
         }
@@ -94,7 +95,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             edit_plan_day.setText("1")
 
             setOnClickListener(
-                tv_start_date, tv_end_date, btn_commit,tv_plan_module
+                tv_start_date, tv_end_date, btn_commit, tv_plan_module
             )
 
         } else {
@@ -219,6 +220,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
     }
 
     override fun close() {
+        presenter.cancel()
     }
 
 

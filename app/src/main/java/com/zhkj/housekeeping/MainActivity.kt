@@ -30,7 +30,6 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
     override fun setLayout(): Int = R.layout.activity_main
 
     override fun initView() {
-
     }
 
     override fun loadData() {

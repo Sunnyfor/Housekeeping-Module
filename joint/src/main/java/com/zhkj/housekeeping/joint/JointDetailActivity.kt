@@ -17,6 +17,7 @@ import com.zhkj.housekeeping.joint.bean.JointBean
 import com.zhkj.housekeeping.joint.contract.JointContract
 import com.zhkj.housekeeping.joint.presenter.JointPresenter
 import kotlinx.android.synthetic.main.act_joint_detail.*
+import kotlinx.coroutines.cancel
 
 /**
  * Desc
@@ -29,7 +30,7 @@ class JointDetailActivity : BaseActivity(), JointContract.IJointReplyView {
 
 
     private val jointBean: JointBean? by lazy {
-        ZyFrameStore.getData<JointBean>("jointBean",true)
+        ZyFrameStore.getData<JointBean>("jointBean", true)
     }
 
     var memberArray: Array<String>? = null
@@ -102,7 +103,7 @@ class JointDetailActivity : BaseActivity(), JointContract.IJointReplyView {
 
 
     override fun close() {
-
+        presenter.cancel()
     }
 
 

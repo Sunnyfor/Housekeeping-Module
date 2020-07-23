@@ -11,6 +11,7 @@ import com.zhkj.housekeeping.signin.adapter.SignInRecordAdapter
 import com.zhkj.housekeeping.signin.bean.SignInBean
 import com.zhkj.housekeeping.signin.contract.SignInRecordContract
 import com.zhkj.housekeeping.signin.presenter.SignInRecordPresenter
+import kotlinx.coroutines.cancel
 
 /**
  * Desc
@@ -55,7 +56,7 @@ class SignInRecordActivity : BaseActivity(), SignInRecordContract.IView {
     }
 
     override fun close() {
-
+        presenter.cancel()
     }
 
     override fun showSignInRecord(signInBeanList: ArrayList<SignInBean>) {

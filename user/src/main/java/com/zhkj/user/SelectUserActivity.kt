@@ -19,6 +19,7 @@ import com.zhkj.user.bean.OtherUserBean
 import com.zhkj.user.contract.UserContract
 import com.zhkj.user.presenter.UserPresenter
 import kotlinx.android.synthetic.main.act_select_user.*
+import kotlinx.coroutines.cancel
 
 /**
  * Desc
@@ -119,7 +120,7 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
 
     override fun close() {
-
+        userPresenter.cancel()
     }
 
 
