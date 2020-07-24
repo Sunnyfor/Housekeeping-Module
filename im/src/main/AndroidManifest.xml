@@ -1,0 +1,11 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.zhkj.im">
+
+    <application>
+        <service android:name="com.zhkj.im.service.KeepLiveService">
+            <intent-filter>
+                <action android:name="com.starrtc.demo.service.KeepLiveService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

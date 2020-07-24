@@ -1,5 +1,6 @@
 package com.zhkj.housekeeping
 
+import android.content.Intent
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -12,6 +13,7 @@ import com.sunny.zy.utils.DataKey
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.widget.dialog.DownLoadDialog
 import com.sunny.zy.widget.dialog.VersionUpdateDialog
+import com.zhkj.im.service.KeepLiveService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.cancel
 import java.io.File
@@ -30,6 +32,9 @@ class MainActivity : BaseActivity(), VersionUpdateContract.View {
     override fun setLayout(): Int = R.layout.activity_main
 
     override fun initView() {
+        //启动IM服务
+        val intent = Intent(this@MainActivity, KeepLiveService::class.java)
+        startService(intent)
     }
 
     override fun loadData() {
