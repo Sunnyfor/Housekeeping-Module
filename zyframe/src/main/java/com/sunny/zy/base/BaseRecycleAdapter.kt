@@ -33,6 +33,7 @@ abstract class BaseRecycleAdapter<T>(private var list: ArrayList<T>) :
 
     abstract fun setLayout(parent: ViewGroup, viewType: Int): View
 
+    fun getData() = list
 
     fun getData(position: Int): T = list[position]
 
@@ -48,12 +49,9 @@ abstract class BaseRecycleAdapter<T>(private var list: ArrayList<T>) :
         list.remove(data)
     }
 
-
     fun clearData() {
         list.clear()
     }
-
-    fun getAllData() = list
 
     /*
      * 子条目点击事件

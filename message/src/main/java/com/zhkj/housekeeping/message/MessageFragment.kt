@@ -6,6 +6,7 @@ import com.zhkj.housekeeping.adapter.FriendGroupAdapter
 import com.zhkj.housekeeping.bean.FriendsBean
 import com.zhkj.housekeeping.contract.MessageContract
 import com.zhkj.housekeeping.presenter.MessagePresenter
+import kotlinx.coroutines.cancel
 
 class MessageFragment : PullRefreshFragment<Any>(), MessageContract.IFriendsView {
 
@@ -13,7 +14,8 @@ class MessageFragment : PullRefreshFragment<Any>(), MessageContract.IFriendsView
         MessagePresenter(this)
     }
 
-    override fun setLayout(): Int = R.layout.fram_message
+
+    override fun setLayout(): Int = 0
 
     override fun initView() {
         getBaseActivity().simpleTitle(getString(R.string.message))
@@ -42,7 +44,7 @@ class MessageFragment : PullRefreshFragment<Any>(), MessageContract.IFriendsView
     }
 
     override fun close() {
-
+        presenter.cancel()
     }
 
     override fun showFriendData(friendsBean: FriendsBean) {

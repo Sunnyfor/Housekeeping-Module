@@ -46,7 +46,7 @@
     <style name="style_item_card_view">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_50</item>
-        <item name="android:layout_marginTop">@dimen/dp_2</item>
+        <item name="android:layout_marginTop">@dimen/dp_1</item>
     </style>
 
     <!--菜单条目字体样式-->

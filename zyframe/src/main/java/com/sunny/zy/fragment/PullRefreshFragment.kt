@@ -16,7 +16,7 @@ import com.sunny.zy.widget.PullRefreshRecyclerLayout
  * Date 2020/6/4 16:05
  */
 open class PullRefreshFragment<T> : BaseFragment() {
-    var layoutManager: RecyclerView.LayoutManager? = null
+    var layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(context)
     var adapter: BaseRecycleAdapter<T>? = null
     var page = 1
     var loadData: (() -> Unit)? = null
@@ -34,8 +34,8 @@ open class PullRefreshFragment<T> : BaseFragment() {
         setLayoutView(pullRefreshLayout)
         pullRefreshLayout.isShowEmptyView = isShowEmptyView
         pullRefreshLayout.setUnEnableRefreshAndLoad(enableRefresh, enableLoadMore)
-        pullRefreshLayout.recyclerView.layoutManager = layoutManager ?: LinearLayoutManager(context)
         pullRefreshLayout.recyclerView.adapter = adapter
+        pullRefreshLayout.recyclerView.layoutManager = layoutManager
 
         pullRefreshLayout.setOnRefreshLoadMoreListener(object : OnRefreshLoadMoreListener {
             override fun onLoadMore(refreshLayout: RefreshLayout) {

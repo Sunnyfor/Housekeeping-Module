@@ -5,8 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.base.BaseRecycleViewHolder
-import com.sunny.zy.http.UrlConstant
-import com.sunny.zy.utils.GlideApp
 import com.zhkj.housekeeping.signin.R
 import com.zhkj.housekeeping.signin.bean.SignInBean
 import kotlinx.android.synthetic.main.item_sign_in_record.view.*
