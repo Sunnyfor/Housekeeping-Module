@@ -8,7 +8,6 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.sunny.zy.base.BaseFragment
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.widget.PullRefreshRecyclerLayout
-import kotlinx.android.synthetic.main.zy_activity_base.*
 
 /**
  * Desc
@@ -97,5 +96,5 @@ open class PullRefreshFragment<T> : BaseFragment() {
     }
 
 
-    fun getAllData() = adapter?.getAllData()
+    fun getAllData() = adapter?.getData()
 }

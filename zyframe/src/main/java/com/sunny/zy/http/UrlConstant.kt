@@ -10,9 +10,9 @@ import com.sunny.zy.ZyFrameStore
  */
 object UrlConstant {
 
-    const val host = "https://10.0.0.153:8807" // 内网测试地址
+//    const val host = "https://10.0.0.153:8807" // 内网测试地址
 
-//    const val host = "https://www.zhenhekj.com:8807" //正式地址
+    const val host = "https://www.zhenhekj.com:8807" //正式地址
 
 
     val TEMP = ZyFrameStore.getContext().getExternalFilesDir("temp")?.path //内存卡缓存路径
