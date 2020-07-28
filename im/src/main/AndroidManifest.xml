@@ -2,10 +2,13 @@
     package="com.zhkj.im">
 
     <application>
-        <service android:name="com.zhkj.im.service.KeepLiveService">
+        <service
+            android:name="com.zhkj.im.service.KeepLiveService"
+            android:exported="false">
             <intent-filter>
-                <action android:name="com.starrtc.demo.service.KeepLiveService" />
+                <action android:name="com.zhkj.im.service.KeepLiveService" />
             </intent-filter>
         </service>
+        <activity android:name=".ChatActivity" />
     </application>
 </manifest>

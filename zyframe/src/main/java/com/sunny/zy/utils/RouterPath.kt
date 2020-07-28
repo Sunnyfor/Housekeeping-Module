@@ -30,4 +30,5 @@ object RouterPath {
 
     const val USER_SELECT_ACTIVITY = "/user/SelectUserActivity" //选择人员
 
+    const val IM_CHAT_ACTIVITY = "/im/ChatActivity" //聊天页面
 }

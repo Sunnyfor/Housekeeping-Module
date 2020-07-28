@@ -3,11 +3,12 @@ package com.zhkj.housekeeping.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.base.BaseRecycleViewHolder
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.utils.GlideApp
-import com.sunny.zy.utils.ToastUtil
+import com.sunny.zy.utils.RouterPath
 import com.zhkj.housekeeping.bean.FriendsBean
 import com.zhkj.housekeeping.message.R
 import kotlinx.android.synthetic.main.item_message_group.view.*
@@ -54,15 +55,18 @@ class FriendGroupAdapter : BaseRecycleAdapter<Any>(arrayListOf()) {
         if (getData(position) is FriendsBean.Groups.Group) {
             (getData(position) as FriendsBean.Groups.Group).let {
                 holder.itemView.tv_name.text = it.groupname
-                if (it.avatar.isNullOrEmpty()){
+                if (it.avatar.isNullOrEmpty()) {
                     holder.itemView.iv_head.setImageResource(R.drawable.icon_default_head)
-                }else{
+                } else {
                     GlideApp.with(context).load("${UrlConstant.host}${it.avatar}")
                         .placeholder(R.drawable.icon_default_head)
                         .into(holder.itemView.iv_head)
                 }
                 holder.itemView.setOnClickListener { _ ->
-                    ToastUtil.show("点击用户${it.groupname}")
+                    ARouter.getInstance().build(RouterPath.IM_CHAT_ACTIVITY)
+                        .withString("title", it.groupname)
+                        .withString("id", it.id)
+                        .navigation()
                 }
             }
 
