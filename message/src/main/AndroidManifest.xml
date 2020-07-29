@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhkj.housekeeping.message">
+    package="com.zhkj.message">
 
-    /
+    <application>
+        <activity android:name=".ChatActivity" />
+    </application>
 </manifest>

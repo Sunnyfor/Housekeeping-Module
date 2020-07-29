@@ -9,6 +9,12 @@ package com.zhkj.im.http
 object IMConstant {
     const val MSG_BEAN_PARCELABLE = "msg_bean_parcelable"
     const val IM_ACTION = "com.zhkj.im.msg"
+    const val BROADCAST_TYPE = "broadcastType"
+
+    const val SERVICE_TYPE = "serviceType"
+    const val SERVICE_TYPE_LOGIN = 100
+    const val SERVICE_TYPE_SINGLE_SEND = 101
+    const val SERVICE_TYPE_GROUP_SEND = 102
 
     const val TYPE_CONNECT_NO = 199       //登录失败
     const val TYPE_CONNECT_OK = 200      //登录成功

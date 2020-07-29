@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/workbench_dest"
-        android:name="com.zhkj.housekeeping.work.WorkFragment"
+        android:name="com.zhkj.message.work.WorkFragment"
         android:label="@string/workbench"
         tools:layout="@layout/fram_work"/>
 
     <fragment
         android:id="@+id/message_dest"
-        android:name="com.zhkj.housekeeping.message.MessageFragment"
+        android:name="com.zhkj.message.fragment.MessageFragment"
         android:label="@string/message"
         tools:layout="@layout/fram_message" />
 
     <fragment
         android:id="@+id/mine_dest"
-        android:name="com.zhkj.housekeeping.mine.MineFragment"
+        android:name="com.zhkj.message.mine.MineFragment"
         android:label="@string/mine"
         tools:layout="@layout/fram_mine" />
 </navigation>

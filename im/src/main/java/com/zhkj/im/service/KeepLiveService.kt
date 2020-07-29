@@ -50,22 +50,36 @@ class KeepLiveService : Service(), IXHChatManagerListener, IXHGroupManagerListen
     }
 
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        LogUtil.i("IM_服务启动！")
+    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (!XHClient.getInstance().isOnline) {
-            //初始化SDK配置
-            customConfig.initSDKForFree(
-                UserManager.getUserInfoBean().userId,
-                { errMsg, data -> LogUtil.i("IM配置错误：${errMsg} 消息：$data") },
-                handler
-            )
-            login()
+            when (val type =
+                intent.getIntExtra(IMConstant.SERVICE_TYPE, IMConstant.SERVICE_TYPE_LOGIN)) {
+                //登录
+                IMConstant.SERVICE_TYPE_LOGIN -> {
+                    login()
+                }
+
+                //发送消息
+                IMConstant.SERVICE_TYPE_SINGLE_SEND, IMConstant.SERVICE_TYPE_GROUP_SEND -> {
+                    val id = intent.getStringExtra("id") ?: ""
+                    val msg = intent.getStringExtra("data") ?: ""
+                    if (id.isNotEmpty() && msg.isNotEmpty())
+                        sendMessage(type, id, msg)
+                }
+            }
         }
         return super.onStartCommand(intent, flags, startId)
     }
 
 
     private fun login() {
+        //初始化SDK配置
+        LogUtil.i("IM_开始登录！")
+        customConfig.initSDKForFree(
+            UserManager.getUserInfoBean().userId,
+            { errMsg, data -> LogUtil.i("IM配置错误：${errMsg} 消息：$data") },
+            handler
+        )
         XHClient.getInstance().loginManager.loginFree(object : IXHResultCallback {
             override fun success(data: Any?) {
                 LogUtil.i("IM_连接成功")
@@ -78,6 +92,19 @@ class KeepLiveService : Service(), IXHChatManagerListener, IXHGroupManagerListen
         })
     }
 
+
+    //发送消息
+    private fun sendMessage(type: Int, id: String, msg: String) {
+        if (type == IMConstant.SERVICE_TYPE_GROUP_SEND) {
+            XHClient.getInstance().groupManager.sendMessage(
+                id, arrayListOf<String>(), msg, null
+            )
+            LogUtil.i("IM_发送群组消息：id = $id ---- msg = $msg")
+        } else {
+            XHClient.getInstance().chatManager.sendMessage(id, msg, null)
+            LogUtil.i("IM_发送消息：id = $id ---- msg = $msg")
+        }
+    }
 
     override fun onMembersUpdeted(groupID: String?, number: Int) {}
 
@@ -129,7 +156,7 @@ class KeepLiveService : Service(), IXHChatManagerListener, IXHGroupManagerListen
     private fun sendBordCastReceiver(type: Int, msgBean: IMMessageBean? = null) {
         val intent = Intent()
         intent.action = IMConstant.IM_ACTION
-        intent.putExtra("type", type)
+        intent.putExtra(IMConstant.BROADCAST_TYPE, type)
         msgBean?.let {
             intent.putExtra(IMConstant.MSG_BEAN_PARCELABLE, it)
         }

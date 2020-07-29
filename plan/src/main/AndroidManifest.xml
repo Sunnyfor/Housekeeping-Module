@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhkj.housekeeping.plan">
+    package="com.zhkj.plan">
 
     <application>
-        <activity android:name=".activity.PlanActivity" />
+        <activity android:name="com.zhkj.plan.activity.PlanActivity" />
         <activity
-            android:name=".activity.PlanExtendActivity"
+            android:name="com.zhkj.plan.activity.PlanExtendActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>

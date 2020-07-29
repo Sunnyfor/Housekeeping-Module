@@ -9,6 +9,5 @@
                 <action android:name="com.zhkj.im.service.KeepLiveService" />
             </intent-filter>
         </service>
-        <activity android:name=".ChatActivity" />
     </application>
 </manifest>

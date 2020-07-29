@@ -19,7 +19,7 @@ class IMBroadCastReceiver<T : IMSystemMsgListener>(var listener: T) : BroadcastR
 
     override fun onReceive(context: Context, data: Intent?) {
         data?.let {
-            when (it.getIntExtra("type", 0)) {
+            when (it.getIntExtra(IMConstant.BROADCAST_TYPE, 0)) {
                 //系统消息
                 IMConstant.TYPE_SYSTEM_MSG -> {
                     getMsgBean(data)?.let { msgBean ->
