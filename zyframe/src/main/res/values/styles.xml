@@ -7,6 +7,13 @@
         <item name="actionMenuTextColor">@color/color_white</item>
     </style>
 
+    <!--通用图标样式-->
+
+    <style name="style_common_icon">
+        <item name="android:layout_width">@dimen/dp_40</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:padding">@dimen/dp_10</item>
+    </style>
 
     <!--通用EditText样式-->
 
@@ -20,6 +27,17 @@
         <item name="android:lines">1</item>
     </style>
 
+    <style name="style_common_edit_multi">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:padding">@dimen/dp_10</item>
+        <item name="android:gravity">top</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:background">@drawable/sel_border_gray</item>
+    </style>
+
     <!--通用黑色字体-->
 
     <style name="style_font_black">
@@ -29,10 +47,34 @@
         <item name="android:textColor">@color/font_black</item>
     </style>
 
+    <style name="style_font_black_small" parent="style_font_black">
+        <item name="android:textSize">@dimen/dp_12</item>
+    </style>
+
+    <style name="style_font_black_big" parent="style_font_black">
+        <item name="android:textSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="style_font_black_bigger" parent="style_font_black">
+        <item name="android:textSize">@dimen/dp_18</item>
+    </style>
+
     <!--通用白色字体-->
 
     <style name="style_font_white" parent="style_font_black">
         <item name="android:textColor">@color/font_white</item>
+    </style>
+
+    <style name="style_font_white_small" parent="style_font_white">
+        <item name="android:textSize">@dimen/dp_12</item>
+    </style>
+
+    <style name="style_font_white_big" parent="style_font_white">
+        <item name="android:textSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="style_font_white_bigger" parent="style_font_white">
+        <item name="android:textSize">@dimen/dp_18</item>
     </style>
 
     <!--通用灰色字体-->
@@ -41,6 +83,39 @@
         <item name="android:textColor">@color/font_gray</item>
     </style>
 
+    <style name="style_font_gray_small" parent="style_font_gray">
+        <item name="android:textSize">@dimen/dp_12</item>
+    </style>
+
+    <style name="style_font_gray_smaller" parent="style_font_gray">
+        <item name="android:textSize">@dimen/dp_10</item>
+    </style>
+
+    <style name="style_font_gray_big" parent="style_font_gray">
+        <item name="android:textSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="style_font_gray_bigger" parent="style_font_gray">
+        <item name="android:textSize">@dimen/dp_18</item>
+    </style>
+
+    <!--通用主题色字体-->
+
+    <style name="style_font_theme" parent="style_font_black">
+        <item name="android:textColor">@color/color_theme</item>
+    </style>
+
+    <style name="style_font_theme_small" parent="style_font_theme">
+        <item name="android:textSize">@dimen/dp_12</item>
+    </style>
+
+    <style name="style_font_theme_big" parent="style_font_theme">
+        <item name="android:textSize">@dimen/dp_16</item>
+    </style>
+
+    <style name="style_font_theme_bigger" parent="style_font_theme">
+        <item name="android:textSize">@dimen/dp_18</item>
+    </style>
 
     <!--菜单CardView样式-->
     <style name="style_item_card_view">
@@ -50,7 +125,7 @@
     </style>
 
     <!--菜单条目字体样式-->
-    <style name="style_item_card_font" parent="style_font_black">
+    <style name="style_item_card_font" parent="style_font_black_big">
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
     </style>
@@ -96,11 +171,14 @@
     <!--通用小按钮样式-->
 
     <style name="style_common_btn_small" parent="style_common_btn">
-        <item name="android:layout_width">@dimen/dp_70</item>
-        <item name="android:layout_height">@dimen/dp_30</item>
-        <item name="android:layout_margin">0dp</item>
-        <item name="android:layout_centerHorizontal">false</item>
-        <item name="android:textSize">@dimen/sp_13</item>
+        <item name="android:layout_width">@dimen/dp_60</item>
+        <item name="android:layout_height">@dimen/dp_26</item>
+        <item name="android:background">@drawable/sel_btn_able_small</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:textSize">@dimen/sp_12</item>
     </style>
 
     <!--通用横线分割样式-->

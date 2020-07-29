@@ -33,14 +33,13 @@ import kotlinx.coroutines.cancel
 import java.text.ParseException
 
 /**
- * Desc
+ * Desc 计划内容、创建计划，相关页面
  * Author ZhangYe
  * Mail zhangye98@foxmail.com
  * Date 2020/7/9 16:44
  */
 @Route(path = RouterPath.PLAN_EXTEND_ACTIVITY)
 class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
-
 
     companion object {
         const val PREVIEW = 0
@@ -130,7 +129,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                     edit_title.keyListener = null
                     edit_title.setBackgroundResource(R.color.color_white)
                     btn_modify.visibility = View.GONE
-                    tv_add.visibility = View.GONE
+                    iv_add.visibility = View.GONE
                     iv_module_more.visibility = View.GONE
                 } else {
                     tv_plan_module.setOnClickListener(this)
@@ -144,7 +143,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
-        tv_add.setOnClickListener(this)
+        iv_add.setOnClickListener(this)
 
     }
 
@@ -213,7 +212,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 updatePlan()
             }
 
-            tv_add.id -> {
+            iv_add.id -> {
                 showAddDialog()
             }
         }

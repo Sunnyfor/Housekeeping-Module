@@ -39,10 +39,7 @@ class PlanListAdapter : BaseRecycleAdapter<PlanBean>(arrayListOf()) {
     }
 
     override fun setLayout(parent: ViewGroup, viewType: Int): View =
-        LayoutInflater.from(context).inflate(
-            R.layout.item_plan_list, parent, false
-        )
-
+        LayoutInflater.from(context).inflate(R.layout.item_plan_list, parent, false)
 
 
     private fun showSettingDialog(bean: PlanBean) {
