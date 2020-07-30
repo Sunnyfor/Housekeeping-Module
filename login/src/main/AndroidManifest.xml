@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhkj.message.login">
+    package="com.zhkj.login">
 
+    <application>
+        <activity android:name=".LoginActivity" />
+    </application>
 </manifest>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhkj.message.joint">
+    package="com.zhkj.joint">
 
     <application>
-        <activity android:name="com.zhkj.message.joint.JointActivity" />
-        <activity android:name="com.zhkj.message.joint.JointDetailActivity" />
-        <activity android:name="com.zhkj.message.joint.JointRecycleActivity" />
-        <activity android:name="com.zhkj.message.joint.JointCreateActivity" />
+        <activity android:name=".JointActivity" />
+        <activity android:name=".JointDetailActivity" />
+        <activity android:name=".JointRecycleActivity" />
+        <activity android:name=".JointCreateActivity" />
     </application>
 </manifest>

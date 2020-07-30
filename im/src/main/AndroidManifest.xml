@@ -3,7 +3,7 @@
 
     <application>
         <service
-            android:name="com.zhkj.im.service.KeepLiveService"
+            android:name=".service.KeepLiveService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.zhkj.im.service.KeepLiveService" />

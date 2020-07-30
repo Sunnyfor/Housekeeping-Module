@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhkj.message.signin">
+    package="com.zhkj.signin">
 
     <application>
-        <activity android:name="com.zhkj.message.signin.activity.SignInActivity" />
-        <activity android:name="com.zhkj.message.signin.activity.SignInRecordActivity" />
+        <activity android:name=".activity.SignInActivity" />
+        <activity android:name=".activity.SignInRecordActivity" />
     </application>
 </manifest>

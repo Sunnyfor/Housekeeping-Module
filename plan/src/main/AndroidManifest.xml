@@ -2,9 +2,9 @@
     package="com.zhkj.plan">
 
     <application>
-        <activity android:name="com.zhkj.plan.activity.PlanActivity" />
+        <activity android:name=".activity.PlanActivity" />
         <activity
-            android:name="com.zhkj.plan.activity.PlanExtendActivity"
+            android:name=".activity.PlanExtendActivity"
             android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>

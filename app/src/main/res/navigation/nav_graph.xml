@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/workbench_dest"
-        android:name="com.zhkj.message.work.WorkFragment"
+        android:name="com.zhkj.work.WorkFragment"
         android:label="@string/workbench"
         tools:layout="@layout/fram_work"/>
 
@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/mine_dest"
-        android:name="com.zhkj.message.mine.MineFragment"
+        android:name="com.zhkj.mine.MineFragment"
         android:label="@string/mine"
         tools:layout="@layout/fram_mine" />
 </navigation>
