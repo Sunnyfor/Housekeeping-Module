@@ -28,7 +28,7 @@
         style="@style/style_common_btn"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_10"
-        android:text="@string/complete"
+        android:text="@string/user_complete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

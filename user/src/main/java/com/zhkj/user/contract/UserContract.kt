@@ -4,6 +4,7 @@ import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
 import com.zhkj.user.bean.DeptBean
 import com.zhkj.user.bean.OtherUserBean
+import com.zhkj.user.bean.UserInfoBean
 
 /**
  * Desc
@@ -25,10 +26,16 @@ class UserContract {
 
     }
 
+    interface UserInfoView : IBaseView {
+        fun showUserInfo(data: UserInfoBean)
+    }
+
     abstract class UserPresenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
 
         abstract fun loadDeptList()
 
         abstract fun loadOtherUserList(page: Int, isAll: Boolean)
+
+        abstract fun loadUserInfo(id: String)
     }
 }

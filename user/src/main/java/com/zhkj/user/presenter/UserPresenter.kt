@@ -49,4 +49,16 @@ class UserPresenter(view: IBaseView) : UserContract.UserPresenter(view) {
             hideLoading()
         }
     }
+
+    override fun loadUserInfo(id: String) {
+        launch(Main) {
+            showLoading()
+            userModel.loadUserInfo(id)?.let {
+                if (view is UserContract.UserInfoView) {
+                    (view as UserContract.UserInfoView).showUserInfo(it)
+                }
+            }
+            hideLoading()
+        }
+    }
 }

@@ -2,7 +2,7 @@ package com.zhkj.login
 
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
-import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.bean.LoginBean
 
 /**
  * Desc
@@ -13,7 +13,7 @@ import com.zhkj.user.bean.UserInfoBean
 interface LoginContract {
 
     interface IView : IBaseView {
-        fun showLoginResult(user: UserInfoBean)
+        fun showLoginResult(user: LoginBean)
         fun permissionOk()
         fun permissionsNo(permissions: Array<String>)
     }

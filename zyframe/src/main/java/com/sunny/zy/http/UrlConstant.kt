@@ -10,9 +10,16 @@ import com.sunny.zy.ZyFrameStore
  */
 object UrlConstant {
 
-    const val host = "https://10.0.0.153:8807" // 内网测试地址
+    private const val IP = "10.0.0.153" // 内网测试地址
+//    const val ip = "www.zhenhekj.com" //正式地址
 
-//    const val host = "https://www.zhenhekj.com:8807" //正式地址
+
+    private const val PORT = "8807"
+
+    const val HOST = "https://$IP:$PORT"
+
+
+    const val IMAGE_URL = "/sys/sysfujian/download?attID="
 
 
     val TEMP = ZyFrameStore.getContext().getExternalFilesDir("temp")?.path //内存卡缓存路径
@@ -26,12 +33,10 @@ object UrlConstant {
     const val APP_VERSION_UPDATE_URL = "app/appandroidversion/findNewOne"
 
 
-
     /**
      * 字典接口
      */
     const val DICT_LIST_URL = "sys/dict/list"
-
 
 
     /**

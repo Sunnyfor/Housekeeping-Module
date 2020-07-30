@@ -15,7 +15,7 @@ import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.SpUtil
 import com.zhkj.login.presenter.LoginPresenter
-import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.bean.LoginBean
 import com.zhkj.user.util.UserManager
 import kotlinx.android.synthetic.main.act_login.*
 import kotlinx.coroutines.cancel
@@ -92,15 +92,15 @@ class LoginActivity : BaseActivity(), LoginContract.IView {
         }
     }
 
-    override fun showLoginResult(user: UserInfoBean) {
-        UserManager.saveUserInfoBean(user)
+    override fun showLoginResult(user: LoginBean) {
+        UserManager.saveLoginBean(user)
         ARouter.getInstance().build(RouterPath.APP_MAIN_ACTIVITY).navigation()
         finish()
     }
 
 
     override fun permissionOk() {
-        UserManager.getUserInfoBean().let {
+        UserManager.getLoginBean().let {
             if (it.hasValue) {
                 showLoginResult(it)
             }

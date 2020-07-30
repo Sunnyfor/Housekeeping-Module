@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="cancel">取消</string>
-    <string name="select_all">部门全选</string>
-    <string name="complete">完成</string>
-    <string name="select_person">选择人员</string>
-
+    <string name="user_cancel">取消</string>
+    <string name="user_select_all">部门全选</string>
+    <string name="user_complete">完成</string>
+    <string name="user_select_person">选择人员</string>
+    <string name="user_setting_head_hint">点击更换头像</string>
+    <string name="user_name">姓名</string>
+    <string name="user_dept">部门</string>
+    <string name="user_phone">手机号</string>
+    <string name="user_email">邮箱</string>
 </resources>

@@ -9,7 +9,7 @@ import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.sunny.zy.utils.ToastUtil
-import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.bean.LoginBean
 import org.json.JSONObject
 
 /**
@@ -31,7 +31,7 @@ class LoginModel {
     )
 
 
-    suspend fun login(username: String, password: String): UserInfoBean? {
+    suspend fun login(username: String, password: String): LoginBean? {
 
         if (username.isEmpty()) {
             ToastUtil.show("请输入账号！")
@@ -47,7 +47,7 @@ class LoginModel {
         json.put("username", username)
         json.put("password", password)
 
-        val httpResultBean = object : HttpResultBean<BaseModel<UserInfoBean>>("sysUserEntityVo") {}
+        val httpResultBean = object : HttpResultBean<BaseModel<LoginBean>>("sysUserEntityVo") {}
         ZyHttp.postJson(UrlConstant.SYS_LOGIN, json.toString(), httpResultBean)
 
         //HTTP请求成功

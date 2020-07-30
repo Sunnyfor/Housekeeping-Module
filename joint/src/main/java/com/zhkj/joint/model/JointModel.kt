@@ -103,7 +103,7 @@ class JointModel {
         val params = JSONObject()
         params.put("groupId", groupId)
         params.put("content", content)
-        params.put("userId", UserManager.getUserInfoBean().userId)
+        params.put("userId", UserManager.getLoginBean().userId)
         params.put("sendTime", System.currentTimeMillis())
         val resultBean = object : HttpResultBean<BaseModel<Any>>() {}
         ZyHttp.postJson(JointUrlConstant.JOINT_REPLY_URL, params.toString(), resultBean)

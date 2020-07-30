@@ -51,18 +51,18 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
     override fun initView() {
 
 
-        toolbar = defaultTitle(getString(R.string.select_person))
+        toolbar = defaultTitle(getString(R.string.user_select_person))
 
 
         toolbar.setOnMenuItemClickListener {
 
             currentFragment?.getAllData()?.forEach { bean ->
-                bean.isAlreadyJoinPeople = it.title == getString(R.string.select_all)
+                bean.isAlreadyJoinPeople = it.title == getString(R.string.user_select_all)
             }
-            if (it.title == getString(R.string.select_all)) {
-                it.title = getString(R.string.cancel)
+            if (it.title == getString(R.string.user_select_all)) {
+                it.title = getString(R.string.user_cancel)
             } else {
-                it.title = getString(R.string.select_all)
+                it.title = getString(R.string.user_select_all)
             }
             currentFragment?.adapter?.notifyDataSetChanged()
 
@@ -175,9 +175,9 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
     private fun updateTitle() {
         if (currentFragment?.getAllData()?.find { !it.isAlreadyJoinPeople } != null) {
-            toolbar.menu.getItem(0).title = getString(R.string.select_all)
+            toolbar.menu.getItem(0).title = getString(R.string.user_select_all)
         } else {
-            toolbar.menu.getItem(0).title = getString(R.string.cancel)
+            toolbar.menu.getItem(0).title = getString(R.string.user_cancel)
         }
     }
 }

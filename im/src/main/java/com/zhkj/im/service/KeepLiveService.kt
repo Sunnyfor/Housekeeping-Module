@@ -76,7 +76,7 @@ class KeepLiveService : Service(), IXHChatManagerListener, IXHGroupManagerListen
         //初始化SDK配置
         LogUtil.i("IM_开始登录！")
         customConfig.initSDKForFree(
-            UserManager.getUserInfoBean().userId,
+            UserManager.getLoginBean().userId,
             { errMsg, data -> LogUtil.i("IM配置错误：${errMsg} 消息：$data") },
             handler
         )

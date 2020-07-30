@@ -56,9 +56,9 @@ class FriendGroupAdapter : BaseRecycleAdapter<Any>(arrayListOf()) {
             (getData(position) as FriendsBean.Groups.Group).let {
                 holder.itemView.tv_name.text = it.groupname
                 if (it.avatar.isNullOrEmpty()) {
-                    holder.itemView.iv_head.setImageResource(R.drawable.icon_default_head)
+                    holder.itemView.iv_head.setImageResource(R.drawable.svg_group_icon)
                 } else {
-                    GlideApp.with(context).load("${UrlConstant.host}${it.avatar}")
+                    GlideApp.with(context).load("${UrlConstant.HOST}${it.avatar}")
                         .placeholder(R.drawable.icon_default_head)
                         .into(holder.itemView.iv_head)
                 }

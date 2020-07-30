@@ -19,4 +19,10 @@ object UserUrlConstant {
      */
     const val GET_ALL_USER_LIST_URL = "sys/user/list"
 
+
+    /**
+     * 获取用户信息
+     */
+    const val USER_INFO_URL = "sys/user/info/%s"
+
 }

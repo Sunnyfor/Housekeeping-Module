@@ -3,5 +3,6 @@
 
     <application>
         <activity android:name=".SelectUserActivity" />
+        <activity android:name=".UserInfoActivity" />
     </application>
 </manifest>

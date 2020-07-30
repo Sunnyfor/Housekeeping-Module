@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_head"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_180"
+        android:background="@color/color_theme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/dp_90"
+            android:layout_height="@dimen/dp_90"
+            android:contentDescription="@string/placeholder"
+            android:src="@drawable/icon_default_head"
+            app:layout_constraintBottom_toTopOf="@id/tv_setting_head_hint"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:riv_border_width="@dimen/dp_1"
+            app:riv_border_color="@color/color_white"
+            android:scaleType="centerCrop"
+            app:riv_oval="true"/>
+
+        <TextView
+            android:id="@+id/tv_setting_head_hint"
+            style="@style/style_font_white"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="@string/user_setting_head_hint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_head" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_name"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_head">
+
+        <TextView
+            android:id="@+id/tv_name_hint"
+            style="@style/style_item_card_font"
+            android:text="@string/user_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_name_more"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_name"
+            style="@style/style_item_card_font"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:text="@string/placeholder"
+            android:textColor="@color/font_gray"
+            app:layout_constraintEnd_toStartOf="@id/iv_name_more"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_dept"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_name">
+
+        <TextView
+            android:id="@+id/tv_dept_hint"
+            style="@style/style_item_card_font"
+            android:text="@string/user_dept"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_dept_more"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_dept"
+            style="@style/style_item_card_font"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:text="@string/placeholder"
+            android:textColor="@color/font_gray"
+            app:layout_constraintEnd_toStartOf="@id/iv_dept_more"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_phone"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_dept">
+
+        <TextView
+            android:id="@+id/tv_phone_hint"
+            style="@style/style_item_card_font"
+            android:text="@string/user_phone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_phone_more"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_phone"
+            style="@style/style_item_card_font"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:text="@string/placeholder"
+            android:textColor="@color/font_gray"
+            app:layout_constraintEnd_toStartOf="@id/iv_phone_more"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_email"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_18"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_phone">
+
+        <TextView
+            android:id="@+id/tv_email_hint"
+            style="@style/style_item_card_font"
+            android:text="@string/user_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_email_more"
+            style="@style/style_item_card_img"
+            android:contentDescription="@string/placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_email"
+            style="@style/style_item_card_font"
+            android:layout_marginEnd="@dimen/dp_15"
+            android:text="@string/placeholder"
+            android:textColor="@color/font_gray"
+            app:layout_constraintEnd_toStartOf="@id/iv_email_more"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

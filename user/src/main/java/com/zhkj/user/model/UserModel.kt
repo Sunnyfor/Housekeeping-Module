@@ -6,6 +6,7 @@ import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.zhkj.user.bean.DeptBean
 import com.zhkj.user.bean.OtherUserBean
+import com.zhkj.user.bean.UserInfoBean
 import com.zhkj.user.http.UserUrlConstant
 
 /**
@@ -15,6 +16,20 @@ import com.zhkj.user.http.UserUrlConstant
  * Date 2020/7/20 14:10
  */
 class UserModel {
+
+    /**
+     * 加载用户信息
+     */
+    suspend fun loadUserInfo(id: String): UserInfoBean? {
+        val httpResultBean = object : HttpResultBean<BaseModel<UserInfoBean>>("user") {}
+        ZyHttp.get(String.format(UserUrlConstant.USER_INFO_URL, id), null, httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true) {
+                return httpResultBean.bean?.data
+            }
+        }
+        return null
+    }
 
     /**
      * 加载部门数据

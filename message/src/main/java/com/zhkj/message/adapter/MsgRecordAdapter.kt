@@ -57,7 +57,7 @@ class MsgRecordAdapter : BaseRecycleAdapter<MsgRecordBean>(arrayListOf()) {
 
 
     override fun getItemViewType(position: Int): Int {
-        if (getData(position).uid == UserManager.getUserInfoBean().userId) {
+        if (getData(position).uid == UserManager.getLoginBean().userId) {
             return R.layout.item_chat_msg_right
         }
         return R.layout.item_chat_msg_left
@@ -71,7 +71,7 @@ class MsgRecordAdapter : BaseRecycleAdapter<MsgRecordBean>(arrayListOf()) {
                 imageView.visibility = View.VISIBLE
                 textView.visibility = View.GONE
                 GlideApp.with(context)
-                    .load(UrlConstant.host + url)
+                    .load(UrlConstant.HOST + url)
                     .dontAnimate()
                     .into(imageView)
             } else {

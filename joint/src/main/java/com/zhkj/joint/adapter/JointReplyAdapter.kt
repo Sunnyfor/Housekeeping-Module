@@ -55,5 +55,5 @@ class JointReplyAdapter(list: ArrayList<JointBean.Reply>) :
     }
 
     override fun getItemViewType(position: Int): Int =
-        if (getData(position).userId == UserManager.getUserInfoBean().userId) 0 else 1
+        if (getData(position).userId == UserManager.getLoginBean().userId) 0 else 1
 }

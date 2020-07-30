@@ -1,7 +1,7 @@
 package com.zhkj.user.util
 
 import com.sunny.zy.utils.SpUtil
-import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.bean.LoginBean
 
 /**
  * Desc
@@ -10,26 +10,26 @@ import com.zhkj.user.bean.UserInfoBean
  * Date 2020/7/20 15:00
  */
 object UserManager {
-    private val userInfoBean = UserInfoBean("", "", "")
+    private val loginBean = LoginBean("", "", "")
 
 
-    fun saveUserInfoBean(userInfoBean: UserInfoBean, isSaveLocal: Boolean? = true) {
-        UserManager.userInfoBean.hasValue = true
-        this.userInfoBean.name = userInfoBean.name
-        this.userInfoBean.userId = userInfoBean.userId
-        this.userInfoBean.deptId = userInfoBean.deptId
+    fun saveLoginBean(userInfoBean: LoginBean, isSaveLocal: Boolean? = true) {
+        loginBean.hasValue = true
+        this.loginBean.name = userInfoBean.name
+        this.loginBean.userId = userInfoBean.userId
+        this.loginBean.deptId = userInfoBean.deptId
         if (isSaveLocal == true) {
             SpUtil.setObject(SpUtil.userInfoBean, userInfoBean)
         }
     }
 
 
-    fun getUserInfoBean(): UserInfoBean {
-        if (!userInfoBean.hasValue) {
-            SpUtil.getObject(SpUtil.userInfoBean, UserInfoBean::class.java)?.let {
-                saveUserInfoBean(it, false)
+    fun getLoginBean(): LoginBean {
+        if (!loginBean.hasValue) {
+            SpUtil.getObject(SpUtil.userInfoBean, LoginBean::class.java)?.let {
+                saveLoginBean(it, false)
             }
         }
-        return userInfoBean
+        return loginBean
     }
 }

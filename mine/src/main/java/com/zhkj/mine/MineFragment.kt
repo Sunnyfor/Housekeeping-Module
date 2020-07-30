@@ -65,7 +65,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             return
         }
 
-        mineViewModel.username = UserManager.getUserInfoBean().name
+        mineViewModel.username = UserManager.getLoginBean().name
         //加载网络数据
         minePresenter.getCompanyInfo()
         minePresenter.checkUpdateMark()
@@ -78,9 +78,8 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     override fun onClickEvent(view: View) {
         when (view.id) {
             rl_person_info.id -> {
-
-                ToastUtil.show()
-
+                ARouter.getInstance().build(RouterPath.USER_INFO_ACTIVITY)
+                    .withString("userId", UserManager.getLoginBean().userId).navigation()
             }
             rl_approval_of_reimbursement.id -> {
                 ToastUtil.show()
@@ -138,7 +137,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     override fun showVersionUpdate(versionBean: VersionBean) {
         VersionUpdateDialog(requireContext(), versionBean) {
             versionPresenter.downLoadAPk(
-                UrlConstant.host + "/" + versionBean.downloadLocation
+                UrlConstant.HOST + "/" + versionBean.downloadLocation
             )
             downLoadDialog.show()
             downLoadDialog.setProgress(0)
