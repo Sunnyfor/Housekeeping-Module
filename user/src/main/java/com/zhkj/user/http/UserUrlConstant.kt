@@ -13,16 +13,19 @@ object UserUrlConstant {
      */
     const val DEPARTMENT_OF_TREE = "sys/dept/listFilter"
 
-
     /**
      * 获取全部用户列表
      */
     const val GET_ALL_USER_LIST_URL = "sys/user/list"
 
-
     /**
      * 获取用户信息
      */
     const val USER_INFO_URL = "sys/user/info/%s"
+
+    /**
+     * 修改用户信息
+     */
+    const val UPDATE_USER_INFO_URL = "sys/user/updateInfo"
 
 }

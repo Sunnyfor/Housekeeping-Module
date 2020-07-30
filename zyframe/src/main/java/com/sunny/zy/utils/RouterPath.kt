@@ -32,6 +32,8 @@ object RouterPath {
 
     const val USER_INFO_ACTIVITY = "/user/UserInfoActivity" //用户资料页面
 
+    const val USER_MODIFY_INFO_ACTIVITY = "/user/ModifyUserInfoActivity" //修改用户资料页面
+
     const val IM_CHAT_ACTIVITY = "/im/ChatActivity" //聊天页面
 
 }

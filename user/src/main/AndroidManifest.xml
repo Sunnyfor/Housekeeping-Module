@@ -4,5 +4,6 @@
     <application>
         <activity android:name=".SelectUserActivity" />
         <activity android:name=".UserInfoActivity" />
+        <activity android:name=".ModifyUserInfoActivity"/>
     </application>
 </manifest>

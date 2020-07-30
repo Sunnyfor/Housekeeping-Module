@@ -4,6 +4,7 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.utils.GlideApp
@@ -37,6 +38,12 @@ class UserInfoActivity : BaseActivity(), UserContract.UserInfoView {
         defaultTitle("个人资料").apply {
             elevation = 0f
         }
+
+        setOnClickListener(
+            cl_name,
+            cl_phone,
+            cl_email
+        )
     }
 
     override fun loadData() {
@@ -44,15 +51,30 @@ class UserInfoActivity : BaseActivity(), UserContract.UserInfoView {
     }
 
     override fun onClickEvent(view: View) {
-
+        when (view.id) {
+            cl_name.id -> {
+                intentModify(getString(R.string.user_name))
+            }
+            cl_phone.id -> {
+                intentModify(getString(R.string.user_phone))
+            }
+            cl_email.id -> {
+                intentModify(getString(R.string.user_email))
+            }
+        }
     }
 
     override fun close() {
+        ZyFrameStore.removeData(UserInfoBean::class.java.simpleName)
+    }
 
+    private fun intentModify(type: String) {
+        ARouter.getInstance().build(RouterPath.USER_MODIFY_INFO_ACTIVITY)
+            .withString("type", type).navigation()
     }
 
     override fun showUserInfo(data: UserInfoBean) {
-
+        ZyFrameStore.setData(UserInfoBean::class.java.simpleName, data)
         GlideApp.with(this)
             .load(UrlConstant.HOST + UrlConstant.IMAGE_URL + data.imagesId)
             .placeholder(R.drawable.icon_default_head)

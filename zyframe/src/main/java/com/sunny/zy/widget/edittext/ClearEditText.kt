@@ -1,5 +1,6 @@
 package com.sunny.zy.widget.edittext
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.Editable
@@ -24,12 +25,12 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
     /**
      * 删除按钮的引用
      */
-    var mClearDrawable: Drawable? = null
+    private var mClearDrawable: Drawable? = null
 
     /**
      * 控件是否有焦点
      */
-    var hasFoucs = false
+    private var hasFocus = false
 
     constructor(context: Context?) : super(context)
     constructor(context: Context?, attrs: AttributeSet?) : super(
@@ -57,7 +58,7 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
         // 默认设置隐藏图标
         setClearIconVisible(false)
         // 设置焦点改变的监听
-        setOnFocusChangeListener(this)
+        onFocusChangeListener = this
         // 设置输入框里面内容发生改变的监听
         addTextChangedListener(this)
     }
@@ -66,6 +67,7 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
      * 因为我们不能直接给EditText设置点击事件，所以我们用记住我们按下的位置来模拟点击事件 当我们按下的位置 在 EditText的宽度 -
      * 图标到控件右边的间距 - 图标的宽度 和 EditText的宽度 - 图标到控件右边的间距之间我们就算点击了图标，竖直方向就没有考虑
      */
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_UP) {
             if (compoundDrawables[2] != null) {
@@ -84,7 +86,7 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
      * 当ClearEditText焦点发生变化的时候，判断里面字符串长度设置清除图标的显示与隐藏
      */
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
-        this.hasFoucs = hasFocus
+        this.hasFocus = hasFocus
         if (hasFocus) {
             setClearIconVisible(text?.isNotEmpty() == true)
         } else {
@@ -95,11 +97,11 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
     /**
      * 设置清除图标的显示与隐藏，调用setCompoundDrawables为EditText绘制上去
      */
-    fun setClearIconVisible(visible: Boolean) {
+    private fun setClearIconVisible(visible: Boolean) {
         val right = if (visible) mClearDrawable else null
         setCompoundDrawables(
-            getCompoundDrawables().get(0),
-            getCompoundDrawables().get(1), right, getCompoundDrawables().get(3)
+            compoundDrawables[0],
+            compoundDrawables[1], right, compoundDrawables[3]
         )
     }
 
@@ -112,7 +114,7 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
         count: Int,
         after: Int
     ) {
-        if (hasFoucs) {
+        if (hasFocus) {
             setClearIconVisible(s.isNotEmpty())
         }
     }
@@ -135,11 +137,12 @@ class ClearEditText : AppCompatEditText, View.OnFocusChangeListener, TextWatcher
     /**
      * 晃动动画
      *
-     * @param counts 1秒钟晃动多少下
+     * @param count 1秒钟晃动多少下
      */
-    fun shakeAnimation(counts: Int): Animation? {
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun shakeAnimation(count: Int): Animation? {
         val translateAnimation: Animation = TranslateAnimation(0f, 10f, 0f, 0f)
-        translateAnimation.interpolator = CycleInterpolator(counts.toFloat())
+        translateAnimation.interpolator = CycleInterpolator(count.toFloat())
         translateAnimation.duration = 1000
         // translateAnimation.setFillAfter(true);
         return translateAnimation
