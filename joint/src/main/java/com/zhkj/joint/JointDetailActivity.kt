@@ -28,7 +28,6 @@ import kotlinx.coroutines.cancel
 @Route(path = RouterPath.JOINT_DETAIL_ACTIVITY)
 class JointDetailActivity : BaseActivity(), JointContract.IJointReplyView {
 
-
     private val jointBean: JointBean? by lazy {
         ZyFrameStore.getData<JointBean>("jointBean", true)
     }
@@ -81,19 +80,29 @@ class JointDetailActivity : BaseActivity(), JointContract.IJointReplyView {
 
         et_input.setOnKeyListener(onKeyListener)
 
-        setOnClickListener(btn_send)
-    }
-
-    override fun loadData() {
-
+        setOnClickListener(
+            btn_send,
+            iv_close,
+            iv_notice
+        )
     }
 
     override fun onClickEvent(view: View) {
         when (view.id) {
-            btn_send.id -> {
-                onKeyListener.onKey(et_input, KeyEvent.KEYCODE_ENTER, null)
+            btn_send.id -> onKeyListener.onKey(et_input, KeyEvent.KEYCODE_ENTER, null)
+            iv_close.id -> {
+                cl_info.visibility = View.GONE
+                iv_notice.visibility = View.VISIBLE
+            }
+            iv_notice.id -> {
+                cl_info.visibility = View.VISIBLE
+                iv_notice.visibility = View.GONE
             }
         }
+    }
+
+    override fun loadData() {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
