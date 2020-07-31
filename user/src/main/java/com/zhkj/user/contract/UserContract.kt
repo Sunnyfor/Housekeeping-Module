@@ -30,6 +30,12 @@ class UserContract {
         fun showUserInfo(data: UserInfoBean)
     }
 
+
+    interface UpdateView : IBaseView {
+        fun showUpdateUserInfo()
+        fun showUpdateHead(id: String)
+    }
+
     abstract class UserPresenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
 
         abstract fun loadDeptList()
@@ -37,5 +43,9 @@ class UserContract {
         abstract fun loadOtherUserList(page: Int, isAll: Boolean)
 
         abstract fun loadUserInfo(id: String)
+
+        abstract fun updateUserInfo(json: String)
+
+        abstract fun updateUserHead(path: String)
     }
 }

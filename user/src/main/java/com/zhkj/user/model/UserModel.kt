@@ -2,6 +2,8 @@ package com.zhkj.user.model
 
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
+import com.sunny.zy.bean.UploadBean
+import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.zhkj.user.bean.DeptBean
@@ -30,6 +32,37 @@ class UserModel {
         }
         return null
     }
+
+
+    /**
+     * 修改用户信息
+     */
+    suspend fun updateUserInfo(json: String): BaseModel<Any>? {
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>("user") {}
+        ZyHttp.postJson(UserUrlConstant.UPDATE_USER_INFO_URL, json, httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true) {
+                return httpResultBean.bean
+            }
+        }
+        return null
+    }
+
+
+    /**
+     * 上传头像
+     */
+    suspend fun updateUserHead(path: String): UploadBean? {
+        val httpResultBean = object : HttpResultBean<BaseModel<UploadBean>>() {}
+        ZyHttp.formUpload(UrlConstant.STS_UPLOAD, path, httpResultBean)
+        if (httpResultBean.isSuccess()) {
+            if (httpResultBean.bean?.isSuccess() == true) {
+                return httpResultBean.bean?.data
+            }
+        }
+        return null
+    }
+
 
     /**
      * 加载部门数据

@@ -61,4 +61,28 @@ class UserPresenter(view: IBaseView) : UserContract.UserPresenter(view) {
             hideLoading()
         }
     }
+
+    override fun updateUserInfo(json: String) {
+        launch(Main) {
+            showLoading()
+            userModel.updateUserInfo(json)?.let {
+                if (view is UserContract.UpdateView) {
+                    (view as UserContract.UpdateView).showUpdateUserInfo()
+                }
+            }
+            hideLoading()
+        }
+    }
+
+    override fun updateUserHead(path: String) {
+        launch(Main) {
+            showLoading()
+            userModel.updateUserHead(path)?.let {
+                if (view is UserContract.UpdateView) {
+                    (view as UserContract.UpdateView).showUpdateHead(it.id.toString())
+                }
+            }
+            hideLoading()
+        }
+    }
 }

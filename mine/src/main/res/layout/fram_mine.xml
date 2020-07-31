@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_120"
+        android:layout_height="@dimen/dp_100"
         android:background="@color/color_white"
         android:elevation="@dimen/dp_1">
 
@@ -33,15 +33,6 @@
             style="@style/style_font_gray"
             android:layout_below="@+id/tv_username"
             android:layout_alignStart="@id/tv_username"
-            android:layout_toEndOf="@+id/iv_head"
-            tools:text="@string/placeholder" />
-
-        <TextView
-            android:id="@+id/tv_company"
-            style="@style/style_font_gray"
-            android:layout_below="@+id/tv_department"
-            android:layout_alignStart="@id/tv_username"
-            android:layout_marginTop="@dimen/dp_5"
             android:layout_toEndOf="@+id/iv_head"
             tools:text="@string/placeholder" />
     </RelativeLayout>

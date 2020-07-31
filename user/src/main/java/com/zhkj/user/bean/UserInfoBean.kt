@@ -1,5 +1,7 @@
 package com.zhkj.user.bean
 
+import org.json.JSONObject
+
 /**
  * Desc
  * Author ZhangYe
@@ -24,4 +26,14 @@ class UserInfoBean {
     override fun toString(): String {
         return "UserInfoBean(userId=$userId, username=$username, salt=$salt, email=$email, mobile=$mobile, status=$status, roleIdList=$roleIdList, createTime=$createTime, deptId=$deptId, imagesId=$imagesId, deptName=$deptName, sign=$sign)"
     }
+
+    fun getJsonObject() = JSONObject().apply {
+        put("imagesId", imagesId)
+        put("username", username)
+        put("deptId", deptId)
+        put("deptName", deptName)
+        put("mobile", mobile)
+        put("email", email)
+    }
+
 }

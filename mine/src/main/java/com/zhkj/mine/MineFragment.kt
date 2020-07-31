@@ -2,19 +2,22 @@ package com.zhkj.mine
 
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.launcher.ARouter
+import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseFragment
 import com.sunny.zy.bean.VersionBean
 import com.sunny.zy.contract.VersionUpdateContract
 import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.presenter.VersionUpdatePresenter
+import com.sunny.zy.utils.GlideApp
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.ToastUtil
 import com.sunny.zy.widget.dialog.DownLoadDialog
 import com.sunny.zy.widget.dialog.VersionUpdateDialog
-import com.zhkj.mine.model.MineViewModel
 import com.zhkj.mine.presenter.MinePresenter
+import com.zhkj.user.bean.UserInfoBean
+import com.zhkj.user.contract.UserContract
+import com.zhkj.user.presenter.UserPresenter
 import com.zhkj.user.util.UserManager
 import kotlinx.android.synthetic.main.fram_mine.*
 import kotlinx.coroutines.cancel
@@ -26,16 +29,16 @@ import java.io.File
  * Mail zhangye98@foxmail.com
  * Date 2020/6/12 15:07
  */
-class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.View {
-
-    private val mineViewModel: MineViewModel by lazy {
-        ViewModelProvider(getBaseActivity()).get(MineViewModel::class.java)
-    }
+class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.View,
+    UserContract.UserInfoView {
 
     private val versionPresenter: VersionUpdateContract.Presenter by lazy {
         VersionUpdatePresenter(this)
     }
 
+    private val userPresenter: UserPresenter by lazy {
+        UserPresenter(this)
+    }
 
     private val minePresenter: MinePresenter by lazy {
         MinePresenter(this)
@@ -46,6 +49,8 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         DownLoadDialog(requireContext())
     }
 
+    private var isClickChecked = false
+
     override fun setLayout(): Int = R.layout.fram_mine
 
     override fun initView() {
@@ -54,25 +59,28 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
         rl_approval_of_reimbursement.setOnClickListener(this)
         rl_logout.setOnClickListener(this)
         rl_version.setOnClickListener(this)
+
+        tv_version.text = ("${getString(R.string.version)}${BuildConfig.VERSION_NAME}")
     }
 
     override fun loadData() {
-        mineViewModel.myCompanyInfo?.let {
-            showCompanyInfo(it)
-            if (mineViewModel.isShowUpdateMark) {
-                showUpdateMark()
-            }
-            return
-        }
-
-        mineViewModel.username = UserManager.getLoginBean().name
-        //加载网络数据
-        minePresenter.getCompanyInfo()
+        //检查是否有新版本
         minePresenter.checkUpdateMark()
     }
 
     override fun close() {
         minePresenter.cancel()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ZyFrameStore.getData<UserInfoBean>(UserInfoBean::class.java.simpleName).let {
+            if (it != null) {
+                showUserInfo(it)
+            } else {
+                userPresenter.loadUserInfo(UserManager.getLoginBean().userId)
+            }
+        }
     }
 
     override fun onClickEvent(view: View) {
@@ -86,6 +94,7 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
             }
 
             rl_version.id -> {
+                isClickChecked = true
                 versionPresenter.checkVersion(BuildConfig.VERSION_CODE)
             }
 
@@ -99,17 +108,10 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
     }
 
     override fun showCompanyInfo(companyInfo: MyCompanyInfo) {
-        tv_username.text = mineViewModel.username
-        tv_department.text = companyInfo.deptName
-        tv_company.text = companyInfo.companyName
-        tv_version.text = ("${getString(R.string.version)}${BuildConfig.VERSION_NAME}")
-        if (mineViewModel.myCompanyInfo == null) {
-            mineViewModel.myCompanyInfo = companyInfo
-        }
+
     }
 
     override fun showUpdateMark() {
-        mineViewModel.isShowUpdateMark = true
         iv_version_mark.visibility = View.VISIBLE
     }
 
@@ -146,7 +148,11 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
     override fun noNewVersion() {
         iv_version_mark.visibility = View.GONE
-        ToastUtil.show("当前版本已是最新！")
+        if (isClickChecked) {
+            ToastUtil.show("当前版本已是最新！")
+            isClickChecked = false
+        }
+
     }
 
     override fun downLoadResult(path: String) {
@@ -156,5 +162,16 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
     override fun progress(progress: Int) {
         downLoadDialog.setProgress(progress)
+    }
+
+    override fun showUserInfo(data: UserInfoBean) {
+        tv_username.text = data.username
+        tv_department.text = data.deptName
+        tv_version.text = ("${getString(R.string.version)}${BuildConfig.VERSION_NAME}")
+        GlideApp.with(this)
+            .load(UrlConstant.HOST + UrlConstant.IMAGE_URL + data.imagesId)
+            .placeholder(com.zhkj.user.R.drawable.icon_default_head)
+            .into(iv_head)
+        ZyFrameStore.setData(UserInfoBean::class.java.simpleName, data)
     }
 }
