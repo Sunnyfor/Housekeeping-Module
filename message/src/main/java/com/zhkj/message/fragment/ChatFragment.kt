@@ -33,6 +33,9 @@ class ChatFragment : BaseFragment(), MessageContract.IMsgRecordView {
 
     override fun initView() {
 
+        pullRefreshFragment.enableRefresh = false
+        pullRefreshFragment.enableLoadMore = false
+
         pullRefreshFragment.adapter = MsgRecordAdapter()
 
         pullRefreshFragment.loadData = {
@@ -77,5 +80,11 @@ class ChatFragment : BaseFragment(), MessageContract.IMsgRecordView {
 
     override fun showMsgRecordData(data: ArrayList<MsgRecordBean>) {
         pullRefreshFragment.addData(data)
+        if (pullRefreshFragment.page == 1) {
+            val position = pullRefreshFragment.getAllData()?.size ?: 0
+            if (position > 0) {
+                pullRefreshFragment.layoutManager.scrollToPosition(position - 1)
+            }
+        }
     }
 }

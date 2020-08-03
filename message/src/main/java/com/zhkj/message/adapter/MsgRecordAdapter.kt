@@ -13,8 +13,10 @@ import com.zhkj.message.R
 import com.zhkj.message.bean.MsgRecordBean
 import com.zhkj.message.http.MsgUrlConstant
 import com.zhkj.user.util.UserManager
-import kotlinx.android.synthetic.main.item_chat_msg_left.view.*
-import kotlinx.android.synthetic.main.item_chat_msg_right.view.*
+import kotlinx.android.synthetic.main.item_chat_msg_left_photo.view.*
+import kotlinx.android.synthetic.main.item_chat_msg_left_text.view.*
+import kotlinx.android.synthetic.main.item_chat_msg_right_photo.view.*
+import kotlinx.android.synthetic.main.item_chat_msg_right_text.view.*
 
 /**
  * Desc
@@ -26,27 +28,25 @@ class MsgRecordAdapter : BaseRecycleAdapter<MsgRecordBean>(arrayListOf()) {
 
     override fun onBindViewHolder(holder: BaseRecycleViewHolder, position: Int) {
 
-        if (getItemViewType(position) == R.layout.item_chat_msg_right) {
+        when (getItemViewType(position)) {
+            R.layout.item_chat_msg_right_text -> {
+                processUserName(position, holder.itemView.tv_username_right_text)
+                processContent(position, holder.itemView.tv_message_right)
+            }
+            R.layout.item_chat_msg_right_photo -> {
+                processUserName(position, holder.itemView.tv_username_right_photo)
+                processContent(position, holder.itemView.iv_photo_right)
+            }
 
-            processContent(
-                getData(position).content,
-                holder.itemView.tv_message_right,
-                holder.itemView.iv_photo_right
-            )
+            R.layout.item_chat_msg_left_text -> {
+                processUserName(position, holder.itemView.tv_username_left_text)
+                processContent(position, holder.itemView.tv_message_left)
+            }
 
-            holder.itemView.tv_username_right?.text =
-                ("${getData(position).username} \t ${getData(position).time}")
-
-        } else if (getItemViewType(position) == R.layout.item_chat_msg_left) {
-
-            processContent(
-                getData(position).content,
-                holder.itemView.tv_message_left,
-                holder.itemView.iv_photo_left
-            )
-            holder.itemView.tv_username_left?.text =
-                ("${getData(position).username} \t ${getData(position).time}")
-
+            R.layout.item_chat_msg_left_photo -> {
+                processUserName(position, holder.itemView.tv_username_left_photo)
+                processContent(position, holder.itemView.iv_photo_left)
+            }
         }
     }
 
@@ -58,28 +58,37 @@ class MsgRecordAdapter : BaseRecycleAdapter<MsgRecordBean>(arrayListOf()) {
 
     override fun getItemViewType(position: Int): Int {
         if (getData(position).uid == UserManager.getLoginBean().userId) {
-            return R.layout.item_chat_msg_right
+            if (getData(position).content?.contains(MsgUrlConstant.IMAGE_TAG) == true) {
+                return R.layout.item_chat_msg_right_photo
+            }
+            return R.layout.item_chat_msg_right_text
         }
-        return R.layout.item_chat_msg_left
+        if (getData(position).content?.contains(MsgUrlConstant.IMAGE_TAG) == true) {
+            return R.layout.item_chat_msg_left_photo
+        }
+        return R.layout.item_chat_msg_left_text
     }
 
 
-    private fun processContent(content: String?, textView: TextView, imageView: ImageView) {
-        content?.let {
-            if (it.contains(MsgUrlConstant.IMAGE_TAG)) {
-                val url = it.substring(4, it.length - 1)
-                imageView.visibility = View.VISIBLE
-                textView.visibility = View.GONE
-                GlideApp.with(context)
-                    .load(UrlConstant.HOST + url)
-                    .dontAnimate()
-                    .into(imageView)
-            } else {
-                imageView.visibility = View.GONE
-                textView.visibility = View.VISIBLE
-                textView.text = content
+    private fun processUserName(position: Int, textView: TextView) {
+        textView.text = ("${getData(position).username} \t ${getData(position).time}")
+    }
+
+
+    private fun processContent(position: Int, imageView: ImageView) {
+        getData(position).content?.let {
+            val url = it.substring(4, it.length - 1)
+            GlideApp.with(context)
+                .load(UrlConstant.HOST + url)
+                .into(imageView)
+        }
+    }
+
+
+    private fun processContent(position: Int, textView: TextView) {
+        getData(position).content?.let {
+            textView.text = it
 //                    FaceUtil.handlerMsg(holder.itemView.tv_message_left, getData(position).content)
-            }
         }
     }
 }

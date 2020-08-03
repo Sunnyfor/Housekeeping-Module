@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/dp_16">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_head"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/icon_default_head" />
+
+    <TextView
+        android:id="@+id/tv_username_right_photo"
+        style="@style/style_font_gray"
+        android:layout_toStartOf="@id/iv_head"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_10"
+        android:textSize="@dimen/sp_12"
+        tools:text="JoannChen" />
+
+    <ImageView
+        android:id="@+id/iv_photo_right"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_160"
+        android:layout_below="@id/tv_username_right_photo"
+        android:layout_alignEnd="@id/tv_username_right_photo"
+        android:layout_margin="@dimen/dp_5"
+        android:adjustViewBounds="true"
+        android:background="@drawable/sel_chat_bubble_right_bg"
+        android:contentDescription="@string/placeholder"
+        android:maxWidth="@dimen/dp_160"
+        android:padding="@dimen/dp_10"
+        android:visibility="gone" />
+</RelativeLayout>
