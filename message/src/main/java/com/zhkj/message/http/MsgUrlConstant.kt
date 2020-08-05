@@ -14,6 +14,6 @@ object MsgUrlConstant {
     const val FRIEND_LIST_URL = "im/appfriendtype/getFriendTypeAndFriendList"
 
     //聊天记录接口
-    const val MESSAGE_LIST_URL = "im/appgroupmessage/list"
+    const val MESSAGE_LIST_URL = "im/appgroupmessage/getGroupMsgList"
 
 }

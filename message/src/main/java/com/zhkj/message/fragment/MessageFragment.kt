@@ -56,7 +56,7 @@ class MessageFragment : PullRefreshFragment<Any>(), MessageContract.IFriendsView
                 "rw64", "工作总群", "", "2", "rw"
             )
         )
-        dataList.addAll(friendsBean.group)
+        dataList.addAll(friendsBean.group?: return)
         addData(dataList)
     }
 

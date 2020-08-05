@@ -37,9 +37,6 @@ class UserContract {
     }
 
     abstract class UserPresenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
-
-        abstract fun loadDeptList()
-
         abstract fun loadOtherUserList(page: Int, isAll: Boolean)
 
         abstract fun loadUserInfo(id: String)

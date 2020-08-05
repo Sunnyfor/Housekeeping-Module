@@ -20,22 +20,6 @@ class UserPresenter(view: IBaseView) : UserContract.UserPresenter(view) {
 
 
     /**
-     * 加载部门数据
-     */
-    override fun loadDeptList() {
-        launch(Main) {
-            showLoading()
-            userModel.loadDeptList()?.let {
-                if (view is UserContract.IDeptView) {
-                    (view as UserContract.IDeptView).showDept(it)
-                }
-            }
-            hideLoading()
-        }
-    }
-
-
-    /**
      * 加载参与人用户列表
      */
     override fun loadOtherUserList(page: Int, isAll: Boolean) {

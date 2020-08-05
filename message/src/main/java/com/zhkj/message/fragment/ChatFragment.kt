@@ -3,8 +3,8 @@ package com.zhkj.message.fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.sunny.zy.base.BaseFragment
-import com.sunny.zy.fragment.PullRefreshFragment
 import com.zhkj.message.R
 import com.zhkj.message.adapter.MsgRecordAdapter
 import com.zhkj.message.bean.MsgRecordBean
@@ -23,26 +23,27 @@ class ChatFragment : BaseFragment(), MessageContract.IMsgRecordView {
     private val presenter: MessageContract.Presenter by lazy {
         MessagePresenter(this)
     }
-    private val pullRefreshFragment = PullRefreshFragment<MsgRecordBean>()
 
     private val chatId: String by lazy {
         arguments?.getString("id", "") ?: ""
     }
 
+    private val adapter = MsgRecordAdapter()
+
+    private var isFirst = true
+
+    private var page = 1
+
     override fun setLayout(): Int = R.layout.fram_chat
 
     override fun initView() {
 
-        pullRefreshFragment.enableRefresh = false
-        pullRefreshFragment.enableLoadMore = false
+        recycler.layoutManager = LinearLayoutManager(requireContext())
+        recycler.adapter = adapter
 
-        pullRefreshFragment.adapter = MsgRecordAdapter()
+//        recycler.set
 
-        pullRefreshFragment.loadData = {
-            loadData()
-        }
 
-        childFragmentManager.beginTransaction().replace(fl_content.id, pullRefreshFragment).commit()
         edit_input.addTextChangedListener(object : TextWatcher {
 
             override fun afterTextChanged(s: Editable) {
@@ -70,8 +71,9 @@ class ChatFragment : BaseFragment(), MessageContract.IMsgRecordView {
 
     }
 
+
     override fun loadData() {
-        presenter.loadChatRecord(chatId, pullRefreshFragment.page.toString())
+        presenter.loadChatRecord(chatId, page.toString())
     }
 
     override fun close() {
@@ -79,11 +81,14 @@ class ChatFragment : BaseFragment(), MessageContract.IMsgRecordView {
     }
 
     override fun showMsgRecordData(data: ArrayList<MsgRecordBean>) {
-        pullRefreshFragment.addData(data)
-        if (pullRefreshFragment.page == 1) {
-            val position = pullRefreshFragment.getAllData()?.size ?: 0
-            if (position > 0) {
-                pullRefreshFragment.layoutManager.scrollToPosition(position - 1)
+        adapter.getData().let {
+            adapter.getData().addAll(0, it)
+            adapter.notifyDataSetChanged()
+
+            if (page == 1) {
+                if (adapter.itemCount > 0) {
+                    recycler.layoutManager?.scrollToPosition(adapter.itemCount - 1)
+                }
             }
         }
     }

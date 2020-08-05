@@ -8,8 +8,8 @@ package com.zhkj.message.bean
  */
 class FriendsBean(
     var mine: Mine?,
-    var friend: ArrayList<Any>,
-    var group: ArrayList<Groups>
+    var friend: ArrayList<Any>?,
+    var group: ArrayList<Groups>?
 ) {
     data class Mine(
         var id: String?,

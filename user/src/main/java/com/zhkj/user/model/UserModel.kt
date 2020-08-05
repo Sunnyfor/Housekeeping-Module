@@ -63,24 +63,6 @@ class UserModel {
         return null
     }
 
-
-    /**
-     * 加载部门数据
-     */
-    suspend fun loadDeptList(): DeptBean? {
-        val httpResultBean = object : HttpResultBean<BaseModel<DeptBean>>() {}
-        ZyHttp.get(UserUrlConstant.DEPARTMENT_OF_TREE, null, httpResultBean)
-
-        if (httpResultBean.isSuccess()) {
-            if (httpResultBean.bean?.isSuccess() == true) {
-                return httpResultBean.bean?.data
-            }
-
-        }
-        return null
-    }
-
-
     /**
      * 加载参与人员数据
      */

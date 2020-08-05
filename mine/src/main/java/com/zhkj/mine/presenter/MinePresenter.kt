@@ -21,26 +21,6 @@ class MinePresenter(view: MineContract.View) : MineContract.Presenter(view) {
         UserModel()
     }
 
-
-    override fun getCompanyInfo() {
-        launch(Main) {
-            view?.showLoading()
-
-            userModel.loadDeptList()?.let { bean ->
-                val myCompanyInfo = MyCompanyInfo()
-                if (bean.checkedId.isNotEmpty()) {
-                    bean.sysDept.find { it.deptId == bean.checkedId[0] }?.let { dept ->
-                        myCompanyInfo.companyName =
-                            bean.sysDept.find { it.deptId == dept.parentId }?.name ?: ""
-                        myCompanyInfo.deptName = dept.name
-                    }
-                }
-                view?.showCompanyInfo(myCompanyInfo)
-            }
-            view?.hideLoading()
-        }
-    }
-
     override fun checkUpdateMark() {
         view?.showLoading()
         if (ZyFrameStore.getData<Boolean>(DataKey.IS_NEW_APP_VERSION) == true) {

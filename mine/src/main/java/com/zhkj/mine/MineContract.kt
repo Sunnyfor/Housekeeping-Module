@@ -18,7 +18,6 @@ interface MineContract {
     }
 
     abstract class Presenter(view: View) : BasePresenter<View>(view) {
-        abstract fun getCompanyInfo()
         abstract fun checkUpdateMark()
         abstract fun logout()
     }
