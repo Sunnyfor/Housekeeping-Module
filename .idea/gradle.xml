@@ -13,12 +13,14 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/im" />
             <option value="$PROJECT_DIR$/joint" />
             <option value="$PROJECT_DIR$/login" />
             <option value="$PROJECT_DIR$/message" />
             <option value="$PROJECT_DIR$/mine" />
             <option value="$PROJECT_DIR$/plan" />
+            <option value="$PROJECT_DIR$/project" />
             <option value="$PROJECT_DIR$/signin" />
             <option value="$PROJECT_DIR$/user" />
             <option value="$PROJECT_DIR$/work" />

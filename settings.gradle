@@ -1,3 +1,5 @@
+include ':project'
+include ':common'
 include ':im'
 include ':user'
 include ':plan'
