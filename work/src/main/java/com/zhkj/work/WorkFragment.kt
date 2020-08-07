@@ -47,11 +47,17 @@ class WorkFragment : BaseFragment() {
         functionList.add(FunctionBean().apply {
             title = "项目"
             icon = R.drawable.svg_work_project
+            onClickListener = View.OnClickListener {
+                ARouter.getInstance().build(RouterPath.PROJECT_ACTIVITY).navigation()
+            }
         })
 
         functionList.add(FunctionBean().apply {
             title = "任务"
             icon = R.drawable.svg_work_task
+            onClickListener = View.OnClickListener {
+                ARouter.getInstance().build(RouterPath.TASK_ACTIVITY).navigation()
+            }
         })
 
         functionList.add(FunctionBean().apply {

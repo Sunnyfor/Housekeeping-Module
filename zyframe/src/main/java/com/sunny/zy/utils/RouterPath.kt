@@ -16,6 +16,10 @@ object RouterPath {
 
     const val SIGN_IN_RECORD_ACTIVITY = "/signin/SignInRecordActivity" //签到页
 
+    const val PROJECT_ACTIVITY = "/project/ProjectActivity" //项目首页
+
+    const val TASK_ACTIVITY = "/task/TaskActivity" //任务首页
+
     const val PLAN_ACTIVITY = "/plan/PlanActivity" //计划首页
 
     const val PLAN_EXTEND_ACTIVITY = "/plan/PlanExtendActivity" //计划内容、创建计划，相关页面

@@ -47,6 +47,9 @@ dependencies {
     implementation project(path: ':zyframe')
     implementation project(path: ':signin')
     implementation project(path: ':plan')
+    implementation project(path: ':task')
+    implementation project(path: ':joint')
+    implementation project(path: ':project')
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     kapt 'com.alibaba:arouter-compiler:1.2.2'

@@ -44,7 +44,6 @@ kapt {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation project(path: ':joint')
     implementation project(path: ':login')
     implementation project(path: ':zyframe')
     implementation project(path: ':mine')

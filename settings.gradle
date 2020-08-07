@@ -1,3 +1,4 @@
+include ':task'
 include ':project'
 include ':common'
 include ':im'
