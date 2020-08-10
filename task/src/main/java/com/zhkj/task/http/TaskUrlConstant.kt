@@ -11,4 +11,9 @@ object TaskUrlConstant {
      * 加载任务列表
      */
     const val TASK_LIST_GROUP_URL = "/app/task/listGroup?activeState=1"
+
+    /**
+     * 加载任务详情
+     */
+    const val TASK_DETAIL_URL = "/app/task/home"
 }

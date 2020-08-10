@@ -32,5 +32,5 @@
     <color name="btn_pressed_color">#C42A90FC</color>
 
     <color name="bg_bubble_left">#EEEDED</color>
-    <color name="bg_bubble_right">#FF9A50</color>
+    <color name="bg_bubble_right">#FFB800</color>
 </resources>

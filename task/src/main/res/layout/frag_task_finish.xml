@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_task_inventory"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:src="@drawable/svg_task_conclusion_icon" />
+
+        <TextView
+            style="@style/style_item_card_font"
+            android:layout_marginStart="@dimen/dp_30"
+            android:text="@string/task_conclusion" />
+
+        <ImageView style="@style/style_item_card_img" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/rl_task_data"
+        style="@style/style_item_card_view"
+        android:background="@color/color_white"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rl_task_inventory">
+
+        <ImageView
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_centerVertical="true"
+            android:src="@drawable/svg_task_data_icon" />
+
+        <TextView
+            style="@style/style_item_card_font"
+            android:layout_marginStart="@dimen/dp_30"
+            android:text="@string/task_data" />
+
+        <ImageView style="@style/style_item_card_img" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -70,6 +70,8 @@ class MineFragment : BaseFragment(), MineContract.View, VersionUpdateContract.Vi
 
     override fun close() {
         minePresenter.cancel()
+        versionPresenter.cancel()
+        userPresenter.cancel()
     }
 
     override fun onResume() {

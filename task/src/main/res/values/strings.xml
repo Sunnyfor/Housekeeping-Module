@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="task">任务</string>
+    <string name="task_detail">任务详情</string>
+    <string name="task_progress">任务进度</string>
+    <string name="item_list">物品清单</string>
+    <string name="task_conclusion">任务结论</string>
+    <string name="task_data">图纸或资料</string>
 </resources>

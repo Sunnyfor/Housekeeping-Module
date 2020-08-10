@@ -12,6 +12,7 @@ import com.zhkj.common.contract.DeptContract
 import com.zhkj.common.presenter.DeptPresenter
 import com.zhkj.task.fragment.TaskListFragment
 import kotlinx.android.synthetic.main.act_task.*
+import kotlinx.coroutines.cancel
 
 /**
  * Desc
@@ -44,18 +45,7 @@ class TaskActivity : BaseActivity(), DeptContract.IDeptView {
 
     override fun initView() {
         defaultTitle(getString(R.string.task))
-
-        viewpager.adapter = object : FragmentPagerAdapter(
-            supportFragmentManager,
-            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
-        ) {
-            override fun getItem(position: Int): Fragment = fragmentList[position]
-
-            override fun getCount(): Int = fragmentList.size
-
-            override fun getPageTitle(position: Int): CharSequence = typeArray[position]
-        }
-        tab_type.setupWithViewPager(viewpager)
+        viewpager.offscreenPageLimit = typeArray.size
     }
 
 
@@ -68,7 +58,7 @@ class TaskActivity : BaseActivity(), DeptContract.IDeptView {
     }
 
     override fun close() {
-
+        deptPresenter.cancel()
     }
 
     override fun showDeptList(data: ArrayList<DeptBean>) {
@@ -88,6 +78,8 @@ class TaskActivity : BaseActivity(), DeptContract.IDeptView {
         }
         deptId = data[0].deptId.toString()
 
+        updateFragment(false)
+
         tab_dept.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
@@ -101,18 +93,35 @@ class TaskActivity : BaseActivity(), DeptContract.IDeptView {
                 tab.tag.let {
                     if (it is DeptBean) {
                         deptId = it.deptId.toString()
-                        updateFragment()
+                        updateFragment(true)
                     }
                 }
             }
 
         })
+
+
+        viewpager.adapter = object : FragmentPagerAdapter(
+            supportFragmentManager,
+            BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+        ) {
+            override fun getItem(position: Int): Fragment = fragmentList[position]
+
+            override fun getCount(): Int = fragmentList.size
+
+            override fun getPageTitle(position: Int): CharSequence = typeArray[position]
+        }
+        tab_type.setupWithViewPager(viewpager)
     }
 
-    fun updateFragment() {
+
+    fun updateFragment(isLoader: Boolean) {
         fragmentList.forEach { fragment ->
             fragment.deptId = deptId
-            fragment.loadData()
+            if (isLoader) {
+                fragment.showLoading()
+                fragment.loadData()
+            }
         }
     }
 }

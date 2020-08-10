@@ -6,7 +6,7 @@ package com.zhkj.task.bean
  * Mail zhangye98@foxmail.com
  * Date 2020/8/7 15:32
  */
-    class TaskBean {
+class TaskBean {
     var user: User? = null
 
     var taskList: ArrayList<Task>? = null
@@ -25,7 +25,7 @@ package com.zhkj.task.bean
         var imGroupId: String? = null
         var taskName: String? = null
         var taskContent: String? = null
-        var taskLevel: String? = null
+        var taskLevel: Int = 0
         var taskDeptId: String? = null
         var taskDeptName: String? = null
         var taskType: String? = null
@@ -52,7 +52,7 @@ package com.zhkj.task.bean
         var isPlan: String? = null
         var imagesId: String? = null
         var taskStateStr: String? = null
-        var fujianList: String? = null
+        var fujianList: ArrayList<FujianBean>? = null
         var attention: String? = null
 
         override fun toString(): String {
@@ -60,6 +60,20 @@ package com.zhkj.task.bean
         }
 
     }
+
+    data class FujianBean(
+        var format: String?,
+        var fullname: String?,
+        var groupId: String?,
+        var id: String?,
+        var name: String?,
+        var realname: String?,
+        var size: String,
+        var type: String,
+        var viewType: String?,
+        var updatedate: String?,
+        var userid: String?
+    )
 
     override fun toString(): String {
         return "TaskBean(user=$user, taskList=$taskList)"

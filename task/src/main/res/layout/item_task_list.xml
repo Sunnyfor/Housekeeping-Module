@@ -19,55 +19,58 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/iv_head"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginStart="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@drawable/icon_default_head"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/tv_joint_name"
+            android:id="@+id/tv_name"
+            style="@style/style_font_gray"
+            android:layout_marginStart="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_20"
+            android:layout_marginBottom="@dimen/dp_10"
+            app:layout_constraintBottom_toBottomOf="@id/iv_head"
+            app:layout_constraintStart_toEndOf="@id/iv_head"
+            app:layout_constraintTop_toTopOf="@id/iv_head"
+            tools:text="李时珍" />
+
+        <TextView
+            android:id="@+id/tv_joint_title"
             style="@style/style_font_black"
             android:layout_width="0dp"
             android:layout_marginStart="@dimen/dp_20"
             android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_50"
+            android:layout_marginEnd="@dimen/dp_20"
             android:textSize="@dimen/sp_18"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_head"
             tools:text="标题" />
 
-        <TextView
-            android:id="@+id/tv_joint_content"
-            style="@style/style_font_black"
-            android:layout_width="0dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:textColor="@color/color_theme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_joint_name"
-            app:layout_constraintTop_toBottomOf="@id/tv_joint_name"
-            tools:text="内容" />
-
-
-        <TextView
-            android:id="@+id/tv_task_person"
-            style="@style/style_font_gray"
-            android:layout_width="0dp"
+        <com.hedgehog.ratingbar.RatingBar
+            android:id="@+id/ratingbar"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_10"
-            android:textSize="@dimen/sp_14"
-            app:layout_constraintEnd_toEndOf="@id/tv_joint_content"
-            app:layout_constraintStart_toStartOf="@id/tv_joint_content"
-            app:layout_constraintTop_toBottomOf="@id/tv_joint_content"
-            tools:text="协同参与人" />
-
-
-        <TextView
-            android:id="@+id/tv_date"
-            style="@style/style_font_gray"
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_marginEnd="@dimen/dp_20"
-            android:layout_marginBottom="@dimen/dp_10"
+            android:layout_marginEnd="@dimen/dp_10"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:textColor="@color/color_theme"
+            app:clickable="false"
+            app:halfstart="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_task_person"
-            tools:text="2020年5月19日" />
+            app:layout_constraintTop_toBottomOf="@id/tv_joint_title"
+            app:starCount="3"
+            app:starEmpty="@drawable/svg_star_empty"
+            app:starFill="@drawable/svg_star_full"
+            app:starImageHeight="@dimen/dp_24"
+            app:starImageWidth="@dimen/dp_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
