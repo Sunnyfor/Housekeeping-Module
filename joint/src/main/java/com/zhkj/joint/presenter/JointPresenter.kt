@@ -70,19 +70,6 @@ class JointPresenter(iView: IBaseView) : JointContract.Presenter(iView) {
         }
     }
 
-    //加载计划可用状态
-    override fun loadJointState() {
-        launch(Main) {
-            showLoading()
-            jointModel.loadJointState()?.let {
-                if (view is JointContract.IJointCreateView) {
-                    (view as JointContract.IJointCreateView).showJointStateList(it)
-                }
-            }
-            hideLoading()
-        }
-    }
-
     //修改协同
     override fun modifyJoint(jointBean: JointBean) {
         launch(Main) {

@@ -1,7 +1,6 @@
 package com.zhkj.plan.presenter
 
 
-import com.sunny.zy.bean.Dictionary
 import com.zhkj.plan.bean.PlanBean
 import com.zhkj.plan.contract.PlanExtendContract
 import com.zhkj.plan.model.PlanExtendModel
@@ -14,31 +13,9 @@ import kotlinx.coroutines.launch
  * Mail zhangye98@foxmail.com
  * Date 2020/7/9 18:28
  */
-class PlanExtendPresenter(iView: PlanExtendContract.IView) : PlanExtendContract.Presenter(iView) {
-
-    private val planStatusList = ArrayList<Dictionary>()
+class PlanExtendPresenter(iView: PlanExtendContract.PlanExtendView) : PlanExtendContract.Presenter(iView) {
     private val planExtendModel: PlanExtendModel by lazy {
         PlanExtendModel()
-    }
-
-
-    /**
-     * 加载计划执行模块
-     */
-    override fun loadPlanExecutionModule() {
-        launch(Main) {
-            if (planStatusList.isEmpty()) {
-                showLoading()
-                planExtendModel.loadPlanExecutionModule()?.let {
-                    planStatusList.clear()
-                    planStatusList.addAll(it)
-                    view?.showPlanExecutionModule(planStatusList)
-                }
-                hideLoading()
-            } else {
-                view?.showPlanExecutionModule(planStatusList)
-            }
-        }
     }
 
     /**

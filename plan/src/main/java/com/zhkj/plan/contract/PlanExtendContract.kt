@@ -2,7 +2,6 @@ package com.zhkj.plan.contract
 
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
-import com.sunny.zy.bean.Dictionary
 import com.zhkj.plan.bean.PlanBean
 
 /**
@@ -12,21 +11,14 @@ import com.zhkj.plan.bean.PlanBean
  * Date 2020/7/9 18:21
  */
 class PlanExtendContract {
-    interface IView : IBaseView {
-        fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>)
-
+    interface PlanExtendView : IBaseView {
         fun showCreatePlanResult()
         fun showTransferNextWeekResult()
         fun showDeletePlantResult(id: Int)
         fun showCompletePlantResult(id: Int)
     }
 
-    abstract class Presenter(iView: IView) : BasePresenter<IView>(iView) {
-        /**
-         * 加载执行模块
-         */
-        abstract fun loadPlanExecutionModule()
-
+    abstract class Presenter(iView: PlanExtendView) : BasePresenter<PlanExtendView>(iView) {
 
         /**
          * 创建计划

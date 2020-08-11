@@ -2,7 +2,6 @@ package com.zhkj.joint.contract
 
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
-import com.sunny.zy.bean.Dictionary
 import com.zhkj.joint.bean.JointBean
 
 /**
@@ -23,7 +22,6 @@ class JointContract {
 
     interface IJointCreateView {
         fun showCreateJointResult()
-        fun showJointStateList(data: ArrayList<Dictionary>)
         fun showModifyJointResult()
     }
 
@@ -43,7 +41,6 @@ class JointContract {
             synergyTitle: String, content: String, synergyNames: String, synergyIds: String
         )
 
-        abstract fun loadJointState()
         abstract fun modifyJoint(jointBean: JointBean)
         abstract fun deleteJoint(id: String)
         abstract fun sendReply(groupId: String, content: String)

@@ -13,7 +13,6 @@ import com.haibin.calendarview.Calendar
 import com.haibin.calendarview.CalendarView
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.fragment.PullRefreshFragment
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.ToastUtil
@@ -36,7 +35,7 @@ import kotlinx.coroutines.cancel
 @Route(path = RouterPath.PLAN_ACTIVITY)
 class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
     CalendarView.OnMonthChangeListener
-    , CalendarView.OnYearChangeListener, PlanContract.IView, PlanExtendContract.IView {
+    , CalendarView.OnYearChangeListener, PlanContract.IView, PlanExtendContract.PlanExtendView {
 
     private lateinit var toolbar: Toolbar
 
@@ -191,8 +190,6 @@ class PlanActivity : BaseActivity(), CalendarView.OnCalendarSelectListener,
         }
     }
 
-
-    override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {}
 
     override fun showCreatePlanResult() {}
 

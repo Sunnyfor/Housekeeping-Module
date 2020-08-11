@@ -11,4 +11,6 @@ object CommonUrlConstant {
     //部门列表
     const val DEPT_LIST_URL = "sys/dept/listAll"
 
+    //字典接口
+    const val DICT_LIST_URL = "sys/dict/list"
 }

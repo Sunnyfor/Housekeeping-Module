@@ -2,10 +2,8 @@ package com.zhkj.plan.model
 
 import com.google.gson.Gson
 import com.sunny.zy.base.BaseModel
-import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
-import com.sunny.zy.model.DictionaryModel
 import com.zhkj.plan.bean.PlanBean
 import com.zhkj.plan.http.PlanUrlConstant
 import com.zhkj.plan.util.DateUtil
@@ -19,22 +17,6 @@ import org.json.JSONObject
  * Date 2020/7/9 18:30
  */
 class PlanExtendModel {
-
-    private val dictionaryModel: DictionaryModel by lazy {
-        DictionaryModel()
-    }
-
-    //加载计划状态
-    suspend fun loadPlanStatus(): ArrayList<Dictionary>? {
-        return dictionaryModel.loadDictionaryList("计划活动状态")
-    }
-
-
-    //加载计划执行模块
-    suspend fun loadPlanExecutionModule(): ArrayList<Dictionary>? {
-        return dictionaryModel.loadDictionaryList(null, "isNotTask")
-    }
-
 
     //创建计划
     suspend fun createPlan(

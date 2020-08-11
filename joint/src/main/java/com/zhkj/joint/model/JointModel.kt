@@ -3,8 +3,6 @@ package com.zhkj.joint.model
 import com.google.gson.Gson
 import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
-import com.sunny.zy.bean.Dictionary
-import com.sunny.zy.http.UrlConstant
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.zhkj.joint.bean.JointBean
@@ -19,23 +17,6 @@ import org.json.JSONObject
  * Date 2020/7/17 16:48
  */
 class JointModel {
-
-    /**
-     * 加载协同状态
-     */
-    suspend fun loadJointState(): ArrayList<Dictionary>? {
-        val params = HashMap<String, String>()
-        params["name"] = "是否完成"
-        val resultBean = object : HttpResultBean<PageModel<Dictionary>>() {}
-        ZyHttp.get(UrlConstant.DICT_LIST_URL, params, resultBean)
-        if (resultBean.isSuccess()) {
-            if (resultBean.bean?.isSuccess() == true) {
-                return resultBean.bean?.data?.list
-            }
-        }
-        return null
-    }
-
 
     /**
      * 加载协同列表

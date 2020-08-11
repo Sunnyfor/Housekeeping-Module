@@ -1,4 +1,4 @@
-package com.sunny.zy.bean
+package com.zhkj.common.bean
 
 /**
  * Desc 字典实体类

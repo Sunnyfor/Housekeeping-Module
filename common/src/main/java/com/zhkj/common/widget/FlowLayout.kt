@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.zhkj.common.R
 import java.util.*
 import kotlin.math.max
@@ -20,7 +21,8 @@ import kotlin.math.min
  * Mail yongzuo.chen@foxmail.com
  * Date 2019年11月12日 10:59:54
  */
-class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ViewGroup(context, attrs) {
+class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    ViewGroup(context, attrs) {
 
     companion object {
         /**
@@ -30,6 +32,7 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
          * the container.
          */
         const val SPACING_AUTO = -65536
+
         /**
          * Special value for the horizontal spacing of the child views in the last row
          * SPACING_ALIGN means that the horizontal spacing of the child views in the last row keeps
@@ -126,20 +129,26 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
     init {
 
         val a = context.theme.obtainStyledAttributes(
-                attrs, R.styleable.FlowLayout, 0, 0)
+            attrs, R.styleable.FlowLayout, 0, 0
+        )
         try {
             mFlow = a.getBoolean(R.styleable.FlowLayout_flFlow, DEFAULT_FLOW)
             mChildSpacing = try {
                 a.getInt(R.styleable.FlowLayout_flChildSpacing, DEFAULT_CHILD_SPACING)
             } catch (e: NumberFormatException) {
-                a.getDimensionPixelSize(R.styleable.FlowLayout_flChildSpacing, dpToPx(DEFAULT_CHILD_SPACING.toFloat()).toInt())
+                a.getDimensionPixelSize(
+                    R.styleable.FlowLayout_flChildSpacing,
+                    dpToPx(DEFAULT_CHILD_SPACING.toFloat()).toInt()
+                )
             }
 
             mChildSpacingForLastRow = try {
                 a.getInt(R.styleable.FlowLayout_flChildSpacingForLastRow, SPACING_UNDEFINED)
             } catch (e: NumberFormatException) {
-                a.getDimensionPixelSize(R.styleable.FlowLayout_flChildSpacingForLastRow,
-                        dpToPx(DEFAULT_CHILD_SPACING.toFloat()).toInt())
+                a.getDimensionPixelSize(
+                    R.styleable.FlowLayout_flChildSpacingForLastRow,
+                    dpToPx(DEFAULT_CHILD_SPACING.toFloat()).toInt()
+                )
             }
 
             mRowSpacing = try {
@@ -175,10 +184,11 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
         var childNumInRow = 0
         val rowSize = widthSize - paddingLeft - paddingRight
         val allowFlow = widthMode != MeasureSpec.UNSPECIFIED && mFlow
-        val childSpacing = if (mChildSpacing == SPACING_AUTO && widthMode == MeasureSpec.UNSPECIFIED)
-            0
-        else
-            mChildSpacing
+        val childSpacing =
+            if (mChildSpacing == SPACING_AUTO && widthMode == MeasureSpec.UNSPECIFIED)
+                0
+            else
+                mChildSpacing
         val tmpSpacing = (if (childSpacing == SPACING_AUTO) 0 else childSpacing).toFloat()
 
         for (i in 0 until childCount) {
@@ -191,7 +201,13 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
             var horizontalMargin = 0
             var verticalMargin = 0
             if (childParams is MarginLayoutParams) {
-                measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, measuredHeight)
+                measureChildWithMargins(
+                    child,
+                    widthMeasureSpec,
+                    0,
+                    heightMeasureSpec,
+                    measuredHeight
+                )
                 horizontalMargin = childParams.leftMargin + childParams.rightMargin
                 verticalMargin = childParams.topMargin + childParams.bottomMargin
             } else {
@@ -203,7 +219,8 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
             if (allowFlow && rowWidth + childWidth > rowSize) { // Need flow to next row
                 // Save parameters for current row
                 mHorizontalSpacingForRow.add(
-                        getSpacingForRow(childSpacing, rowSize, rowWidth, childNumInRow))
+                    getSpacingForRow(childSpacing, rowSize, rowWidth, childNumInRow)
+                )
                 mChildNumForRow.add(childNumInRow)
                 mHeightForRow.add(maxChildHeightInRow)
                 if (mHorizontalSpacingForRow.size <= mMaxRows) {
@@ -229,14 +246,35 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 if (mHorizontalSpacingForRow.size >= 1) {
                     mHorizontalSpacingForRow.add(mHorizontalSpacingForRow[mHorizontalSpacingForRow.size - 1])
                 } else {
-                    mHorizontalSpacingForRow.add(getSpacingForRow(childSpacing, rowSize, rowWidth, childNumInRow))
+                    mHorizontalSpacingForRow.add(
+                        getSpacingForRow(
+                            childSpacing,
+                            rowSize,
+                            rowWidth,
+                            childNumInRow
+                        )
+                    )
                 }
             mChildSpacingForLastRow != SPACING_UNDEFINED ->
                 // For SPACING_AUTO and specific DP values, apply them to the spacing strategy.
-                mHorizontalSpacingForRow.add(getSpacingForRow(mChildSpacingForLastRow, rowSize, rowWidth, childNumInRow))
+                mHorizontalSpacingForRow.add(
+                    getSpacingForRow(
+                        mChildSpacingForLastRow,
+                        rowSize,
+                        rowWidth,
+                        childNumInRow
+                    )
+                )
             else ->
                 // For SPACING_UNDEFINED, apply childSpacing to the spacing strategy for the last row.
-                mHorizontalSpacingForRow.add(getSpacingForRow(childSpacing, rowSize, rowWidth, childNumInRow))
+                mHorizontalSpacingForRow.add(
+                    getSpacingForRow(
+                        childSpacing,
+                        rowSize,
+                        rowWidth,
+                        childNumInRow
+                    )
+                )
         }
 
         mChildNumForRow.add(childNumInRow)
@@ -254,12 +292,14 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
         measuredHeight += paddingTop + paddingBottom
         val rowNum = min(mHorizontalSpacingForRow.size, mMaxRows)
-        val rowSpacing = if (mRowSpacing == SPACING_AUTO.toFloat() && heightMode == MeasureSpec.UNSPECIFIED)
-            0f
-        else
-            mRowSpacing
+        val rowSpacing =
+            if (mRowSpacing == SPACING_AUTO.toFloat() && heightMode == MeasureSpec.UNSPECIFIED)
+                0f
+            else
+                mRowSpacing
         if (rowSpacing == SPACING_AUTO.toFloat()) {
-            mAdjustedRowSpacing = if (rowNum > 1) ((heightSize - measuredHeight) / (rowNum - 1)).toFloat() else 0f
+            mAdjustedRowSpacing =
+                if (rowNum > 1) ((heightSize - measuredHeight) / (rowNum - 1)).toFloat() else 0f
             measuredHeight = heightSize
         } else {
             mAdjustedRowSpacing = rowSpacing
@@ -307,10 +347,20 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
                 val childWidth = child.measuredWidth
                 val childHeight = child.measuredHeight
                 if (mRtl) {
-                    child.layout(x - marginRight - childWidth, y + marginTop, x - marginRight, y + marginTop + childHeight)
+                    child.layout(
+                        x - marginRight - childWidth,
+                        y + marginTop,
+                        x - marginRight,
+                        y + marginTop + childHeight
+                    )
                     x -= (childWidth.toFloat() + spacing + marginLeft.toFloat() + marginRight.toFloat()).toInt()
                 } else {
-                    child.layout(x + marginLeft, y + marginTop, x + marginLeft + childWidth, y + marginTop + childHeight)
+                    child.layout(
+                        x + marginLeft,
+                        y + marginTop,
+                        x + marginLeft + childWidth,
+                        y + marginTop + childHeight
+                    )
                     x += (childWidth.toFloat() + spacing + marginLeft.toFloat() + marginRight.toFloat()).toInt()
                 }
             }
@@ -327,7 +377,12 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
         return MarginLayoutParams(context, attrs)
     }
 
-    private fun getSpacingForRow(spacingAttribute: Int, rowSize: Int, usedSize: Int, childNum: Int): Float {
+    private fun getSpacingForRow(
+        spacingAttribute: Int,
+        rowSize: Int,
+        usedSize: Int,
+        childNum: Int
+    ): Float {
         return if (spacingAttribute == SPACING_AUTO) {
             if (childNum > 1) ((rowSize - usedSize) / (childNum - 1)).toFloat() else 0f
         } else {
@@ -337,116 +392,50 @@ class FlowLayout @JvmOverloads constructor(context: Context, attrs: AttributeSet
 
     private fun dpToPx(dp: Float): Float {
         return TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics)
+            TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics
+        )
     }
 
 
-    /**
-     * 添加标签，设置标签样式
-     */
-//    fun buildLabel(bean: ProjectDetailBean.JoinUserBean): TextView {
-//
-//        val left = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val right = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val top = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val bottom = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val textView = TextView(context)
-//        textView.text = bean.renYuanName
-//        textView.textSize = 12f
-//        textView.gravity = Gravity.CENTER
-//
-//        if (bean.renYuanId == MyApplication.getInstance().getData(IntentKey.leaderId)) {
-//            if (MyApplication.getInstance().getData<Boolean>(IntentKey.isFromProjectPage) == true) {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_project))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_project_alpha, R.color.flow_layout_label_project)
-//            } else {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_task))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_task_alpha, R.color.flow_layout_label_task)
-//            }
-//        } else {
-//            textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_default))
-//            textView.background = getLabelBgColor(R.color.flow_layout_label_default_alpha, R.color.flow_layout_label_default)
-//        }
-//
-//        textView.setPadding(left, top, right, bottom)
-//
-//        return textView
-//    }
+    fun buildLabels(text: String): TextView {
+        val left = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
+        val right = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
+        val top = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
+        val bottom = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
+        val textView = TextView(context)
+        textView.text = text
+        textView.setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            context.resources.getDimensionPixelOffset(R.dimen.sp_12).toFloat()
+        )
+        textView.gravity = Gravity.CENTER
 
+        textView.setTextColor(
+            ContextCompat.getColor(
+                context,
+                R.color.color_theme
+            )
+        )
+        textView.background = getLabelBgColor(
+            R.color.color_white,
+            R.color.color_theme
+        )
 
-//    fun buildLabels(bean: TaskDetailsBean.reLateListBean): TextView {
-//
-//        val left = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val right = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val top = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val bottom = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val textView = TextView(context)
-//        textView.text = bean.userName
-//        textView.textSize = 12f
-//        textView.gravity = Gravity.CENTER
-//
-//        if (bean.id == MyApplication.getInstance().getData(IntentKey.leaderId)) {
-//            if (MyApplication.getInstance().getData<Boolean>(IntentKey.isFromProjectPage) == true) {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_project))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_project_alpha, R.color.flow_layout_label_project)
-//            } else {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_task))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_task_alpha, R.color.flow_layout_label_task)
-//            }
-//        } else {
-//            textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_default))
-//            textView.background = getLabelBgColor(R.color.flow_layout_label_default_alpha, R.color.flow_layout_label_default)
-//        }
-//
-//        textView.setPadding(left, top, right, bottom)
-//
-//        return textView
-//    }
+        textView.setPadding(left, top, right, bottom)
 
-
-
-    /**
-     * 添加标签，设置标签样式
-     */
-//    fun buildLabel(bean: PartnerBean): TextView {
-//
-//        val left = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val right = context.resources.getDimensionPixelOffset(R.dimen.dp_10)
-//        val top = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val bottom = context.resources.getDimensionPixelOffset(R.dimen.dp_3)
-//        val textView = TextView(context)
-//        textView.text = bean.userName
-//        textView.textSize = 12f
-//        textView.gravity = Gravity.CENTER
-//
-//        if (bean.id == MyApplication.getInstance().getData(IntentKey.leaderId)) {
-//            if (MyApplication.getInstance().getData<Boolean>(IntentKey.isFromProjectPage) == true) {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_project))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_project_alpha, R.color.flow_layout_label_project)
-//            } else {
-//                textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_task))
-//                textView.background = getLabelBgColor(R.color.flow_layout_label_task_alpha, R.color.flow_layout_label_task)
-//            }
-//        } else {
-//            textView.setTextColor(ContextCompat.getColor(context, R.color.flow_layout_label_default))
-//            textView.background = getLabelBgColor(R.color.flow_layout_label_default_alpha, R.color.flow_layout_label_default)
-//        }
-//
-//        textView.setPadding(left, top, right, bottom)
-//
-//        return textView
-//    }
+        return textView
+    }
 
 
     /**
      * 设置边框，背景，圆角
      */
-//    private fun getLabelBgColor(solidColor: Int, strokeColor: Int): GradientDrawable {
-//        val gd = GradientDrawable()
-//        gd.shape = GradientDrawable.RECTANGLE
-//        gd.cornerRadius = 2f
-//        gd.setColor(ContextCompat.getColor(context, solidColor))
-//        gd.setStroke(2, ContextCompat.getColor(context, strokeColor))
-//        return gd
-//    }
+    private fun getLabelBgColor(solidColor: Int, strokeColor: Int): GradientDrawable {
+        val gd = GradientDrawable()
+        gd.shape = GradientDrawable.RECTANGLE
+        gd.cornerRadius = context.resources.getDimensionPixelOffset(R.dimen.dp_2).toFloat()
+        gd.setColor(ContextCompat.getColor(context, solidColor))
+        gd.setStroke(2, ContextCompat.getColor(context, strokeColor))
+        return gd
+    }
 }

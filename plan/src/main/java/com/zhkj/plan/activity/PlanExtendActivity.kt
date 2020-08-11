@@ -18,10 +18,12 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.Dictionary
 import com.sunny.zy.utils.RouterPath
 import com.sunny.zy.utils.TimerPackUtil
 import com.sunny.zy.utils.ToastUtil
+import com.zhkj.common.bean.Dictionary
+import com.zhkj.common.contract.DictContract
+import com.zhkj.common.presenter.DictPresenter
 import com.zhkj.plan.R
 import com.zhkj.plan.adapter.PlanContentAdapter
 import com.zhkj.plan.bean.PlanBean
@@ -39,7 +41,8 @@ import java.text.ParseException
  * Date 2020/7/9 16:44
  */
 @Route(path = RouterPath.PLAN_EXTEND_ACTIVITY)
-class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
+class PlanExtendActivity : BaseActivity(), PlanExtendContract.PlanExtendView,
+    DictContract.DictView {
 
     companion object {
         const val PREVIEW = 0
@@ -55,10 +58,16 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
         ZyFrameStore.getData<PlanBean>(PlanBean::class.java.simpleName, true)
     }
 
+    val dictList = ArrayList<Dictionary>()
+
     private var activeStatus = 0
 
-    private val presenter: PlanExtendPresenter by lazy {
+    private val planExtendPresenter: PlanExtendPresenter by lazy {
         PlanExtendPresenter(this)
+    }
+
+    private val dictPresenter: DictContract.Presenter by lazy {
+        DictPresenter(this)
     }
 
     private val contentList = arrayListOf<String>()
@@ -112,7 +121,10 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                 tv_status.text = it.activeStatusName
                 tv_start_date.text = it.planStartDate.replace(" 00:00:00", "")
                 tv_end_date.text = it.planEndDate.replace(" 00:00:00", "")
-                presenter.calculateDay(tv_start_date.text.toString(), tv_end_date.text.toString())
+                planExtendPresenter.calculateDay(
+                    tv_start_date.text.toString(),
+                    tv_end_date.text.toString()
+                )
 
                 it.content?.let { content ->
                     if (content.isNotEmpty()) {
@@ -149,14 +161,18 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
     override fun loadData() {
         if (type == PREVIEW)
-            presenter.loadPlanExecutionModule()//加载执行模块
+            dictPresenter.loadDict("type", "isNotTask")//加载执行模块
     }
 
     override fun onClickEvent(view: View) {
         when (view.id) {
 
             tv_plan_module.id -> {
-                presenter.loadPlanExecutionModule()//加载执行模块
+                if (dictList.isEmpty()){
+                    dictPresenter.loadDict("type", "isNotTask")//加载执行模块
+                }else{
+                    showPlanModelDialog()
+                }
             }
 
             tv_start_date.id -> {
@@ -167,7 +183,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                             tv_start_date.text = timeStr
                             //设置天数
                             edit_plan_day.setText(
-                                presenter.calculateDay(
+                                planExtendPresenter.calculateDay(
                                     tv_start_date.text.toString(), tv_end_date.text.toString()
                                 )
                             )
@@ -186,7 +202,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
                             tv_end_date.text = timeStr
                             //设置天数
                             edit_plan_day.setText(
-                                presenter.calculateDay(
+                                planExtendPresenter.calculateDay(
                                     tv_start_date.text.toString(), tv_end_date.text.toString()
                                 )
                             )
@@ -199,7 +215,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
 
             btn_commit.id -> {
                 //创建计划
-                presenter.createPlan(
+                planExtendPresenter.createPlan(
                     edit_title.text.toString(),
                     tv_start_date.text.toString(),
                     tv_end_date.text.toString(),
@@ -219,7 +235,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
     }
 
     override fun close() {
-        presenter.cancel()
+        planExtendPresenter.cancel()
     }
 
 
@@ -266,28 +282,35 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
         bean?.let {
             it.content = content.toString()
             it.planTitle = edit_title.text.toString()
-            presenter.updatePlan(it)
+            planExtendPresenter.updatePlan(it)
         }
     }
 
 
     //显示执行模块
-    override fun showPlanExecutionModule(dictionaryList: ArrayList<Dictionary>) {
+    override fun showDictResult(data: ArrayList<Dictionary>) {
+
+        dictList.addAll(data)
 
         if (type == PREVIEW && tv_plan_module.text.toString() == getString(R.string.select_or_search)) {
-            tv_plan_module.text = dictionaryList.find { it.code == bean?.isNotTask }?.value
+            tv_plan_module.text = data.find { it.code == bean?.isNotTask }?.value
             return
         }
 
+        showPlanModelDialog()
+    }
+
+    private fun showPlanModelDialog() {
         AlertDialog.Builder(this)
             .setTitle("选择执行模块")
-            .setItems(Array(dictionaryList.size) { dictionaryList[it].value }) { _, index ->
-                tv_plan_module.text = dictionaryList[index].value
-                tv_plan_module.tag = dictionaryList[index].code
+            .setItems(Array(dictList.size) { dictList[it].value }) { _, index ->
+                tv_plan_module.text = dictList[index].value
+                tv_plan_module.tag = dictList[index].code
                 bean?.isNotTask = tv_plan_module.tag as Int
             }
             .show()
     }
+
 
     //计划创建成功
     override fun showCreatePlanResult() {
@@ -344,4 +367,5 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.IView {
             .setPositiveButton("关闭") { _: DialogInterface, _: Int -> }
             .show()
     }
+
 }

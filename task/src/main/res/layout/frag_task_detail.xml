@@ -22,6 +22,7 @@
             android:src="@drawable/svg_task_name_icon" />
 
         <TextView
+            android:id="@+id/tv_task_name"
             style="@style/style_item_card_font"
             android:layout_marginStart="@dimen/dp_30"
             tools:text="任务名称" />
@@ -45,6 +46,7 @@
             android:src="@drawable/svg_task_content_icon" />
 
         <TextView
+            android:id="@+id/tv_task_content"
             style="@style/style_item_card_font"
             android:layout_marginStart="@dimen/dp_30"
             tools:text="任务内容" />
@@ -90,6 +92,7 @@
             android:src="@drawable/svg_task_time_icon" />
 
         <TextView
+            android:id="@+id/tv_task_time"
             style="@style/style_item_card_font"
             android:layout_marginStart="@dimen/dp_30"
             tools:text="任务时间" />
@@ -112,6 +115,7 @@
             android:src="@drawable/svg_task_principal_icon" />
 
         <TextView
+            android:id="@+id/tv_task_principal"
             style="@style/style_item_card_font"
             android:layout_marginStart="@dimen/dp_30"
             tools:text="负责人:" />

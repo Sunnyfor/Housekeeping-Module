@@ -7,7 +7,6 @@ import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.base.BaseFragment
 import com.sunny.zy.utils.RouterPath
 import com.zhkj.task.bean.TaskDetailBean
 import com.zhkj.task.contract.TaskContract
@@ -35,9 +34,6 @@ class TaskDetailActivity : BaseActivity(), TaskContract.TaskInfoView {
     }
 
     private val typeArray = arrayOf("立项面板", "完成面板")
-    private val fragmentList = arrayListOf<BaseFragment>(
-        TaskPanelFragment(), TaskFinishPanelFragment()
-    )
 
     override fun setLayout(): Int = R.layout.act_task_detail
 
@@ -46,18 +42,7 @@ class TaskDetailActivity : BaseActivity(), TaskContract.TaskInfoView {
         ARouter.getInstance().inject(this)
 
         defaultTitle(getString(R.string.task_detail))
-        viewpager.adapter = object :
-            FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
-            override fun getItem(position: Int): Fragment = fragmentList[position]
 
-            override fun getCount(): Int = fragmentList.size
-
-            override fun getPageTitle(position: Int): CharSequence? {
-                return typeArray[position]
-            }
-        }
-
-        tab_type.setupWithViewPager(viewpager)
     }
 
     override fun loadData() {
@@ -74,5 +59,26 @@ class TaskDetailActivity : BaseActivity(), TaskContract.TaskInfoView {
 
     override fun showTaskInfo(data: TaskDetailBean) {
 
+        val fragmentList = arrayListOf(
+            TaskPanelFragment().apply {
+                bean = data
+            },
+            TaskFinishPanelFragment().apply {
+                bean = data
+            }
+        )
+
+        viewpager.adapter = object :
+            FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            override fun getItem(position: Int): Fragment = fragmentList[position]
+
+            override fun getCount(): Int = fragmentList.size
+
+            override fun getPageTitle(position: Int): CharSequence? {
+                return typeArray[position]
+            }
+        }
+
+        tab_type.setupWithViewPager(viewpager)
     }
 }

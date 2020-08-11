@@ -9,8 +9,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.sunny.zy.bean.Dictionary
+import com.zhkj.common.bean.Dictionary
 import com.sunny.zy.utils.RouterPath
+import com.zhkj.common.contract.DictContract
+import com.zhkj.common.presenter.DictPresenter
 import com.zhkj.joint.bean.JointBean
 import com.zhkj.joint.contract.JointContract
 import com.zhkj.joint.presenter.JointPresenter
@@ -19,10 +21,14 @@ import kotlinx.android.synthetic.main.act_joint_create.*
 import kotlinx.coroutines.cancel
 
 @Route(path = RouterPath.JOINT_CREATE_ACTIVITY)
-class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
+class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView, DictContract.DictView {
 
-    private val presenter: JointPresenter by lazy {
+    private val jointPresenter: JointPresenter by lazy {
         JointPresenter(this)
+    }
+
+    private val dictPresenter: DictContract.Presenter by lazy {
+        DictPresenter(this)
     }
 
 
@@ -88,7 +94,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
 
             cl_state.id -> {
                 if (jointStateList.isEmpty()) {
-                    presenter.loadJointState()
+                    dictPresenter.loadDict("name", "是否完成")
                 } else {
                     showJointStateDialog()
                 }
@@ -96,7 +102,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
 
             btn_commit.id -> {
                 if (jointBean == null) {
-                    presenter.createJoint(
+                    jointPresenter.createJoint(
                         edit_title.text.toString(),
                         edit_content.text.toString(),
                         namesSb.toString(),
@@ -108,7 +114,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
                     jointBean?.synergyNames = namesSb.toString()
                     jointBean?.synergyIds = idsSb.toString()
                     jointBean?.checkContent = edit_review.text.toString()
-                    presenter.modifyJoint(jointBean ?: return)
+                    jointPresenter.modifyJoint(jointBean ?: return)
                 }
             }
         }
@@ -119,7 +125,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
     }
 
     override fun close() {
-        presenter.cancel()
+        jointPresenter.cancel()
     }
 
 
@@ -158,12 +164,6 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
         finish()
     }
 
-    override fun showJointStateList(data: ArrayList<Dictionary>) {
-        jointStateList.clear()
-        jointStateList.addAll(data)
-        showJointStateDialog()
-    }
-
     override fun showModifyJointResult() {
         showCreateJointResult()
     }
@@ -185,5 +185,11 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView {
 
             }
             .show()
+    }
+
+    override fun showDictResult(data: ArrayList<Dictionary>) {
+        jointStateList.clear()
+        jointStateList.addAll(data)
+        showJointStateDialog()
     }
 }

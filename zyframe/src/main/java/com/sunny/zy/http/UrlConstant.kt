@@ -36,7 +36,7 @@ object UrlConstant {
     /**
      * 字典接口
      */
-    const val DICT_LIST_URL = "sys/dict/list"
+
 
 
     /**
