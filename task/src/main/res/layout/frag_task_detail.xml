@@ -69,6 +69,7 @@
             android:src="@drawable/svg_task_type_icon" />
 
         <TextView
+            android:id="@+id/tv_task_type"
             style="@style/style_item_card_font"
             android:layout_marginStart="@dimen/dp_30"
             tools:text="任务类型" />

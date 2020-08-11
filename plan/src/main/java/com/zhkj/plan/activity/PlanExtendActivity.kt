@@ -58,7 +58,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.PlanExtendView,
         ZyFrameStore.getData<PlanBean>(PlanBean::class.java.simpleName, true)
     }
 
-    val dictList = ArrayList<Dictionary>()
+    private val dictList = ArrayList<Dictionary>()
 
     private var activeStatus = 0
 
@@ -168,9 +168,9 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.PlanExtendView,
         when (view.id) {
 
             tv_plan_module.id -> {
-                if (dictList.isEmpty()){
+                if (dictList.isEmpty()) {
                     dictPresenter.loadDict("type", "isNotTask")//加载执行模块
-                }else{
+                } else {
                     showPlanModelDialog()
                 }
             }
@@ -236,6 +236,7 @@ class PlanExtendActivity : BaseActivity(), PlanExtendContract.PlanExtendView,
 
     override fun close() {
         planExtendPresenter.cancel()
+        dictPresenter.cancel()
     }
 
 

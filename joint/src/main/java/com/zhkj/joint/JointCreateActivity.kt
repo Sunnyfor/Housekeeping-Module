@@ -9,8 +9,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
-import com.zhkj.common.bean.Dictionary
 import com.sunny.zy.utils.RouterPath
+import com.zhkj.common.bean.Dictionary
 import com.zhkj.common.contract.DictContract
 import com.zhkj.common.presenter.DictPresenter
 import com.zhkj.joint.bean.JointBean
@@ -126,6 +126,7 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView, Dict
 
     override fun close() {
         jointPresenter.cancel()
+        dictPresenter.cancel()
     }
 
 
