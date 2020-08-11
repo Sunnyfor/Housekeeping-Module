@@ -16,4 +16,9 @@ object TaskUrlConstant {
      * 加载任务详情
      */
     const val TASK_DETAIL_URL = "/app/task/home"
+
+    /**
+     * 货物清单
+     */
+    const val TASK_GOODS_URL = "app/taskgoods/list?taskId"
 }

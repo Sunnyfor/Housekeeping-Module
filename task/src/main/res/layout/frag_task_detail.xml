@@ -1,211 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:overScrollMode="never">
 
-    <RelativeLayout
-        android:id="@+id/rl_task_name"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_name_icon" />
+        <RelativeLayout
+            android:id="@+id/rl_task_name"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_task_name"
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="任务名称" />
-    </RelativeLayout>
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_name_icon" />
 
-
-    <RelativeLayout
-        android:id="@+id/rl_task_content"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_name">
-
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_content_icon" />
-
-        <TextView
-            android:id="@+id/tv_task_content"
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="任务内容" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/rl_task_type"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_content">
-
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_type_icon" />
-
-        <TextView
-            android:id="@+id/tv_task_type"
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="任务类型" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_task_name"
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                tools:text="任务名称" />
+        </RelativeLayout>
 
 
-    <RelativeLayout
-        android:id="@+id/rl_task_time"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_type">
+        <RelativeLayout
+            android:id="@+id/rl_task_content"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_name">
 
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_time_icon" />
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_content_icon" />
 
-        <TextView
-            android:id="@+id/tv_task_time"
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="任务时间" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_task_content"
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:gravity="start"
+                tools:text="任务内容" />
+        </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/rl_task_principal"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_time">
+        <RelativeLayout
+            android:id="@+id/rl_task_type"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_content">
 
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_principal_icon" />
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
 
-        <TextView
-            android:id="@+id/tv_task_principal"
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="负责人:" />
-    </RelativeLayout>
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_type_icon" />
 
-    <RelativeLayout
-        android:id="@+id/rl_task_member"
-        style="@style/style_item_card_view"
-        android:layout_marginTop="@dimen/dp_20"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_principal">
+            <TextView
+                android:id="@+id/tv_task_type"
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                tools:text="任务类型" />
+        </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/iv_member"
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:contentDescription="@string/placeholder"
-            android:src="@drawable/svg_task_member_icon" />
 
-        <TextView
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            tools:text="参与人" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_task_time"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_type">
 
-    <com.zhkj.common.widget.FlowLayout
-        android:id="@+id/flowlayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingTop="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_20"
-        android:paddingBottom="@dimen/dp_10"
-        app:flChildSpacing="auto"
-        app:flRowSpacing="@dimen/dp_4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_member" />
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
 
-    <RelativeLayout
-        android:id="@+id/rl_task_progress"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/flowlayout">
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_time_icon" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:src="@drawable/svg_task_progress_icon" />
+            <TextView
+                android:id="@+id/tv_task_time"
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                tools:text="任务时间" />
+        </RelativeLayout>
 
-        <TextView
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            android:text="@string/task_progress" />
+        <RelativeLayout
+            android:id="@+id/rl_task_principal"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_time">
 
-        <ImageView style="@style/style_item_card_img" />
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
 
-    </RelativeLayout>
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_principal_icon" />
 
-    <RelativeLayout
-        android:id="@+id/rl_task_inventory"
-        style="@style/style_item_card_view"
-        android:background="@color/color_white"
+            <TextView
+                android:id="@+id/tv_task_principal"
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                tools:text="负责人:" />
+        </RelativeLayout>
 
-        android:paddingStart="@dimen/dp_20"
-        android:paddingEnd="@dimen/dp_10"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rl_task_progress">
+        <RelativeLayout
+            android:id="@+id/rl_task_member"
+            style="@style/style_item_card_view"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_principal">
 
-        <ImageView
-            android:layout_width="@dimen/dp_20"
-            android:layout_height="@dimen/dp_20"
-            android:layout_centerVertical="true"
-            android:src="@drawable/svg_task_inventory_icon" />
+            <ImageView
+                android:id="@+id/iv_member"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
 
-        <TextView
-            style="@style/style_item_card_font"
-            android:layout_marginStart="@dimen/dp_30"
-            android:text="@string/item_list" />
+                android:contentDescription="@string/placeholder"
+                android:src="@drawable/svg_task_member_icon" />
 
-        <ImageView style="@style/style_item_card_img" />
+            <com.donkingliang.labels.LabelsView
+                android:id="@+id/labels_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp_10"
+                android:layout_toEndOf="@id/iv_member"
+                app:isIndicator="true"
+                app:labelBackground="@drawable/bg_white_border_blue_label_bg"
+                app:labelTextColor="@color/color_theme"
+                app:labelTextPaddingBottom="3dp"
+                app:labelTextPaddingLeft="5dp"
+                app:labelTextPaddingRight="5dp"
+                app:labelTextPaddingTop="3dp"
+                app:labelTextSize="12sp"
+                app:wordMargin="10dp" />
+        </RelativeLayout>
 
-    </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_task_progress"
+            style="@style/style_item_card_view"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_member">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+
+                android:src="@drawable/svg_task_progress_icon" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/task_progress" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_task_inventory"
+            style="@style/style_item_card_view"
+            android:background="@color/color_white"
+
+            android:paddingStart="@dimen/dp_20"
+            android:paddingEnd="@dimen/dp_10"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rl_task_progress">
+
+            <ImageView
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+
+                android:src="@drawable/svg_task_inventory_icon" />
+
+            <TextView
+                style="@style/style_item_card_font"
+                android:layout_marginStart="@dimen/dp_30"
+                android:text="@string/item_list" />
+
+            <ImageView style="@style/style_item_card_img" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

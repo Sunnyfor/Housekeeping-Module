@@ -1,6 +1,7 @@
 package com.zhkj.task.fragment
 
 import android.view.View
+import com.donkingliang.labels.LabelsView
 import com.sunny.zy.base.BaseFragment
 import com.zhkj.common.bean.Dictionary
 import com.zhkj.common.contract.DictContract
@@ -27,16 +28,24 @@ class TaskPanelFragment : BaseFragment(), DictContract.DictView {
 
     override fun initView() {
         bean?.let { bean ->
-            tv_task_name.text = bean.task?.taskName ?: ""
-            tv_task_content.text = bean.task?.taskContent ?: "未填写"
-            val startDate = bean.task?.taskPlanStartDate?.split(" ")?.get(0) ?: ""
+            tv_task_name.text = bean.task?.taskName ?: "未填写"
+
+            bean.task?.taskContent.let {
+                if (it.isNullOrEmpty()) {
+                    bean.task?.taskContent = "未填写"
+                }
+            }
+            tv_task_content.text = bean.task?.taskContent
+            val startDate = bean.task?.taskPlanStartDate?.split(" ")?.get(0) ?: "..."
             val endDate = bean.task?.taskPlanEndDate?.split(" ")?.get(0) ?: "..."
             tv_task_time.text = ("$startDate 至 $endDate")
             tv_task_principal.text = ("负责人：${(bean.task?.chargeUserName ?: "暂无")}")
-            bean.relateList.filter { it.userId != bean.userEntity.userId }.forEach {
-                flowlayout.addView(flowlayout.buildLabels(it.userName ?: ""))
+            bean.relateList.filter { it.userId != bean.task?.chargeUserId }.let {
+                labels_view.setLabels(it,
+                    LabelsView.LabelTextProvider { _, _, data ->
+                        return@LabelTextProvider data.userName
+                    })
             }
-
         }
     }
 
@@ -53,8 +62,8 @@ class TaskPanelFragment : BaseFragment(), DictContract.DictView {
     }
 
     override fun showDictResult(data: ArrayList<Dictionary>) {
-        data.find { bean?.task?.taskType == it.code.toString() }?.let {
-            tv_task_type.text = it.value
+        data.find { bean?.task?.taskType == it.code.toString() }.let {
+            tv_task_type.text = it?.value ?: "未填写"
         }
 
     }

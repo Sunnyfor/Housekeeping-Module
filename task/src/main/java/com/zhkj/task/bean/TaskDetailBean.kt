@@ -12,7 +12,6 @@ data class TaskDetailBean(
     var progressList: ArrayList<ProgressBean>,
     var relateList: ArrayList<RelateBean>,
     var dataList: ArrayList<DataBean>,
-    var goodsList: ArrayList<GoodsBean>?,
     var applicationList: ArrayList<Any>,
     var userEntity: UserBean
 ) {
@@ -53,17 +52,6 @@ data class TaskDetailBean(
         var taskId: String?,
         var fujianList: List<TaskBean.FujianBean>? = null
     )
-
-    data class GoodsBean(
-        var activeState: String?,
-        var createDate: String?,
-        var createUserId: String?,
-        var goodsName: String?,
-        var goodsNum: String?,
-        var id: String?,
-        var taskId: String?
-    )
-
 
     data class UserBean(
         var userId: String?,

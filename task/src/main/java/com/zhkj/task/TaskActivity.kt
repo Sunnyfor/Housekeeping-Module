@@ -112,6 +112,7 @@ class TaskActivity : BaseActivity(), DeptContract.IDeptView {
             override fun getPageTitle(position: Int): CharSequence = typeArray[position]
         }
         tab_type.setupWithViewPager(viewpager)
+        tab_type.visibility = View.VISIBLE
     }
 
 
