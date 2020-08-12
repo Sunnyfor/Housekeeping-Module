@@ -18,7 +18,7 @@ class GoodsModel {
         val params = HashMap<String, String>()
         params["taskId"] = taskId
         params["page"] = page.toString()
-        params["limit"] = "20"
+        params["limit"] = "9999"
         val httpResultBean = object : HttpResultBean<PageModel<GoodsBean>>() {}
         ZyHttp.get(TaskUrlConstant.TASK_GOODS_URL, params, httpResultBean)
 

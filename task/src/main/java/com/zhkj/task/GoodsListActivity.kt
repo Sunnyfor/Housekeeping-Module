@@ -2,8 +2,11 @@ package com.zhkj.task
 
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Autowired
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.fragment.PullRefreshFragment
+import com.sunny.zy.utils.RouterPath
 import com.zhkj.task.adapter.GoodsAdapter
 import com.zhkj.task.bean.GoodsBean
 import com.zhkj.task.contract.GoodsContract
@@ -15,6 +18,7 @@ import com.zhkj.task.presenter.GoodsPresenter
  * Mail zhangye98@foxmail.com
  * Date 2020/8/11 18:50
  */
+@Route(path = RouterPath.TASK_GOODS_ACTIVITY)
 class GoodsListActivity : BaseActivity(), GoodsContract.GoodsView {
 
     @Autowired
@@ -31,6 +35,10 @@ class GoodsListActivity : BaseActivity(), GoodsContract.GoodsView {
 
     override fun initView() {
 
+        ARouter.getInstance().inject(this)
+
+        defaultTitle(getString(R.string.item_list))
+        pullRefreshFragment.enableLoadMore = false
         pullRefreshFragment.loadData = {
             loadData()
         }
@@ -38,6 +46,7 @@ class GoodsListActivity : BaseActivity(), GoodsContract.GoodsView {
 
         supportFragmentManager.beginTransaction().replace(getFrameBody().id, pullRefreshFragment)
             .commit()
+        showLoading()
     }
 
     override fun loadData() {
@@ -56,6 +65,7 @@ class GoodsListActivity : BaseActivity(), GoodsContract.GoodsView {
     }
 
     override fun showGoodsData(data: ArrayList<GoodsBean>) {
+        hideLoading()
         pullRefreshFragment.addData(data)
     }
 }

@@ -19,9 +19,7 @@ class GoodsPresenter(view: GoodsContract.GoodsView) : GoodsContract.Presenter(vi
 
     override fun loadGoodsData(page: Int, taskId: String) {
         launch(Main) {
-            showLoading()
             view?.showGoodsData(goodsModel.loadGoods(page, taskId) ?: arrayListOf())
-            hideLoading()
         }
     }
 

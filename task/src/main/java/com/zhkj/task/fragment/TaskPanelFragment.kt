@@ -1,8 +1,10 @@
 package com.zhkj.task.fragment
 
 import android.view.View
+import com.alibaba.android.arouter.launcher.ARouter
 import com.donkingliang.labels.LabelsView
 import com.sunny.zy.base.BaseFragment
+import com.sunny.zy.utils.RouterPath
 import com.zhkj.common.bean.Dictionary
 import com.zhkj.common.contract.DictContract
 import com.zhkj.common.presenter.DictPresenter
@@ -47,10 +49,18 @@ class TaskPanelFragment : BaseFragment(), DictContract.DictView {
                     })
             }
         }
+
+        setOnClickListener(rl_task_inventory)
     }
 
     override fun onClickEvent(view: View) {
-
+        when (view.id) {
+            rl_task_inventory.id -> {
+                ARouter.getInstance().build(RouterPath.TASK_GOODS_ACTIVITY)
+                    .withString("taskId",bean?.task?.taskId)
+                    .navigation()
+            }
+        }
     }
 
     override fun loadData() {

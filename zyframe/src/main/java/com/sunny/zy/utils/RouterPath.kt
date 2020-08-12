@@ -20,6 +20,7 @@ object RouterPath {
 
     const val TASK_ACTIVITY = "/task/TaskActivity" //任务首页
     const val TASK_DETAIL_ACTIVITY = "/task/TaskDetailActivity" //任务首页
+    const val TASK_GOODS_ACTIVITY = "/task/GoodsListActivity" //物品清单
 
     const val PLAN_ACTIVITY = "/plan/PlanActivity" //计划首页
 
