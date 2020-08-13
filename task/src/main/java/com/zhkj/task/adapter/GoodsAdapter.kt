@@ -19,7 +19,7 @@ class GoodsAdapter : BaseRecycleAdapter<GoodsBean>(arrayListOf()) {
     override fun onBindViewHolder(holder: BaseRecycleViewHolder, position: Int) {
         holder.itemView.tv_goods_title.text = getData(position).goodsName
         holder.itemView.tv_count.text = ("数量:${getData(position).goodsNum}")
-        holder.itemView.tv_name.text = getData(position).createUserName
+        holder.itemView.tv_name.text = ("创建人:${getData(position).createUserName}")
         holder.itemView.tv_date.text = getData(position).createDate
     }
 

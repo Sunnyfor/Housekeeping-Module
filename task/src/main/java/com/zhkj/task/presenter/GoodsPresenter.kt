@@ -23,4 +23,15 @@ class GoodsPresenter(view: GoodsContract.GoodsView) : GoodsContract.Presenter(vi
         }
     }
 
+    override fun updateGoods(taskId: String, json: String) {
+        launch(Main) {
+            showLoading()
+
+            goodsModel.updateGoods(taskId, json)?.let {
+                view?.updateGoodsResult(it)
+            }
+            hideLoading()
+        }
+    }
+
 }

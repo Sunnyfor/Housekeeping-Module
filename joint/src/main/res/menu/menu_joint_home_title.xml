@@ -11,5 +11,5 @@
         android:id="@+id/menu_add"
         android:title="@string/create_joint"
         app:showAsAction="always"
-        android:icon="@drawable/svg_plan_add_white"/>
+        android:icon="@drawable/svg_title_add_white"/>
 </menu>

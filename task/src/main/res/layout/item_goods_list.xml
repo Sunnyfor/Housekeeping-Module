@@ -29,26 +29,15 @@
         tools:text="标题" />
 
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/iv_head"
-        android:layout_width="@dimen/dp_40"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@drawable/icon_default_head"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_goods_title" />
 
     <TextView
         android:id="@+id/tv_name"
         style="@style/style_font_black"
-        android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_marginEnd="@dimen/dp_20"
         android:layout_marginBottom="@dimen/dp_10"
-        app:layout_constraintBottom_toBottomOf="@id/iv_head"
-        app:layout_constraintStart_toEndOf="@id/iv_head"
-        app:layout_constraintTop_toTopOf="@id/iv_head"
+        app:layout_constraintStart_toStartOf="@id/tv_goods_title"
+        app:layout_constraintTop_toBottomOf="@id/tv_goods_title"
         tools:text="李时珍" />
 
     <TextView
@@ -67,7 +56,8 @@
         android:layout_marginBottom="@dimen/dp_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_head"
+        app:layout_constraintTop_toBottomOf="@id/tv_count"
+        android:layout_marginTop="@dimen/dp_10"
         tools:text="2020年8月11日" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

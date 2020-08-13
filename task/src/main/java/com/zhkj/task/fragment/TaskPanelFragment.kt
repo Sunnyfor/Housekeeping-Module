@@ -56,7 +56,7 @@ class TaskPanelFragment : BaseFragment(), DictContract.DictView {
     override fun onClickEvent(view: View) {
         when (view.id) {
             rl_task_inventory.id -> {
-                ARouter.getInstance().build(RouterPath.TASK_GOODS_ACTIVITY)
+                ARouter.getInstance().build(RouterPath.GOODS_ACTIVITY)
                     .withString("taskId",bean?.task?.taskId)
                     .navigation()
             }

@@ -1,5 +1,6 @@
 package com.zhkj.task.model
 
+import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.PageModel
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
@@ -27,4 +28,17 @@ class GoodsModel {
         }
         return null
     }
+
+
+    suspend fun updateGoods(taskId: String, json: String): BaseModel<Any>? {
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.postJson(String.format(TaskUrlConstant.GOODS_UPDATE_URL, taskId), json, httpResultBean)
+
+        if (httpResultBean.isSuccess() && httpResultBean.bean?.isSuccess() == true) {
+            return httpResultBean.bean
+        }
+        return null
+
+    }
+
 }
