@@ -4,6 +4,7 @@ import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
 import com.zhkj.task.bean.TaskBean
 import com.zhkj.task.bean.TaskDetailBean
+import com.zhkj.task.bean.TaskProgressBean
 
 /**
  * Desc
@@ -16,8 +17,12 @@ class TaskContract {
         fun showTaskList(data: ArrayList<TaskBean.Task>)
     }
 
-    interface TaskInfoView:IBaseView {
-        fun showTaskInfo(data:TaskDetailBean)
+    interface TaskInfoView : IBaseView {
+        fun showTaskInfo(data: TaskDetailBean)
+    }
+
+    interface TaskProgressView : IBaseView {
+        fun showTaskProgressList(data: ArrayList<TaskProgressBean>)
     }
 
     abstract class Presenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
@@ -32,5 +37,7 @@ class TaskContract {
         )
 
         abstract fun loadTaskInfo(taskId: String)
+
+        abstract fun loadTaskProgress(taskId: String, page: Int)
     }
 }

@@ -49,4 +49,16 @@ class TaskPresenter(view: IBaseView) : TaskContract.Presenter(view) {
             hideLoading()
         }
     }
+
+    override fun loadTaskProgress(taskId: String, page: Int) {
+        launch(Main) {
+            showLoading()
+            if (view is TaskContract.TaskProgressView) {
+                (view as TaskContract.TaskProgressView).showTaskProgressList(
+                    taskModel.loadTaskProgress(taskId, page) ?: arrayListOf()
+                )
+            }
+            hideLoading()
+        }
+    }
 }

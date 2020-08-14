@@ -4,6 +4,7 @@ import android.view.View
 import com.sunny.zy.base.BaseFragment
 import com.zhkj.task.R
 import com.zhkj.task.bean.TaskDetailBean
+import kotlinx.android.synthetic.main.frag_task_finish.*
 
 /**
  * Desc
@@ -18,11 +19,15 @@ class TaskFinishPanelFragment : BaseFragment() {
     override fun setLayout(): Int = R.layout.frag_task_finish
 
     override fun initView() {
-
+        setOnClickListener(rl_task_attachment)
     }
 
     override fun onClickEvent(view: View) {
+        when(view.id){
+            rl_task_attachment.id -> {
 
+            }
+        }
     }
 
     override fun loadData() {

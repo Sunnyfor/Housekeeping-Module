@@ -50,11 +50,19 @@ class TaskPanelFragment : BaseFragment(), DictContract.DictView {
             }
         }
 
-        setOnClickListener(rl_task_inventory)
+        setOnClickListener(rl_task_progress,rl_task_inventory)
     }
 
     override fun onClickEvent(view: View) {
         when (view.id) {
+
+            rl_task_progress.id -> {
+                ARouter.getInstance().build(RouterPath.TASK_PROGRESS_ACTIVITY)
+                    .withString("taskId",bean?.task?.taskId)
+                    .withString("chargeUserId",bean?.task?.chargeUserId)
+                    .navigation()
+            }
+
             rl_task_inventory.id -> {
                 ARouter.getInstance().build(RouterPath.GOODS_ACTIVITY)
                     .withString("taskId",bean?.task?.taskId)

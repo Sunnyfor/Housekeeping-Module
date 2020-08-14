@@ -1,10 +1,12 @@
 package com.zhkj.task.model
 
 import com.sunny.zy.base.BaseModel
+import com.sunny.zy.base.PageModel
 import com.sunny.zy.http.ZyHttp
 import com.sunny.zy.http.bean.HttpResultBean
 import com.zhkj.task.bean.TaskBean
 import com.zhkj.task.bean.TaskDetailBean
+import com.zhkj.task.bean.TaskProgressBean
 import com.zhkj.task.http.TaskUrlConstant
 
 /**
@@ -14,6 +16,10 @@ import com.zhkj.task.http.TaskUrlConstant
  * Date 2020/8/7 17:53
  */
 class TaskModel {
+
+    /**
+     * 加载任务进度
+     */
     suspend fun loadTaskList(
         page: Int,
         taskDeptId: String,
@@ -56,6 +62,9 @@ class TaskModel {
     }
 
 
+    /**
+     * 加载任务详情
+     */
     suspend fun loadTask(id: String): TaskDetailBean? {
         val params = HashMap<String, String>()
         params["id"] = id
@@ -64,6 +73,26 @@ class TaskModel {
 
         if (httpResultBean.isSuccess() && httpResultBean.bean?.isSuccess() == true) {
             return httpResultBean.bean?.data
+        }
+        return null
+    }
+
+
+    /**
+     * 加载任务进度
+     */
+    suspend fun loadTaskProgress(taskId: String, page: Int): ArrayList<TaskProgressBean>? {
+        val params = HashMap<String, String>()
+        params["page"] = page.toString()
+        params["limit"] = "20"
+        val httpResultBean = object : HttpResultBean<PageModel<TaskProgressBean>>() {}
+        ZyHttp.post(
+            String.format(TaskUrlConstant.TASK_PROGRESS_URL, taskId),
+            params,
+            httpResultBean
+        )
+        if (httpResultBean.isSuccess() && httpResultBean.bean?.isSuccess() == true) {
+            return httpResultBean.bean?.data?.list
         }
         return null
     }

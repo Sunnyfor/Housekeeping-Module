@@ -4,6 +4,7 @@
     <application>
         <activity android:name=".TaskActivity" />
         <activity android:name=".TaskDetailActivity" />
+        <activity android:name=".TaskProgressActivity"/>
         <activity android:name=".GoodsListActivity" />
         <activity android:name=".AddGoodsActivity" />
     </application>

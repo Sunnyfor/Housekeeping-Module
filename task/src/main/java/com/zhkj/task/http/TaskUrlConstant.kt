@@ -18,6 +18,11 @@ object TaskUrlConstant {
     const val TASK_DETAIL_URL = "/app/task/home"
 
     /**
+     * 加载任务进度
+     */
+    const val TASK_PROGRESS_URL = "/app/taskprogress/list?taskId=%s"
+
+    /**
      * 物品清单
      */
     const val TASK_GOODS_URL = "app/taskgoods/list"

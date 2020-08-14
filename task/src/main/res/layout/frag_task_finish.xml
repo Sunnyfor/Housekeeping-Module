@@ -30,7 +30,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/rl_task_data"
+        android:id="@+id/rl_task_attachment"
         style="@style/style_item_card_view"
         android:background="@color/color_white"
         android:paddingStart="@dimen/dp_20"
