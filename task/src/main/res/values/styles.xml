@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="style_common_btn_small" parent="style_common_btn">
+        <item name="android:layout_width">@dimen/dp_60</item>
+        <item name="android:layout_height">@dimen/dp_26</item>
+        <item name="android:background">@drawable/bg_white_border_blue_label_bg</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:textColor">@color/color_theme</item>
+    </style>
+
+</resources>

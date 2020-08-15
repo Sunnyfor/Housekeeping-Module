@@ -22,16 +22,16 @@ class TaskProgressAdapter(private var isManager: Boolean) :
     override fun onBindViewHolder(holder: BaseRecycleViewHolder, position: Int) {
         holder.itemView.tv_title.text = getData(position).progressContent ?: ""
         getData(position).receipt.let {
-            if (it == null || it.isEmpty()){
+            if (it == null || it.isEmpty()) {
                 holder.itemView.tv_receipt.visibility = View.GONE
-            }else{
+            } else {
                 holder.itemView.tv_receipt.visibility = View.VISIBLE
                 holder.itemView.tv_receipt.text = it
             }
 
         }
 
-        holder.itemView.tv_name.text = ("执行人:${getData(position).progressAppointUserName}")
+        holder.itemView.tv_name.text = getData(position).progressAppointUserName
 
         if (isManager) {
 
