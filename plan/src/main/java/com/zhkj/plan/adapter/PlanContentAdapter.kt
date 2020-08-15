@@ -31,7 +31,7 @@ class PlanContentAdapter(var activeStatus:Int,
         }
 
         if (activeStatus == 2){
-            holder.itemView.btn_delete.visibility = View.INVISIBLE
+            holder.itemView.btn_delete.visibility = View.GONE
         }else{
             holder.itemView.btn_delete.visibility = View.VISIBLE
         }

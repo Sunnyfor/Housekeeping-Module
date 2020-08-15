@@ -29,9 +29,10 @@
     <View
         android:id="@+id/line2"
         style="@style/style_line_vertical"
-        android:layout_height="@dimen/dp_15"
+        android:layout_height="0dp"
         android:background="@color/color_theme"
         app:layout_constraintEnd_toEndOf="@id/v_point"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/v_point"
         app:layout_constraintTop_toBottomOf="@id/v_point" />
 
