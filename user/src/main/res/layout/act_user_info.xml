@@ -59,7 +59,7 @@
 
         <ImageView
             android:id="@+id/iv_name_more"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
 
         <ImageView
             android:id="@+id/iv_dept_more"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,7 +131,7 @@
 
         <ImageView
             android:id="@+id/iv_phone_more"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -167,7 +167,7 @@
 
         <ImageView
             android:id="@+id/iv_email_more"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

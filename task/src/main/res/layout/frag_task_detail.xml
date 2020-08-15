@@ -184,7 +184,7 @@
                 android:layout_marginStart="@dimen/dp_30"
                 android:text="@string/task_progress" />
 
-            <ImageView style="@style/style_item_card_img" />
+            <ImageView style="@style/style_item_card_more" />
 
         </RelativeLayout>
 
@@ -209,7 +209,7 @@
                 android:layout_marginStart="@dimen/dp_30"
                 android:text="@string/item_list" />
 
-            <ImageView style="@style/style_item_card_img" />
+            <ImageView style="@style/style_item_card_more" />
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

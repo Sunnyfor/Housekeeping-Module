@@ -105,7 +105,7 @@
 
         <ImageView
             android:id="@+id/iv_person"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -145,7 +145,7 @@
 
         <ImageView
             android:id="@+id/iv_state"
-            style="@style/style_item_card_img"
+            style="@style/style_item_card_more"
             android:contentDescription="@string/placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -24,7 +24,7 @@
             android:layout_marginStart="@dimen/dp_30"
             android:text="@string/task_conclusion" />
 
-        <ImageView style="@style/style_item_card_img" />
+        <ImageView style="@style/style_item_card_more" />
 
     </RelativeLayout>
 
@@ -49,7 +49,7 @@
             android:layout_marginStart="@dimen/dp_30"
             android:text="@string/task_data" />
 
-        <ImageView style="@style/style_item_card_img" />
+        <ImageView style="@style/style_item_card_more" />
 
     </RelativeLayout>
 
