@@ -16,6 +16,7 @@ import com.zhkj.common.presenter.DictPresenter
 import com.zhkj.joint.bean.JointBean
 import com.zhkj.joint.contract.JointContract
 import com.zhkj.joint.presenter.JointPresenter
+import com.zhkj.user.SelectUserActivity
 import com.zhkj.user.bean.OtherUserBean
 import kotlinx.android.synthetic.main.act_joint_create.*
 import kotlinx.coroutines.cancel
@@ -87,9 +88,11 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView, Dict
                 } else {
                     selectUserIds.add(idsSb.toString())
                 }
-                ZyFrameStore.setData("selectUserIds", selectUserIds)
-                ARouter.getInstance().build(RouterPath.USER_SELECT_ACTIVITY)
-                    .navigation(this, 10000)
+                SelectUserActivity.startActivity(
+                    this,
+                    selectUserIds,
+                    null
+                )
             }
 
             cl_state.id -> {
@@ -133,20 +136,10 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView, Dict
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 10000 && resultCode == Activity.RESULT_OK) {
-            processResult(data)
-        }
-    }
-
-
-    private fun processResult(data: Intent?) {
-        idsSb.clear()
-        namesSb.clear()
-        val list = data?.extras?.get("data")
-        if (list !is ArrayList<*>) {
-            return
-        }
-        list.forEachIndexed { index, bean ->
-            if (bean is OtherUserBean) {
+            idsSb.clear()
+            namesSb.clear()
+            val list = SelectUserActivity.processResult(data)
+            list?.forEachIndexed { index, bean ->
                 idsSb.append(bean.userId)
                 namesSb.append(bean.username)
                 if (index != list.size - 1) {
@@ -154,10 +147,11 @@ class JointCreateActivity : BaseActivity(), JointContract.IJointCreateView, Dict
                     namesSb.append(",")
                 }
             }
+
+            val personStr =
+                if (namesSb.isEmpty()) getString(R.string.joint_person_hint) else namesSb.toString()
+            tv_person.text = personStr
         }
-        val personStr =
-            if (namesSb.isEmpty()) getString(R.string.joint_person_hint) else namesSb.toString()
-        tv_person.text = personStr
     }
 
     override fun showCreateJointResult() {

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none"
-    android:overScrollMode="never">
+    android:overScrollMode="never"
+    android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -125,6 +125,11 @@
                 style="@style/style_item_card_font"
                 android:layout_marginStart="@dimen/dp_30"
                 tools:text="负责人:" />
+
+            <ImageView
+                android:id="@+id/iv_principal_more"
+                style="@style/style_item_card_img"
+                android:contentDescription="@string/placeholder"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -147,9 +152,10 @@
 
             <com.donkingliang.labels.LabelsView
                 android:id="@+id/labels_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/dp_10"
+                android:layout_toStartOf="@id/iv_member_more"
                 android:layout_toEndOf="@id/iv_member"
                 app:isIndicator="true"
                 app:labelBackground="@drawable/bg_white_border_blue_label_bg"
@@ -160,6 +166,14 @@
                 app:labelTextPaddingTop="3dp"
                 app:labelTextSize="12sp"
                 app:wordMargin="10dp" />
+
+            <ImageView
+                android:id="@+id/iv_member_more"
+                style="@style/style_item_card_img"
+                android:layout_marginEnd="@dimen/dp_10"
+                android:contentDescription="@string/placeholder"
+                android:visibility="gone" />
+
         </RelativeLayout>
 
 

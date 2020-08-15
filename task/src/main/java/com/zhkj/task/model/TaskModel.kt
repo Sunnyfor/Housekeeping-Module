@@ -77,6 +77,23 @@ class TaskModel {
         return null
     }
 
+    /**
+     * 更新参与人
+     */
+    suspend fun updateTaskMember(taskId: String, json: String): BaseModel<Any>? {
+        val httpResultBean = object : HttpResultBean<BaseModel<Any>>() {}
+        ZyHttp.postJson(
+            String.format(TaskUrlConstant.TASK_MEMBER_UPDATE_URL, taskId),
+            json,
+            httpResultBean
+        )
+
+        if (httpResultBean.isSuccess() && httpResultBean.bean?.isSuccess() == true) {
+            return httpResultBean.bean
+        }
+        return null
+    }
+
 
     /**
      * 加载任务进度

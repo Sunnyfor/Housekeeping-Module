@@ -7,6 +7,7 @@ import android.widget.CheckBox
 import com.sunny.zy.base.BaseRecycleAdapter
 import com.sunny.zy.base.BaseRecycleViewHolder
 import com.zhkj.user.R
+import com.zhkj.user.SelectUserActivity
 import com.zhkj.user.bean.OtherUserBean
 import kotlinx.android.synthetic.main.item_select_user.view.*
 
@@ -16,7 +17,8 @@ import kotlinx.android.synthetic.main.item_select_user.view.*
  * Mail zhangye98@foxmail.com
  * Date 2020/7/20 15:51
  */
-class SelectUserAdapter(list: ArrayList<OtherUserBean>) : BaseRecycleAdapter<OtherUserBean>(list) {
+class SelectUserAdapter(list: ArrayList<OtherUserBean>) :
+    BaseRecycleAdapter<OtherUserBean>(list) {
 
     var checkLock = false
 
@@ -34,15 +36,37 @@ class SelectUserAdapter(list: ArrayList<OtherUserBean>) : BaseRecycleAdapter<Oth
         checkLock = true
         holder.itemView.checkbox.isChecked = getData(position).isAlreadyJoinPeople
         checkLock = false
-        holder.itemView.checkbox.setOnCheckedChangeListener { _, isChecked ->
-            if (checkLock) {
-                return@setOnCheckedChangeListener
+
+        if (context is SelectUserActivity) {
+            if (getData(position).userId == (context as SelectUserActivity).chargeUserId) {
+                holder.itemView.checkbox.isEnabled = false
+                holder.itemView.checkbox.setOnCheckedChangeListener(null)
+            } else {
+                holder.itemView.checkbox.isEnabled = true
+                setOnCheckedListener(holder.itemView.checkbox, position, true)
             }
-            getData(position).isAlreadyJoinPeople = isChecked
+        } else {
+            setOnCheckedListener(holder.itemView.checkbox, position)
         }
     }
 
     override fun setLayout(parent: ViewGroup, viewType: Int): View {
         return LayoutInflater.from(context).inflate(R.layout.item_select_user, parent, false)
+    }
+
+    private fun setOnCheckedListener(checkBox: CheckBox, position: Int, isSingle: Boolean = false) {
+        checkBox.setOnCheckedChangeListener { _, isChecked ->
+            if (checkLock) {
+                return@setOnCheckedChangeListener
+            }
+            if (isSingle) {
+                (context as SelectUserActivity).allList.forEach { bean ->
+                    bean.forEach {
+                        it.isAlreadyJoinPeople = false
+                    }
+                }
+            }
+            getData(position).isAlreadyJoinPeople = isChecked
+        }
     }
 }

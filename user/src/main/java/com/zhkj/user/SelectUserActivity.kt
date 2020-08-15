@@ -9,7 +9,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.sunny.zy.ZyFrameStore
 import com.sunny.zy.base.BaseActivity
 import com.sunny.zy.fragment.PullRefreshFragment
@@ -30,8 +32,50 @@ import kotlinx.coroutines.cancel
 @Route(path = RouterPath.USER_SELECT_ACTIVITY)
 class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
+    companion object {
+        fun startActivity(
+            activity: BaseActivity,
+            selectUserIds: ArrayList<String>,
+            chargeUserId: String?,
+            isSingle: Boolean = false
+        ) {
+            ZyFrameStore.setData("selectUserIds", selectUserIds)
+            ARouter.getInstance().build(RouterPath.USER_SELECT_ACTIVITY)
+                .withString("chargeUserId", chargeUserId)
+                .withBoolean("isSingle", isSingle)
+                .navigation(activity, 10000)
+        }
+
+
+        fun processResult(data: Intent?): ArrayList<OtherUserBean>? {
+            val list = data?.extras?.get("data")
+            if (list !is ArrayList<*>) {
+                return null
+            }
+            val resultList = arrayListOf<OtherUserBean>()
+            list.forEach {
+                if (it is OtherUserBean) {
+                    resultList.add(it)
+                }
+            }
+            if (resultList.isEmpty()) {
+                return null
+            }
+            return resultList
+        }
+    }
+
     private var currentFragment: PullRefreshFragment<OtherUserBean>? = null
 
+    val allList = ArrayList<ArrayList<OtherUserBean>>()
+
+    @Autowired
+    @JvmField
+    var chargeUserId: String? = null
+
+    @Autowired
+    @JvmField
+    var isSingle = false
 
     private val selectUserIds: ArrayList<String> by lazy {
         ZyFrameStore.getData<ArrayList<String>>("selectUserIds", true) ?: arrayListOf()
@@ -50,6 +94,7 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
     override fun initView() {
 
+        ARouter.getInstance().inject(this)
 
         toolbar = defaultTitle(getString(R.string.user_select_person))
 
@@ -57,7 +102,8 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
         toolbar.setOnMenuItemClickListener {
 
             currentFragment?.getAllData()?.forEach { bean ->
-                bean.isAlreadyJoinPeople = it.title == getString(R.string.user_select_all)
+                if (bean.userId != chargeUserId)
+                    bean.isAlreadyJoinPeople = it.title == getString(R.string.user_select_all)
             }
             if (it.title == getString(R.string.user_select_all)) {
                 it.title = getString(R.string.user_cancel)
@@ -125,12 +171,16 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
 
 
     override fun showOtherList(data: ArrayList<OtherUserBean>) {
+        allList.clear()
         data.groupBy { it.deptName }.forEach {
             tabTitleList.add(it.key ?: "")
             initFragment(PullRefreshFragment(), it.value as ArrayList<OtherUserBean>)
         }
         viewpager.adapter = object :
-            FragmentPagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+            FragmentPagerAdapter(
+                supportFragmentManager,
+                BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT
+            ) {
             override fun getItem(position: Int): Fragment {
                 return fragmentList[position]
             }
@@ -151,6 +201,9 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
         fragment: PullRefreshFragment<OtherUserBean>,
         list: ArrayList<OtherUserBean>
     ) {
+
+        allList.add(list)
+
         fragment.enableRefresh = false
         fragment.enableLoadMore = false
         fragment.loadData = {
@@ -164,8 +217,10 @@ class SelectUserActivity : BaseActivity(), UserContract.IOtherUserView {
         }
 
         fragment.adapter = SelectUserAdapter(list).apply {
-            setOnItemClickListener { view, _ ->
-                view.findViewById<CheckBox>(R.id.checkbox).performClick()
+            setOnItemClickListener { view, position ->
+                if (list[position].userId != chargeUserId) {
+                    view.findViewById<CheckBox>(R.id.checkbox).performClick()
+                }
                 updateTitle()
             }
         }

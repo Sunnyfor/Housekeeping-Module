@@ -23,6 +23,11 @@ object TaskUrlConstant {
     const val TASK_PROGRESS_URL = "/app/taskprogress/list?taskId=%s"
 
     /**
+     * 更新参与人
+     */
+    const val TASK_MEMBER_UPDATE_URL = "app/taskrelated/batchSaveOrUpdate?taskId=%s"
+
+    /**
      * 物品清单
      */
     const val TASK_GOODS_URL = "app/taskgoods/list"

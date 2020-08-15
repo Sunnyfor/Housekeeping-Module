@@ -1,5 +1,6 @@
 package com.zhkj.task.contract
 
+import com.sunny.zy.base.BaseModel
 import com.sunny.zy.base.BasePresenter
 import com.sunny.zy.base.IBaseView
 import com.zhkj.task.bean.TaskBean
@@ -25,6 +26,10 @@ class TaskContract {
         fun showTaskProgressList(data: ArrayList<TaskProgressBean>)
     }
 
+    interface TaskOptionView : IBaseView {
+        fun showUpdateMemberResult(data: BaseModel<Any>)
+    }
+
     abstract class Presenter(view: IBaseView) : BasePresenter<IBaseView>(view) {
 
         abstract fun loadTaskList(
@@ -38,6 +43,9 @@ class TaskContract {
 
         abstract fun loadTaskInfo(taskId: String)
 
+        abstract fun updateMember(taskId: String, json: String)
+
         abstract fun loadTaskProgress(taskId: String, page: Int)
+
     }
 }

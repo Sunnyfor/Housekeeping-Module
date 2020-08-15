@@ -50,6 +50,18 @@ class TaskPresenter(view: IBaseView) : TaskContract.Presenter(view) {
         }
     }
 
+    override fun updateMember(taskId: String, json: String) {
+        launch(Main) {
+            showLoading()
+            taskModel.updateTaskMember(taskId, json)?.let {
+                if (view is TaskContract.TaskOptionView) {
+                    (view as TaskContract.TaskOptionView).showUpdateMemberResult(it)
+                }
+            }
+            hideLoading()
+        }
+    }
+
     override fun loadTaskProgress(taskId: String, page: Int) {
         launch(Main) {
             showLoading()

@@ -19,13 +19,16 @@ class TaskFinishPanelFragment : BaseFragment() {
     override fun setLayout(): Int = R.layout.frag_task_finish
 
     override fun initView() {
-        setOnClickListener(rl_task_attachment)
+        setOnClickListener(rl_task_attachment, rl_task_inventory)
     }
 
     override fun onClickEvent(view: View) {
-        when(view.id){
+        when (view.id) {
+            rl_task_inventory.id -> {
+                //任务结论
+            }
             rl_task_attachment.id -> {
-
+                //附件或图纸
             }
         }
     }
@@ -36,5 +39,9 @@ class TaskFinishPanelFragment : BaseFragment() {
 
     override fun close() {
 
+    }
+
+    fun updateData(data: TaskDetailBean?) {
+        this.bean = data
     }
 }
